@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 public class GUI extends JFrame implements ActionListener{
 	JPanel layout = new JPanel(new CardLayout());
 	JButton[] headers = new JButton[6];
-	JButton[] buttons = new JButton[30];
+	Question[] buttons = new Question[30];
 	JButton back = new JButton("Return");
 	public GUI() {
 		setTitle("Jeopardy");
@@ -38,7 +38,7 @@ public class GUI extends JFrame implements ActionListener{
 		}
 		
 		for(int i = 0; i < 30; i++){
-			buttons[i] = new JButton("$"+((i/6)+1)*200);
+			buttons[i] = new Question(((i/6)+1)*200);
 			buttons[i].addActionListener(this);
 		}	
 		for(int i = 0; i < 30; i++){

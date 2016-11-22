@@ -1,10 +1,21 @@
-public class Question {
+import javax.swing.JButton;
+public class Question extends JButton{
     private int correct, dollars;
     private String question;
     private String[] answers;
     
+    public Question(int dollars){
+        //constructor
+        super("$" + dollars);
+        this.dollars = dollars;
+        this.correct = 0;//index in the answer array where the right answer can be found
+        this.question = null;
+        this.answers = null;
+    }
+    
     public Question(int dollars, int correct, String question, String[] answers){
         //constructor
+        super("$" + dollars);
         this.dollars = dollars;
         this.correct = correct;//index in the answer array where the right answer can be found
         this.question = question;
@@ -21,10 +32,6 @@ public class Question {
     
     public String[] getAnswer(){//get the possible answers
         return answers;
-    }
-    
-    public int getCorrect(){//get the correct answer 
-        return correct;
     }
     
     public boolean checkGuess(int guess){ //return the validity the guess
