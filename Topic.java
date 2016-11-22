@@ -5,9 +5,9 @@ public class Topic {
     
     /**
      * 
-     * @param questions
-     * @param answers
-     * @param correct
+     * @param questions the set of questions for the topic
+     * @param answers the choices of answers for the topic
+     * @param correct 
      * @param dollars
      * @param topic 
      */
