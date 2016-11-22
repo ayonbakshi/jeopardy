@@ -4,9 +4,9 @@ public class Question extends JButton{
     private String question;
     private String[] answers;
     
-    public Question(int dollars){
+    public Question(String value){
         //constructor
-        super("$" + dollars);
+        super(value);
         this.dollars = dollars;
         this.correct = 0;//index in the answer array where the right answer can be found
         this.question = null;
