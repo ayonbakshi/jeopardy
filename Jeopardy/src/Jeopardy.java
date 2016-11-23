@@ -7,6 +7,7 @@ import javax.swing.*;
 
 public class Jeopardy extends JFrame {
   private Player[] players;
+  static int turn = 0;
   
   public Jeopardy() throws FileNotFoundException {
     super("Jeopardy!");
@@ -48,7 +49,15 @@ public class Jeopardy extends JFrame {
       this.players[i] = new Player(name);
     }
   }
-  
+
+  public static void incrementTurn(){
+		if (turn == 3){
+			turn = 0;
+		}
+		else{
+			turn++;
+		}
+	}
   public static void main(String[] args) throws FileNotFoundException {
     // Use the look and feel native to the system instead of Java's
     try {
@@ -64,5 +73,6 @@ public class Jeopardy extends JFrame {
     }
     
     Jeopardy game = new Jeopardy();
+    GUI gui = new GUI();
   }
 }
