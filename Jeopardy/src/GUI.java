@@ -26,8 +26,29 @@ public class GUI extends JFrame implements ActionListener{
 	Question[][] buttons = new Question[5][6]; // Buttons to access questions
 	
 	public GUI() {
+<<<<<<< HEAD
+		setTitle("Jeopardy");
+		GridBagConstraints c = new GridBagConstraints();
+		
+		JPanel question = new JPanel(new GridBagLayout());
+		back.addActionListener(this);
+		
+		//question.add(back);
+		
+		//This is some code for testing the Question Panel class, delete later
+	    String[] answers = {"Correct", "Not Correct", "Not Correct", "Not Correct", "Not Correct", "Not Correct"};
+		Question qObj = new Question(200, 0, "Which is correct?", answers);
+		QuestionPanel panel = new QuestionPanel(qObj);
+		c.gridx = 0;
+		c.gridy = 0;
+		question.add(panel, c);
+		//deletable code ends here
+		
+		JPanel questionsGrid = new JPanel(new GridBagLayout());
+=======
 		this.setLayout(new FlowLayout());
 		this.setTitle("Jeopardy");
+>>>>>>> cbfa102eeda36aa6d0138d05c68e455e714e78cf
 		
 		// Define and put in topic headers
 		for(int i = 0; i < 6 ; i++){
@@ -38,8 +59,8 @@ public class GUI extends JFrame implements ActionListener{
 			c.fill = GridBagConstraints.BOTH;
 			c.ipadx = 20;
 			c.ipady = 30;
-			c.gridx=i;
-			c.gridy=0;
+			c.gridx = i;
+			c.gridy = 0;
 			c.insets = new Insets(3,3,10,3);
 			questionsGrid.add(headers[i],c);
 		}
