@@ -1,4 +1,5 @@
 import java.awt.CardLayout;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -7,15 +8,25 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class GUI extends JFrame implements ActionListener{
-	static JPanel layout = new JPanel(new CardLayout());
-	JButton[] headers = new JButton[6];
-	Question[] buttons = new Question[30];
-	JButton back = new JButton("Return");
+	GridBagConstraints c = new GridBagConstraints(); // Grid Bag Constraints Object
+	
+	//Panels
+	static JPanel layout = new JPanel(new CardLayout()); // Questions and Question grid, dimensions ~600x430
+	JPanel questionsGrid = new JPanel(new GridBagLayout()); //Question Grid
+	QuestionPanel questionPanel; // Question panel, to be determined with action listener
+	
+	//Title label
+	JLabel title = new JLabel("Title");
+	
+	JButton[] headers = new JButton[6]; // Headers
+	Question[][] buttons = new Question[5][6]; // Buttons to access questions
 	
 	public GUI() {
+<<<<<<< HEAD
 		setTitle("Jeopardy");
 		GridBagConstraints c = new GridBagConstraints();
 		
@@ -34,12 +45,16 @@ public class GUI extends JFrame implements ActionListener{
 		//deletable code ends here
 		
 		JPanel questionsGrid = new JPanel(new GridBagLayout());
+=======
+		this.setLayout(new FlowLayout());
+		this.setTitle("Jeopardy");
+>>>>>>> cbfa102eeda36aa6d0138d05c68e455e714e78cf
 		
+		// Define and put in topic headers
 		for(int i = 0; i < 6 ; i++){
 			headers[i] = new JButton("Topic");
 			headers[i].setEnabled(false);
 		}
-		
 		for(int i = 0; i < 6 ; i++){
 			c.fill = GridBagConstraints.BOTH;
 			c.ipadx = 20;
@@ -49,32 +64,52 @@ public class GUI extends JFrame implements ActionListener{
 			c.insets = new Insets(3,3,10,3);
 			questionsGrid.add(headers[i],c);
 		}
-		
-		for(int i = 0; i < 30; i++){
-			buttons[i] = new Question(((i/6)+1)*200);
-			buttons[i].addActionListener(this);
-		}	
-		
-		for(int i = 0; i < 30; i++){
-			c.fill = GridBagConstraints.BOTH;
-			c.ipadx = 20;
-			c.ipady = 30;
-			c.gridx = i%6;
-			c.gridy = i/6+1;
-			c.insets = new Insets(3,3,3,3);
-			questionsGrid.add(buttons[i],c);
+		//Define and put in question buttons in 2d array
+		for(int y = 0; y < 5; y++){
+			for(int x = 0; x < 6 ; x++){
+				buttons[y][x] = new Question((y+1)*200);
+				buttons[y][x].addActionListener(this);
+			}
 		}
-		layout.add(questionsGrid);
-		layout.add(question);
-		add(layout);
+		
+		//TESTING, properly instantiates the first two question objects
+		String[] answers = {"Correct", "Not Correct", "Not Correct", "Not Correct", "Not Correct", "Not Correct"};
+		buttons[0][0] = new Question(200, 0, "Question1", answers);
+		buttons[0][0].addActionListener(this);
+		buttons[0][1] = new Question(200, 0, "Question2", answers);
+		buttons[0][1].addActionListener(this);
+		//end of testing
+		
+		//Put question buttons in the questionGrid panel
+		c.fill = GridBagConstraints.BOTH;
+		c.ipadx = 20;
+		c.ipady = 30;
+		for(int y = 0; y < 5; y++){
+			for(int x = 0; x < 6 ; x++){
+				c.gridx = x;
+				c.gridy = y+1;
+				c.insets = new Insets(3,3,3,3);
+				questionsGrid.add(buttons[y][x],c);
+			}
+		}	
+		layout.add(questionsGrid); // Add question grid to the layout
+		this.add(title);
+		this.add(layout);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
-	public void actionPerformed(ActionEvent e){
-		if(e.getSource()!=back)
-			buttons[search(buttons,(JButton)e.getSource())].setEnabled(false);
-		CardLayout cl = (CardLayout)(layout.getLayout());
-	    cl.previous(layout);
+	public void actionPerformed(ActionEvent e){ // On button press
+		questionPanel = new QuestionPanel((Question)e.getSource()); // sets questionPanel to a panel containing all the information about the question;
+		layout.add(questionPanel); //Adds the question panel to the card layout
+		
+		//Disables button
+		int index = search(buttons,(JButton)e.getSource());
+		int y = index/6;
+		int x = index%6;
+		buttons[y][x].setEnabled(false);
+		
+		CardLayout cl = (CardLayout)(layout.getLayout()); // Cardlayout swaps to the question panel
+	    cl.last(layout);
 	}
 	
 	public static void main(String[] args){
@@ -83,10 +118,11 @@ public class GUI extends JFrame implements ActionListener{
         jeopardy.setVisible(true); // Make it visible
 	}
 	
-	public static int search(JButton[] buttons, JButton button){
-	for(int i = 0; i < buttons.length ; i++)
-		if(buttons[i]==button)
-			return i;
+	public static int search(JButton[][] buttons, JButton button){
+	for(int y = 0; y < buttons.length ; y++)
+		for(int x = 0; x < buttons[0].length; x++)
+			if(buttons[y][x]==button)
+				return y*6+x;
 	return 0;
 	}
 
