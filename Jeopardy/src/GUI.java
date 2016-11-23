@@ -10,23 +10,34 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class GUI extends JFrame implements ActionListener{
-	JPanel layout = new JPanel(new CardLayout());
+	static JPanel layout = new JPanel(new CardLayout());
 	JButton[] headers = new JButton[6];
 	Question[] buttons = new Question[30];
 	JButton back = new JButton("Return");
+	
 	public GUI() {
 		setTitle("Jeopardy");
 		GridBagConstraints c = new GridBagConstraints();
 		
 		JPanel question = new JPanel(new GridBagLayout());
 		back.addActionListener(this);
-		question.add(back);
+		
+		//question.add(back);
+		
+		//This is some code for testing the Question Panel class, delete later
+	    String[] answers = {"Correct", "Not Correct", "Not Correct", "Not Correct", "Not Correct", "Not Correct"};
+		Question qObj = new Question(200, 0, "Which is correct?", answers);
+		QuestionPanel panel = new QuestionPanel(qObj);
+		question.add(panel);
+		//deletable code ends here
 		
 		JPanel questionsGrid = new JPanel(new GridBagLayout());
+		
 		for(int i = 0; i < 6 ; i++){
 			headers[i] = new JButton("Topic");
 			headers[i].setEnabled(false);
 		}
+		
 		for(int i = 0; i < 6 ; i++){
 			c.fill = GridBagConstraints.BOTH;
 			c.ipadx = 20;
@@ -41,6 +52,7 @@ public class GUI extends JFrame implements ActionListener{
 			buttons[i] = new Question(((i/6)+1)*200);
 			buttons[i].addActionListener(this);
 		}	
+		
 		for(int i = 0; i < 30; i++){
 			c.fill = GridBagConstraints.BOTH;
 			c.ipadx = 20;
@@ -55,17 +67,20 @@ public class GUI extends JFrame implements ActionListener{
 		add(layout);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
+	
 	public void actionPerformed(ActionEvent e){
 		if(e.getSource()!=back)
 			buttons[search(buttons,(JButton)e.getSource())].setEnabled(false);
 		CardLayout cl = (CardLayout)(layout.getLayout());
 	    cl.previous(layout);
 	}
+	
 	public static void main(String[] args){
 		GUI jeopardy = new GUI();
 		jeopardy.setSize( 600, 500 );  // Set the size of the window
         jeopardy.setVisible(true); // Make it visible
 	}
+	
 	public static int search(JButton[] buttons, JButton button){
 	for(int i = 0; i < buttons.length ; i++)
 		if(buttons[i]==button)
