@@ -13,11 +13,18 @@ import javax.swing.JPanel;
 
 public class GUI extends JFrame implements ActionListener{
 	GridBagConstraints c = new GridBagConstraints(); // Grid Bag Constraints Object
+	GridBagConstraints gbc = new GridBagConstraints();
 	
 	//Panels
-	static JPanel layout = new JPanel(new CardLayout()); // Questions and Question grid, dimensions ~600x430
+	static JPanel layout = new JPanel(new CardLayout()); // Questions and Question grid, dimensions ~600x43
 	JPanel questionsGrid = new JPanel(new GridBagLayout()); //Question Grid
 	QuestionPanel questionPanel; // Question panel, to be determined with action listener
+	
+	JPanel playerPanel = new JPanel(new GridBagLayout());
+	JLabel[] playerTags = new JLabel[3];
+	JLabel[] playerDollars = new JLabel [3];
+    JLabel titleSB = new JLabel("Scoreboard");
+    JLabel ad = new JLabel("AD HERE");
 	
 	//Title label
 	JLabel title = new JLabel("Title");
@@ -29,23 +36,35 @@ public class GUI extends JFrame implements ActionListener{
 	
 	public GUI() {
 		setTitle("Jeopardy");
-		GridBagConstraints c = new GridBagConstraints();
 		
-		JPanel question = new JPanel(new GridBagLayout());
-		//back.addActionListener(this);
+		//creating player Panel
+		for (int i = 0; i < 3; i++){
+			playerTags[i] = new JLabel(players[i].getName());
+			playerDollars[i] = new JLabel("$" + players[i].getDollars());
+		}
 		
-		//question.add(back);
 		
-		//This is some code for testing the Question Panel class, delete later
-		/*
-	    String[] answers = {"Correct", "Not Correct", "Not Correct", "Not Correct", "Not Correct", "Not Correct"};
-		Question qObj = new Question(200, 0, "Which is correct?", answers);
-		QuestionPanel panel = new QuestionPanel(qObj);
-		c.gridx = 0;
-		c.gridy = 0;
-		question.add(panel, c);
-		*/
-		//deletable code ends here
+        
+		for (int i = 0; i < 3; i++){
+			gbc.gridx = 0;
+			gbc.gridy = 1 + (i % 3) * 1;
+            gbc.ipadx = 10;
+            gbc.ipady = 10;
+                        
+			add(playerTags[i], gbc);
+                        
+			gbc.gridx = 3;
+			gbc.gridy = 1 + (i % 3) * 1;
+            gbc.ipadx = 10;
+            gbc.ipady = 10;
+			add(playerDollars[i], gbc);
+		}
+		
+        gbc.gridx = 0;
+        gbc.gridy = 9;
+        gbc.weighty = 1;
+        add(ad, gbc);
+		
 		
 		JPanel questionsGrid = new JPanel(new GridBagLayout());
 
@@ -118,7 +137,7 @@ public class GUI extends JFrame implements ActionListener{
 	
 	public static void main(String[] args){
 		GUI jeopardy = new GUI();
-		jeopardy.setSize( 600, 500 );  // Set the size of the window
+		jeopardy.setSize(750, 500 );  // Set the size of the window
         jeopardy.setVisible(true); // Make it visible
 	}
 	
