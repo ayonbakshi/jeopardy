@@ -12,7 +12,7 @@ public class QuestionPanel extends JPanel implements ActionListener{
 	public QuestionPanel(Question question){
 		qObj = question;
 		this.setLayout(new GridBagLayout());
-		this.setSize(new Dimension(600, 500));
+		this.setSize(new Dimension(600, 430));
 		
 		for (int i = 0; i < 6; i++){
 			answers[i] = new JButton(question.getAnswer()[i]);
