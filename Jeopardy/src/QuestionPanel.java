@@ -51,7 +51,7 @@ public class QuestionPanel extends JPanel implements ActionListener{
 			//increment $$ here
 			//display amount earned and balance
 			CardLayout cl = (CardLayout)(GUI.layout.getLayout());
-		    cl.previous(GUI.layout);
+		    cl.first(GUI.layout);
 		}
 		else{
 			//blackout the answer chosen if answer is wrong

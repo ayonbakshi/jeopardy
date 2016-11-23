@@ -51,7 +51,7 @@ public class GUI extends JFrame implements ActionListener{
 			}
 		}
 		
-		//TESTING
+		//TESTING, properly instantiates the first two question objects
 		String[] answers = {"Correct", "Not Correct", "Not Correct", "Not Correct", "Not Correct", "Not Correct"};
 		buttons[0][0] = new Question(200, 0, "Question1", answers);
 		buttons[0][0].addActionListener(this);
@@ -88,7 +88,7 @@ public class GUI extends JFrame implements ActionListener{
 		buttons[y][x].setEnabled(false);
 		
 		CardLayout cl = (CardLayout)(layout.getLayout()); // Cardlayout swaps to the question panel
-	    cl.previous(layout);
+	    cl.last(layout);
 	}
 	
 	public static void main(String[] args){
