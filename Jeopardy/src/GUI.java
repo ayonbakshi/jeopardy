@@ -28,7 +28,9 @@ public class GUI extends JFrame implements ActionListener{
 	    String[] answers = {"Correct", "Not Correct", "Not Correct", "Not Correct", "Not Correct", "Not Correct"};
 		Question qObj = new Question(200, 0, "Which is correct?", answers);
 		QuestionPanel panel = new QuestionPanel(qObj);
-		question.add(panel);
+		c.gridx = 0;
+		c.gridy = 0;
+		question.add(panel, c);
 		//deletable code ends here
 		
 		JPanel questionsGrid = new JPanel(new GridBagLayout());
@@ -42,8 +44,8 @@ public class GUI extends JFrame implements ActionListener{
 			c.fill = GridBagConstraints.BOTH;
 			c.ipadx = 20;
 			c.ipady = 30;
-			c.gridx=i;
-			c.gridy=0;
+			c.gridx = i;
+			c.gridy = 0;
 			c.insets = new Insets(3,3,10,3);
 			questionsGrid.add(headers[i],c);
 		}
