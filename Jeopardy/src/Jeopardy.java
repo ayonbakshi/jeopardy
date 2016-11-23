@@ -3,6 +3,7 @@ import java.util.Scanner;
 
 public class Jeopardy extends JFrame {
   private Player[] players;
+  static int turn = 0;
   
   public Jeopardy() {
     this.players = new Player[3];
@@ -18,7 +19,17 @@ public class Jeopardy extends JFrame {
     }
   }
   
+  public static void incrementTurn(){
+		if (turn == 3){
+			turn = 0;
+		}
+		else{
+			turn++;
+		}
+	}
+  
   public static void main(String[] args) {
     Jeopardy game = new Jeopardy();
+    GUI gui = new GUI();
   }
 }

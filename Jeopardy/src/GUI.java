@@ -25,7 +25,9 @@ public class GUI extends JFrame implements ActionListener{
 	JButton[] headers = new JButton[6]; // Headers
 	Question[][] buttons = new Question[5][6]; // Buttons to access questions
 	
-	public GUI() {
+	Player[] players;
+	
+	public GUI(Player[] players) {
 //<<<<<<< HEAD
 		setTitle("Jeopardy");
 		GridBagConstraints c = new GridBagConstraints();
