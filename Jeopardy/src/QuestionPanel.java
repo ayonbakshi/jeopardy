@@ -11,7 +11,7 @@ public class QuestionPanel extends JPanel implements ActionListener{
 	
 	Player[] players;
 	
-	public QuestionPanel(Question question, Player[] players){
+	public QuestionPanel(Question question){
 		qObj = question;
 		this.setPreferredSize(new Dimension(600, 500));
 		this.setLayout(new GridBagLayout());
@@ -47,9 +47,8 @@ public class QuestionPanel extends JPanel implements ActionListener{
 			add(answers[i], gbc);
 		}
 		
-		this.players = players;
 		
-		System.out.println(players[Jeopardy.turn].getName());
+		//System.out.println(players[Jeopardy.turn].getName());
 		
 	}
 	
@@ -68,14 +67,14 @@ public class QuestionPanel extends JPanel implements ActionListener{
 			CardLayout cl = (CardLayout)(GUI.layout.getLayout());
 		    cl.first(GUI.layout);
 		    
-		    players[Jeopardy.turn].addDollars(qObj.getValue());
-		    System.out.println(players[Jeopardy.turn].getName() + " now has $" + players[Jeopardy.turn].getDollars());
+		    //players[Jeopardy.turn].addDollars(qObj.getValue());
+		    //System.out.println(players[Jeopardy.turn].getName() + " now has $" + players[Jeopardy.turn].getDollars());
 		}
 		else{
 			//blackout the answer chosen if answer is wrong
 			answers[index].setEnabled(false);
-			Jeopardy.incrementTurn();
-			System.out.println(players[Jeopardy.turn].getName());
+			//Jeopardy.incrementTurn();
+			//System.out.println(players[Jeopardy.turn].getName());
 		}
 		
 	}
