@@ -26,29 +26,30 @@ public class GUI extends JFrame implements ActionListener{
 	Question[][] buttons = new Question[5][6]; // Buttons to access questions
 	
 	public GUI() {
-<<<<<<< HEAD
+//<<<<<<< HEAD
 		setTitle("Jeopardy");
 		GridBagConstraints c = new GridBagConstraints();
 		
 		JPanel question = new JPanel(new GridBagLayout());
-		back.addActionListener(this);
+		//back.addActionListener(this);
 		
 		//question.add(back);
 		
 		//This is some code for testing the Question Panel class, delete later
+		/*
 	    String[] answers = {"Correct", "Not Correct", "Not Correct", "Not Correct", "Not Correct", "Not Correct"};
 		Question qObj = new Question(200, 0, "Which is correct?", answers);
 		QuestionPanel panel = new QuestionPanel(qObj);
 		c.gridx = 0;
 		c.gridy = 0;
 		question.add(panel, c);
+		*/
 		//deletable code ends here
 		
 		JPanel questionsGrid = new JPanel(new GridBagLayout());
-=======
+
 		this.setLayout(new FlowLayout());
 		this.setTitle("Jeopardy");
->>>>>>> cbfa102eeda36aa6d0138d05c68e455e714e78cf
 		
 		// Define and put in topic headers
 		for(int i = 0; i < 6 ; i++){
@@ -73,11 +74,13 @@ public class GUI extends JFrame implements ActionListener{
 		}
 		
 		//TESTING, properly instantiates the first two question objects
+	
 		String[] answers = {"Correct", "Not Correct", "Not Correct", "Not Correct", "Not Correct", "Not Correct"};
 		buttons[0][0] = new Question(200, 0, "Question1", answers);
 		buttons[0][0].addActionListener(this);
 		buttons[0][1] = new Question(200, 0, "Question2", answers);
 		buttons[0][1].addActionListener(this);
+		
 		//end of testing
 		
 		//Put question buttons in the questionGrid panel
