@@ -42,10 +42,10 @@ public class Jeopardy extends JFrame {
     for (int i = 0; i < 3; i++) {
       String name = JOptionPane.showInputDialog("Enter player " + (i + 1) + "'s name");
 
-      if (name.equals("")) {
+      if (name == null || name.equals("")) {
         name = "Player " + (i + 1);
       }
-
+      
       this.players[i] = new Player(name);
     }
   }
@@ -59,6 +59,19 @@ public class Jeopardy extends JFrame {
 		}
 	}
   public static void main(String[] args) throws FileNotFoundException {
+    // Use the look and feel native to the system instead of Java's
+    try {
+      UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+    } catch (UnsupportedLookAndFeelException e) {
+      System.out.println("Native look and feel not supported: " + e);
+    } catch (ClassNotFoundException e) {
+      System.out.println("Not a recognized look and feel: " + e);
+    } catch (InstantiationException e) {
+      System.out.println("Couldn't set up native look and feel: " + e);
+    } catch (IllegalAccessException e) {
+      System.out.println("Couldn't set up native look and feel: " + e);
+    }
+    
     Jeopardy game = new Jeopardy();
     GUI gui = new GUI();
   }
