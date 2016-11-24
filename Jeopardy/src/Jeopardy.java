@@ -21,7 +21,7 @@ public class Jeopardy extends JFrame implements ActionListener {
   private int turn = 0;
 
   // GUI components
-  private JPanel questionArea;
+  public JPanel questionArea;
   private JLabel[] headers;
   private Question[][] buttons;
   private JLabel[] playerTags;
@@ -152,7 +152,10 @@ public class Jeopardy extends JFrame implements ActionListener {
     this.buttons = new Question[6][5];
     for (int y = 0; y < 5; y++) {
       for (int x = 0; x < 6; x++) {
-        this.buttons[x][y] = new Question((y + 1) * 200);
+        String[] ans = {
+          "Y", "N", "N", "N", "N", "N"
+        };
+        this.buttons[x][y] = new Question((y + 1) * 200, 0, "Example", ans);
         this.buttons[x][y].addActionListener(this);
 
         // Layout
@@ -179,13 +182,13 @@ public class Jeopardy extends JFrame implements ActionListener {
 
   public void actionPerformed(ActionEvent e) {
     Question source = (Question) e.getSource();
-    QuestionPanel questionDisplay = new QuestionPanel(source);
+    QuestionPanel questionDisplay = new QuestionPanel(source, this);
     this.questionArea.add(questionDisplay);
 
     source.setEnabled(false); // Disable the button
 
     CardLayout cl = (CardLayout) this.questionArea.getLayout();
-    cl.last(questionDisplay);
+    cl.last(questionArea);
   }
 
   public void incrementTurn() {
@@ -194,6 +197,11 @@ public class Jeopardy extends JFrame implements ActionListener {
 
   public int getTurn() {
     return this.turn;
+  }
+
+  public void updateDollars() {
+    Player current = this.players[this.turn];
+    this.playerDollars[this.turn].setText("$" + current.getDollars());
   }
   
   public static void main(String[] args) throws FileNotFoundException {

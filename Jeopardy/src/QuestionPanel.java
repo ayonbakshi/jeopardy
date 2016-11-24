@@ -48,11 +48,7 @@ public class QuestionPanel extends JPanel implements ActionListener{
       gbc.insets = new Insets(0, 10, 10 ,10);
 			
       add(answers[i], gbc);
-    }
-		
-		
-    //System.out.println(players[Jeopardy.turn].getName());
-		
+    }		
   }
 	
   public void actionPerformed (ActionEvent e){
@@ -69,20 +65,20 @@ public class QuestionPanel extends JPanel implements ActionListener{
     if(qObj.checkGuess(index)){
       //increment $$ here
       //display amount earned and balance
-      CardLayout cl = (CardLayout)(GUI.layout.getLayout());
-      cl.first(GUI.layout);
+      CardLayout cl = (CardLayout)(game.questionArea.getLayout());
+      cl.first(game.questionArea);
 
       current.addDollars(qObj.getValue());
+      game.updateDollars();
       JOptionPane.showMessageDialog(game, current.getName() + " now has $" + current.getDollars(), "Correct", JOptionPane.INFORMATION_MESSAGE);
       // TODO custom check icon
-      // TODO change value in sidebar
     }
     else {
       //blackout the answer chosen if answer is wrong
       answers[index].setEnabled(false);
       game.incrementTurn();
       current = game.players[game.getTurn()];
-      JOptionPane.showMessageDialog(game, "Incorrect", "Incorrect. It is now " + current.getName() + "'s turn.", JOptionPane.INFORMATION_MESSAGE);
+      JOptionPane.showMessageDialog(game, "Incorrect. It is now " + current.getName() + "'s turn.", "Incorrect", JOptionPane.INFORMATION_MESSAGE);
     }
 		
   }
