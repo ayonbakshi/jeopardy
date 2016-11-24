@@ -211,5 +211,6 @@ public class Jeopardy extends JFrame implements ActionListener {
     }
     
     Jeopardy game = new Jeopardy();
+    game.setResizable(false);
   }
 }
