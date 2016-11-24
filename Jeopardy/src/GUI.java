@@ -37,8 +37,9 @@ public class GUI extends JFrame implements ActionListener{
 	public GUI() {
 		setTitle("Jeopardy");
 		
-		//creating player Panel
+		//creating scoreboard panel
 		for (int i = 0; i < 3; i++){
+			//commented code can be used when GUI code is moved to Jeopardy class
 			//playerTags[i] = new JLabel(players[i].getName());
 			//playerDollars[i] = new JLabel("$" + players[i].getDollars());
 			
@@ -46,12 +47,14 @@ public class GUI extends JFrame implements ActionListener{
 			playerDollars[i] = new JLabel("$0");
 		}
 		
+		//adding title "scoreboard"
 		gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.insets = new Insets(10, 10, 10, 10);
         playerPanel.add(titleSB, gbc);
         gbc.insets = new Insets(0, 0, 0, 0);
         
+        //adding player names and dollar amounts
 		for (int i = 0; i < 3; i++){
 			gbc.gridx = 0;
 			gbc.gridy = 1 + (i % 3) * 1;
@@ -67,13 +70,14 @@ public class GUI extends JFrame implements ActionListener{
             playerPanel.add(playerDollars[i], gbc);
 		}
 		
+		//adding placeholder for AD
         gbc.gridx = 0;
         gbc.gridy = 9;
         gbc.weighty = 1;
         playerPanel.add(ad, gbc);
 		
         
-        
+        //creating player panel
 		JPanel questionsGrid = new JPanel(new GridBagLayout());
 
 		this.setLayout(new GridBagLayout());
@@ -124,13 +128,13 @@ public class GUI extends JFrame implements ActionListener{
 			}
 		}	
 		
+		//adding scoreboard to jframe
 		gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.weighty = 0;
         gbc.weightx = 1;
         gbc.anchor = GridBagConstraints.FIRST_LINE_START;
 		this.add(playerPanel, gbc);
-		layout.add(questionsGrid); // Add question grid to the layout
 		
 		gbc.gridx = 3;
         gbc.gridy = 0;
@@ -142,6 +146,8 @@ public class GUI extends JFrame implements ActionListener{
         gbc.gridy = 1;
         gbc.weighty = 0;
 		this.add(layout, gbc);
+		
+		layout.add(questionsGrid); // Add question grid to the layout
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
