@@ -76,6 +76,7 @@ public class QuestionPanel extends JPanel implements ActionListener{
       JOptionPane.showMessageDialog(game, current.getName() + " now has $" + current.getDollars(), "Correct", JOptionPane.INFORMATION_MESSAGE);
       // TODO custom check icon
       // TODO change value in sidebar
+      
     }
     else {
       //blackout the answer chosen if answer is wrong
