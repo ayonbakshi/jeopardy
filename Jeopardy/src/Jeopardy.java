@@ -17,7 +17,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 public class Jeopardy extends JFrame implements ActionListener {
-  private Player[] players;
+  public Player[] players;
   private int turn = 0;
 
   // GUI components
@@ -190,6 +190,10 @@ public class Jeopardy extends JFrame implements ActionListener {
 
   public void incrementTurn() {
     this.turn = (this.turn + 1) % 3;
+  }
+
+  public int getTurn() {
+    return this.turn;
   }
   
   public static void main(String[] args) throws FileNotFoundException {
