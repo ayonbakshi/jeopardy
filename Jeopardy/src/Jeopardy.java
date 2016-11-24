@@ -129,6 +129,7 @@ public class Jeopardy extends JFrame implements ActionListener {
     
     Font f = playerTags[0].getFont();
     this.playerTags[0].setFont(f.deriveFont(f.getStyle() | Font.BOLD));
+    this.playerDollars[0].setFont(f.deriveFont(f.getStyle() ^ Font.BOLD));
     
     // Fill game board
     this.questionArea = new JPanel(new CardLayout());
