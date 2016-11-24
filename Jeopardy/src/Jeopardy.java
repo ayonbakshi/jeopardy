@@ -1,4 +1,5 @@
 import java.awt.CardLayout;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -22,6 +23,7 @@ public class Jeopardy extends JFrame implements ActionListener {
 
   // GUI components
   public JPanel questionArea;
+  private JPanel scoreboard;
   private JLabel[] headers;
   private Question[][] buttons;
   private JLabel[] playerTags;
@@ -84,7 +86,7 @@ public class Jeopardy extends JFrame implements ActionListener {
     content.add(title, c);
 
     // Scoreboard
-    JPanel scoreboard = new JPanel(new GridBagLayout());
+    scoreboard = new JPanel(new GridBagLayout());
 
     // Scoreboard title
     JLabel titleSB = new JLabel("Scoreboard");
@@ -191,8 +193,18 @@ public class Jeopardy extends JFrame implements ActionListener {
     cl.last(questionArea);
   }
 
-  public void incrementTurn() {
-    this.turn = (this.turn + 1) % 3;
+  public void incrementTurn() {//increments turn and bolds the label on scoreboard
+	  //unbolds previous player
+	  Font f = playerTags[turn].getFont();
+	  this.playerTags[turn].setFont(f.deriveFont(f.getStyle() | Font.BOLD));
+	  this.playerDollars[turn].setFont(f.deriveFont(f.getStyle() | Font.BOLD));
+	  
+	  //increments turn
+	  this.turn = (this.turn + 1) % 3;
+	  //bolds current player
+	  f = playerTags[turn].getFont();
+	  this.playerTags[turn].setFont(f.deriveFont(f.getStyle() ^ Font.BOLD));
+	  this.playerDollars[turn].setFont(f.deriveFont(f.getStyle() ^ Font.BOLD));
   }
 
   public int getTurn() {
@@ -203,6 +215,7 @@ public class Jeopardy extends JFrame implements ActionListener {
     Player current = this.players[this.turn];
     this.playerDollars[this.turn].setText("$" + current.getDollars());
   }
+  
   
   public static void main(String[] args) throws FileNotFoundException {
     // Use the look and feel native to the system instead of Java's
