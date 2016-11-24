@@ -74,10 +74,28 @@ public class Jeopardy extends JFrame implements ActionListener {
     GridBagConstraints c;
     JPanel content = new JPanel(new GridBagLayout());
 
-    // Sidebar
-    JPanel sidebar = new JPanel(new GridBagLayout());
+    // Title
+    JLabel title = new JLabel("Jeopardy!");
+    c = new GridBagConstraints();
+    c.gridx = 0;
+    c.gridy = 0;
+    c.gridwidth = 3;
+    c.anchor = GridBagConstraints.CENTER;
+    content.add(title, c);
 
-    // Create labels
+    // Scoreboard
+    JPanel scoreboard = new JPanel(new GridBagLayout());
+
+    // Scoreboard title
+    JLabel titleSB = new JLabel("Scoreboard");
+    c = new GridBagConstraints();
+    c.gridx = 0;
+    c.gridy = 0;
+    c.insets = new Insets(0, 0, 0, 0);
+    c.anchor = GridBagConstraints.CENTER;
+    scoreboard.add(titleSB, c);
+    
+    // Players
     this.playerTags = new JLabel[3];
     this.playerDollars = new JLabel[3];
     for (int i = 0; i < 3; i++) {
@@ -90,19 +108,22 @@ public class Jeopardy extends JFrame implements ActionListener {
     c.ipady = 10;
     for (int i = 0; i < 3; i++){
       c.gridx = 0;
-      c.gridy = 1 + (i % 3) * 1;
-      sidebar.add(playerTags[i], c);
+      c.gridy = 1 + (i % 3);
+      scoreboard.add(playerTags[i], c);
                         
       c.gridx = 3;
-      c.gridy = 1 + (i % 3) * 1;
-      sidebar.add(playerDollars[i], c);
+      c.gridy = 1 + (i % 3);
+      scoreboard.add(playerDollars[i], c);
     }
 
     c = new GridBagConstraints(); // Reset GridBagConstraints
     c.gridx = 0;
     c.gridy = 1;
+    c.weightx = 0;
+    c.weighty = 1;
+    c.anchor = GridBagConstraints.FIRST_LINE_START;
     c.gridwidth = 2;
-    content.add(sidebar, c);
+    content.add(scoreboard, c);
 
     // Fill game board
     this.questionArea = new JPanel(new CardLayout());
@@ -123,6 +144,7 @@ public class Jeopardy extends JFrame implements ActionListener {
       c.gridx = i;
       c.gridy = 0;
       c.insets = new Insets(3, 3, 10, 3);
+      c.anchor = GridBagConstraints.CENTER;
       questionGrid.add(headers[i], c);
     }
 
@@ -147,16 +169,6 @@ public class Jeopardy extends JFrame implements ActionListener {
     c.gridx = 2;
     c.gridy = 1;
     content.add(questionArea, c);
-
-    JLabel title = new JLabel("Jeopardy!");
-    c.fill = GridBagConstraints.BOTH;
-    c.ipadx = 0;
-    c.ipady = 0;
-    c.insets = new Insets(0, 0, 0, 0);
-    c.gridx = 0;
-    c.gridy = 0;
-    c.gridwidth = 2;
-    content.add(title, c);
 
     this.setTitle("Jeopardy!");
     this.setContentPane(content);
