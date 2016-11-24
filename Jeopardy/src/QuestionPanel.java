@@ -9,11 +9,13 @@ public class QuestionPanel extends JPanel implements ActionListener{
   Question qObj;
   GridBagConstraints gbc = new GridBagConstraints();
   private Jeopardy game;
+  private int guesses;
 	
   Player[] players;
 	
   public QuestionPanel(Question question, Jeopardy game){
     this.game = game;
+    this.guesses = 0;
     
     qObj = question;
     this.setPreferredSize(new Dimension(600, 500));
@@ -52,6 +54,7 @@ public class QuestionPanel extends JPanel implements ActionListener{
   }
 	
   public void actionPerformed (ActionEvent e){
+    
     int index = 0;
 		
     for (int i = 0; i < 6; i++){
@@ -61,6 +64,7 @@ public class QuestionPanel extends JPanel implements ActionListener{
     }
 
     Player current = game.players[game.getTurn()];
+    guesses++;
 		
     if(qObj.checkGuess(index)){
       //increment $$ here
@@ -77,8 +81,14 @@ public class QuestionPanel extends JPanel implements ActionListener{
       //blackout the answer chosen if answer is wrong
       answers[index].setEnabled(false);
       game.incrementTurn();
-      current = game.players[game.getTurn()];
-      JOptionPane.showMessageDialog(game, "Incorrect. It is now " + current.getName() + "'s turn.", "Incorrect", JOptionPane.INFORMATION_MESSAGE);
+       if (guesses == 3) {
+        JOptionPane.showMessageDialog(game, "Incorrect. The correct answer was " + qObj.getAnswer()[qObj.getCorrect()]);
+        CardLayout cl = (CardLayout)(game.questionArea.getLayout());
+        cl.first(game.questionArea);
+       } else {
+         current = game.players[game.getTurn()];
+         JOptionPane.showMessageDialog(game, "Incorrect. It is now " + current.getName() + "'s turn.", "Incorrect", JOptionPane.INFORMATION_MESSAGE);
+       }
     }
 		
   }

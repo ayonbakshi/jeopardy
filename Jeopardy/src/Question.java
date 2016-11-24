@@ -33,6 +33,10 @@ public class Question extends JButton{
     public String[] getAnswer(){//get the possible answers
         return answers;
     }
+
+  public int getCorrect() {
+    return this.correct;
+  }
     
     public boolean checkGuess(int guess){ //return the validity the guess
         return guess == correct;
