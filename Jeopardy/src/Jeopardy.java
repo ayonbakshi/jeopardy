@@ -126,7 +126,10 @@ public class Jeopardy extends JFrame implements ActionListener {
     c.anchor = GridBagConstraints.FIRST_LINE_START;
     c.gridwidth = 2;
     content.add(scoreboard, c);
-
+    
+    Font f = playerTags[0].getFont();
+    this.playerTags[0].setFont(f.deriveFont(f.getStyle() | Font.BOLD));
+    
     // Fill game board
     this.questionArea = new JPanel(new CardLayout());
     JPanel questionGrid = new JPanel(new GridBagLayout());
@@ -196,15 +199,15 @@ public class Jeopardy extends JFrame implements ActionListener {
   public void incrementTurn() {//increments turn and bolds the label on scoreboard
 	  //unbolds previous player
 	  Font f = playerTags[turn].getFont();
-	  this.playerTags[turn].setFont(f.deriveFont(f.getStyle() | Font.BOLD));
-	  this.playerDollars[turn].setFont(f.deriveFont(f.getStyle() | Font.BOLD));
+	  this.playerTags[turn].setFont(f.deriveFont(f.getStyle() ^ Font.BOLD));
+	  this.playerDollars[turn].setFont(f.deriveFont(f.getStyle() ^ Font.BOLD));
 	  
 	  //increments turn
 	  this.turn = (this.turn + 1) % 3;
 	  //bolds current player
 	  f = playerTags[turn].getFont();
-	  this.playerTags[turn].setFont(f.deriveFont(f.getStyle() ^ Font.BOLD));
-	  this.playerDollars[turn].setFont(f.deriveFont(f.getStyle() ^ Font.BOLD));
+	  this.playerTags[turn].setFont(f.deriveFont(f.getStyle() | Font.BOLD));
+	  this.playerDollars[turn].setFont(f.deriveFont(f.getStyle() | Font.BOLD));
   }
 
   public int getTurn() {
@@ -233,5 +236,6 @@ public class Jeopardy extends JFrame implements ActionListener {
     
     Jeopardy game = new Jeopardy();
     game.setResizable(false);
+    
   }
 }
