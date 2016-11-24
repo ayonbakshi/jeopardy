@@ -22,23 +22,94 @@ public class Jeopardy extends JFrame implements ActionListener {
 
   // GUI components
   private JPanel questionArea;
-
   private JLabel[] headers;
   private Question[][] buttons;
+  private JLabel[] playerTags;
+  private JLabel[] playerDollars;
   
   public Jeopardy() throws FileNotFoundException {
+    super();
+
+    // Read questions
+    Scanner qScan;
+    try {
+      qScan = new Scanner(new File("data" + File.separator + "questions.csv"));
+    } catch (FileNotFoundException fnfe) { // Can't find quesiton file
+      JOptionPane.showMessageDialog(null, "Can't find question file.", "Error", JOptionPane.ERROR_MESSAGE);
+      throw fnfe;
+    }
+    
+    List<String> questions = new ArrayList<String>();
+    List<String> topics = new ArrayList<String>();
+    List<Integer> values = new ArrayList<Integer>();
+    List<Integer> correct = new ArrayList<Integer>();
+    List<String[]> answers = new ArrayList<String[]>();
+
+    while (qScan.hasNextLine()) {
+      String[] dataRow = qScan.nextLine().split("\t");
+      questions.add(dataRow[0]);
+      topics.add(dataRow[1]);
+      values.add(Integer.parseInt(dataRow[2]));
+      correct.add(Integer.parseInt(dataRow[3]));
+      String[] answerArray = {
+        dataRow[4], dataRow[5], dataRow[6], dataRow[7], dataRow[8], dataRow[9]
+      };
+      answers.add(answerArray);
+    }
+
+    // Get player names
+    this.players = new Player[3];
+    
+    for (int i = 0; i < 3; i++) {
+      String name = JOptionPane.showInputDialog("Enter player " + (i + 1) + "'s name");
+
+      if (name == null || name.equals("")) {
+        name = "Player " + (i + 1);
+      }
+      
+      this.players[i] = new Player(name);
+    }
+
     // Set up GUI
-    super("Jeopardy!");
-
-    // Initialize GUI components
-    GridBagConstraints c = new GridBagConstraints();
-
+    GridBagConstraints c;
     JPanel content = new JPanel(new GridBagLayout());
-    this.questionArea = new JPanel(new CardLayout());
-    JPanel questionGrid = new JPanel(new GridBagLayout());
+
+    // Sidebar
+    JPanel sidebar = new JPanel(new GridBagLayout());
+
+    // Create labels
+    this.playerTags = new JLabel[3];
+    this.playerDollars = new JLabel[3];
+    for (int i = 0; i < 3; i++) {
+      this.playerTags[i] = new JLabel(players[i].getName());
+      this.playerDollars[i] = new JLabel("$" + players[i].getDollars());
+    }
+
+    c = new GridBagConstraints();
+    c.ipadx = 10;
+    c.ipady = 10;
+    for (int i = 0; i < 3; i++){
+      c.gridx = 0;
+      c.gridy = 1 + (i % 3) * 1;
+      sidebar.add(playerTags[i], c);
+                        
+      c.gridx = 3;
+      c.gridy = 1 + (i % 3) * 1;
+      sidebar.add(playerDollars[i], c);
+    }
+
+    c = new GridBagConstraints(); // Reset GridBagConstraints
+    c.gridx = 0;
+    c.gridy = 1;
+    c.gridwidth = 2;
+    content.add(sidebar, c);
 
     // Fill game board
+    this.questionArea = new JPanel(new CardLayout());
+    JPanel questionGrid = new JPanel(new GridBagLayout());
+    
     // Common layout
+    c = new GridBagConstraints(); // Reset constraints
     c.fill = GridBagConstraints.BOTH;
     c.ipadx = 20;
     c.ipady = 30;
@@ -72,6 +143,11 @@ public class Jeopardy extends JFrame implements ActionListener {
 
     this.questionArea.add(questionGrid);
 
+    c = new GridBagConstraints(); // Reset constraints
+    c.gridx = 2;
+    c.gridy = 1;
+    content.add(questionArea, c);
+
     JLabel title = new JLabel("Jeopardy!");
     c.fill = GridBagConstraints.BOTH;
     c.ipadx = 0;
@@ -82,48 +158,7 @@ public class Jeopardy extends JFrame implements ActionListener {
     c.gridwidth = 2;
     content.add(title, c);
 
-    c.gridx = 1;
-    c.gridy = 2;
-    content.add(this.questionArea);
-    
-    // Read questions
-    Scanner qScan;
-    try {
-      qScan = new Scanner(new File("data" + File.separator + "questions.csv"));
-    } catch (FileNotFoundException fnfe) { // Can't find quesiton file
-      JOptionPane.showMessageDialog(null, "Can't find question file.", "Error", JOptionPane.ERROR_MESSAGE);
-      throw fnfe;
-    }
-    
-    List<String> questions = new ArrayList<String>();
-    List<String> topics = new ArrayList<String>();
-    List<Integer> values = new ArrayList<Integer>();
-    List<Integer> correct = new ArrayList<Integer>();
-    List<String[]> answers = new ArrayList<String[]>();
-
-    while (qScan.hasNextLine()) {
-      String[] dataRow = qScan.nextLine().split("\t");
-      questions.add(dataRow[0]);
-      topics.add(dataRow[1]);
-      values.add(Integer.parseInt(dataRow[2]));
-      correct.add(Integer.parseInt(dataRow[3]));
-      String[] answerArray = {dataRow[4], dataRow[5], dataRow[6], dataRow[7], dataRow[8], dataRow[9]};
-      answers.add(answerArray);
-    }
-
-    // Get player names
-    this.players = new Player[3];
-    
-    for (int i = 0; i < 3; i++) {
-      String name = JOptionPane.showInputDialog("Enter player " + (i + 1) + "'s name");
-
-      if (name == null || name.equals("")) {
-        name = "Player " + (i + 1);
-      }
-      
-      this.players[i] = new Player(name);
-    }
-
+    this.setTitle("Jeopardy!");
     this.setContentPane(content);
     this.pack();
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -135,11 +170,10 @@ public class Jeopardy extends JFrame implements ActionListener {
     QuestionPanel questionDisplay = new QuestionPanel(source);
     this.questionArea.add(questionDisplay);
 
-    // Disable the button
-    source.setEnabled(false);
+    source.setEnabled(false); // Disable the button
 
     CardLayout cl = (CardLayout) this.questionArea.getLayout();
-    cl.last(this.questionArea);
+    cl.last(questionDisplay);
   }
 
   public void incrementTurn() {
