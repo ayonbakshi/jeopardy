@@ -4,16 +4,14 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class QuestionPanel extends JPanel implements ActionListener{
-  JButton[] answers= new JButton[6];
-  JLabel question;
-  Question qObj;
-  GridBagConstraints gbc = new GridBagConstraints();
+  private JButton[] answers;
+  private JLabel question;
+  private Question qObj;
+  private GridBagConstraints gbc = new GridBagConstraints();
   private Jeopardy game;
   private int guesses;
 
-  Player[] players;
-
-  public QuestionPanel(Question question, Jeopardy game){
+  public QuestionPanel(Question question, Jeopardy game) {
     this.game = game;
     this.guesses = 0;
 
@@ -23,6 +21,7 @@ public class QuestionPanel extends JPanel implements ActionListener{
 
     this.setSize(new Dimension(600, 430));
 
+    this.answers = new JButton[4];
     for (int i = 0; i < 4; i++){
       answers[i] = new JButton(question.getAnswer()[i]);
       answers[i].addActionListener(this);
@@ -35,11 +34,10 @@ public class QuestionPanel extends JPanel implements ActionListener{
     add(this.question, gbc);
 
     for(int i = 0; i < 4; i++){
-      //first column of questions is in column 1
-      //second column of questions is in column 4
+      // Use columns 1 and 4
       gbc.gridx = 1 + (i % 2) * 4;
-      //first row is in row 5
-      //second row is in row 7
+      // Use rows 5 and 7
+      gbc.gridy = 5 + (i / 2) * 2;
       gbc.fill = GridBagConstraints.HORIZONTAL;
       gbc.ipadx = 20;
       gbc.ipady = 30;
@@ -50,10 +48,9 @@ public class QuestionPanel extends JPanel implements ActionListener{
   }
 
   public void actionPerformed (ActionEvent e){
-
     int index = 0;
 
-    for (int i = 0; i < 6; i++){
+    for (int i = 0; i < 4; i++){
       if (answers[i] == (JButton)(e.getSource())){
         index = i;
       }
