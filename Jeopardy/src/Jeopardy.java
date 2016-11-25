@@ -310,6 +310,11 @@ public class Jeopardy extends JFrame implements ActionListener {
     this.playerDollars[this.turn].setText("$" + current.getDollars());
   }
 
+  public void assignNames(String[] names){//create player objects using names entred from startPanel
+	  for (int i = 0; i < 3; i++){
+		  players[i] = new Player(names[i]);
+	  }
+  }
 
   public static void main(String[] args) throws FileNotFoundException {
     // Use the look and feel native to the system instead of Java's
