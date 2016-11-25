@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import javax.swing.JFrame;
@@ -56,13 +57,15 @@ public class Jeopardy extends JFrame implements ActionListener {
     while (qScan.hasNextLine()) { // Go until there are no more lines
       String[] dataRow = qScan.nextLine().split("\t"); // Read a line and split it along tab characters
 
+      if (dataRow.length == 1) { continue; } // Skip blank lines
+
       // Extract data
       String q = dataRow[0]; // The question
       String t = dataRow[1]; // The topic
       int v = Integer.parseInt(dataRow[2]); // The value (dollar amount)
-      in c = Integer.parseInt(dataRow[3]); // The correct answer
+      int c = Integer.parseInt(dataRow[3]); // The correct answer
       String[] a = { // The answers
-        dataRow[4], dataRow[5], dataRow[6], dataRow[7], dataRow[8], dataRow[9]
+        dataRow[4], dataRow[5], dataRow[6], dataRow[7]
       };
 
       // Create a Question object and add it to the list
@@ -70,16 +73,30 @@ public class Jeopardy extends JFrame implements ActionListener {
 
       // If this topic has not been seen before, add it to the list
       if (allTopics.indexOf(t) == -1) {
-        topics.add(t);
+        allTopics.add(t);
       }
     }
 
     // Randomly choose 6 unique topics
-    int[] topicIndices = {-1, -1, -1, -1, -1, -1}; // 6 -1s, which are guaranteed not to be valid topics
-    while (topicsIndices.indexOf(-1) != -1) { // Keep going until each slot is filled
-      int topicNum = (int) Math.random * topics.size();
-      if (topicIndices.indexOf(topicNum) == -1) {
-        topicIndices[topicIndices.indexOf(-1)] = topicNum; // indexOf returns the first match, so this fills in the slots in order
+    String[] topics = new String[6];
+    while (Arrays.asList(topics).indexOf(null) != -1) { // Keep going until each slot is filled
+      // Choose a random topic, remove it from the list of all topics,
+      // and add it to the list of chosen topics. The topic is removed
+      // from the list of all topics so that no topic is chosen
+      // twice. indexOf returns the first match it finds, so the slots
+      // in the list are filled in order.
+      topics[Arrays.asList(topics).indexOf(null)] = allTopics.remove((int)(Math.random() * allTopics.size()));
+    }
+
+    // Get the questions associated with the chosen topics
+    this.buttons = new Question[6][5];
+    for (Question q : questions) {
+      String topic = q.getTopic();
+      int x = Arrays.asList(topics).indexOf(topic);
+      if (x != -1) { // This question's topic is one of the ones chosen
+        int y = q.getValue() / 200 - 1; // $200 -> 0, $400 -> 1, $600 -> 2, etc.
+
+        this.buttons[x][y] = q; // Add it to the grid
       }
     }
 
@@ -168,7 +185,7 @@ public class Jeopardy extends JFrame implements ActionListener {
     // Topic headers
     this.headers = new JLabel[6];
     for (int i = 0; i < 6; i++) {
-      this.headers[i] = new JLabel("Topic");
+      this.headers[i] = new JLabel(topics[i]);
 
       // Layout stuff
       c.gridx = i;
@@ -179,13 +196,8 @@ public class Jeopardy extends JFrame implements ActionListener {
     }
 
     // Question buttons
-    this.buttons = new Question[6][5];
-    for (int y = 0; y < 5; y++) {
-      for (int x = 0; x < 6; x++) {
-        String[] ans = {
-          "Y", "N", "N", "N", "N", "N"
-        };
-        this.buttons[x][y] = new Question((y + 1) * 200, 0, "Example", ans);
+    for (int x = 0; x < 6; x++) {
+      for (int y = 0; y < 5; y++) {
         this.buttons[x][y].addActionListener(this);
 
         // Layout
