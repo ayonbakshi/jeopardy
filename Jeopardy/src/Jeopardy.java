@@ -1,8 +1,10 @@
 import java.awt.CardLayout;
 import java.awt.Font;
+import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -227,9 +229,22 @@ public class Jeopardy extends JFrame implements ActionListener {
     c.weightx = 0.9;
     content.add(questionArea, c);
 
+    // Window size - as big as possible, 4:3
+    Rectangle screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds(); // Get the biggest possible size for the window
+    int width;
+    int height;
+    if (screen.getWidth() < screen.getHeight()) {
+      width = (int) screen.getWidth();
+      height = width / 4 * 3;
+    } else {
+      height = (int) screen.getHeight();
+      width = height / 3 * 4;
+    }
+    this.setSize(width, height);
+    this.setResizable(false);
+
     this.setTitle("Jeopardy!");
     this.setContentPane(content);
-    this.setExtendedState(JFrame.MAXIMIZED_BOTH); // Fullscreen
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setVisible(true);
   }
@@ -311,7 +326,5 @@ public class Jeopardy extends JFrame implements ActionListener {
     }
 
     Jeopardy game = new Jeopardy();
-    game.setResizable(false);
-
   }
 }
