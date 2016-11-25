@@ -40,7 +40,7 @@ public class Jeopardy extends JFrame implements ActionListener {
     // Read questions
     Scanner qScan;
     try {
-      qScan = new Scanner(new File("src/data/questions.csv")); // Open the file
+      qScan = new Scanner(new File("data" + File.separator + "questions.csv")); // Open the file
     } catch (FileNotFoundException fnfe) { // Can't find question file
       JOptionPane.showMessageDialog(null, "Can't find question file.", "Error", JOptionPane.ERROR_MESSAGE);
       throw fnfe;
@@ -257,14 +257,14 @@ public class Jeopardy extends JFrame implements ActionListener {
     	  int max =  players[turn].getDollars();
     	  if(max<1000)
     		  max = 1000;
-    	  
+
     	  JPanel dailyDoublePanel = new JPanel(new GridBagLayout());
     	  JLabel dailyDoubleLabel = new JLabel("Daily Double!");
     	  dailyDoublePanel.add(dailyDoubleLabel);
     	  questionArea.add(dailyDoublePanel);
     	  CardLayout cl = (CardLayout) this.questionArea.getLayout();
     	  cl.last(questionArea);
-    	  
+
     	  JPanel wager = new JPanel();
     	  JLabel wagerMessage = new JLabel("Min: $5, Max: "+max);
     	  SpinnerNumberModel sModel = new SpinnerNumberModel(5, 5, max, 100);
