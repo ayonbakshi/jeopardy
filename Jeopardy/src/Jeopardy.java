@@ -162,7 +162,7 @@ public class Jeopardy extends JFrame implements ActionListener {
     c = new GridBagConstraints(); // Reset GridBagConstraints
     c.gridx = 0;
     c.gridy = 1;
-    c.weightx = 0;
+    c.weightx = 0.1;
     c.weighty = 1;
     c.anchor = GridBagConstraints.FIRST_LINE_START;
     c.gridwidth = 2;
@@ -181,6 +181,8 @@ public class Jeopardy extends JFrame implements ActionListener {
     c.fill = GridBagConstraints.BOTH;
     c.ipadx = 20;
     c.ipady = 30;
+    c.weightx = 1;
+    c.weighty = 1;
 
     // Topic headers
     this.headers = new JLabel[6];
@@ -207,17 +209,19 @@ public class Jeopardy extends JFrame implements ActionListener {
         questionGrid.add(buttons[x][y], c);
       }
     }
-
     this.questionArea.add(questionGrid);
 
+    // Add the question area to the main window
     c = new GridBagConstraints(); // Reset constraints
+    c.fill = GridBagConstraints.BOTH;
     c.gridx = 2;
     c.gridy = 1;
+    c.weightx = 0.9;
     content.add(questionArea, c);
 
     this.setTitle("Jeopardy!");
     this.setContentPane(content);
-    this.pack();
+    this.setExtendedState(JFrame.MAXIMIZED_BOTH); // Fullscreen
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setVisible(true);
   }

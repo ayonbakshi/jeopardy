@@ -4,7 +4,7 @@ A Jeopardy clone in Java.
 # TODO
 - [ ] Daily doubles
 - [ ] Pretty titles, buttons
-- [ ] Fullscreen
+- [x] Fullscreen
 - [x] Questions (minimal)
 - [ ] Questions (more)
 - [x] Proper read from file
