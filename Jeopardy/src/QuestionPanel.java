@@ -72,6 +72,11 @@ public class QuestionPanel extends JPanel implements ActionListener{
     }
     else {
       //blackout the answer chosen if answer is wrong
+    	if(qObj.getDailyDouble()){
+    		JOptionPane.showMessageDialog(game, "Incorrect. The correct answer was " + qObj.getAnswer()[qObj.getCorrect()]);
+            CardLayout cl = (CardLayout)(game.questionArea.getLayout());
+            cl.first(game.questionArea);    	
+    	}
       answers[index].setEnabled(false);
       game.incrementTurn();
        if (guesses == 3) {

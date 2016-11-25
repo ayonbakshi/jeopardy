@@ -15,6 +15,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -36,7 +38,7 @@ public class Jeopardy extends JFrame implements ActionListener {
     // Read questions
     Scanner qScan;
     try {
-      qScan = new Scanner(new File("data" + File.separator + "questions.csv")); // Open the file
+      qScan = new Scanner(new File("src/data/questions.csv")); // Open the file
     } catch (FileNotFoundException fnfe) { // Can't find question file
       JOptionPane.showMessageDialog(null, "Can't find question file.", "Error", JOptionPane.ERROR_MESSAGE);
       throw fnfe;
@@ -69,7 +71,7 @@ public class Jeopardy extends JFrame implements ActionListener {
       };
 
       // Create a Question object and add it to the list
-      questions.add(new Question(v, c, q, a, t));
+      questions.add(new Question(v, c, q, a, t,false));
 
       // If this topic has not been seen before, add it to the list
       if (allTopics.indexOf(t) == -1) {
@@ -89,6 +91,11 @@ public class Jeopardy extends JFrame implements ActionListener {
     }
 
     // Get the questions associated with the chosen topics
+    //int DDX = (int)(Math.random()*6);
+    //int DDY = (int)(Math.random()*5);
+    // Daily double testing on first button
+    int DDX = 0;
+    int DDY = 0;
     this.buttons = new Question[6][5];
     for (Question q : questions) {
       String topic = q.getTopic();
@@ -99,6 +106,7 @@ public class Jeopardy extends JFrame implements ActionListener {
         this.buttons[x][y] = q; // Add it to the grid
       }
     }
+    buttons[DDX][DDY] = new Question(buttons[DDX][DDY].getValue(), buttons[DDX][DDY].getCorrect(), buttons[DDX][DDY].getQuestion(), buttons[DDX][DDY].getAnswer(), buttons[DDX][DDY].getTopic(),true);
 
     // Get the players' names
     this.players = new Player[3];
@@ -228,6 +236,33 @@ public class Jeopardy extends JFrame implements ActionListener {
 
   public void actionPerformed(ActionEvent e) {
     Question source = (Question) e.getSource();
+    if(source.getDailyDouble()){
+    	//Display daily double panel here
+    	//Ask for wager
+    	  int max =  players[turn].getDollars();
+    	  if(max<1000)
+    		  max = 1000;
+    	  
+    	  JPanel dailyDoublePanel = new JPanel(new GridBagLayout());
+    	  JLabel dailyDoubleLabel = new JLabel("Daily Double!");
+    	  dailyDoublePanel.add(dailyDoubleLabel);
+    	  questionArea.add(dailyDoublePanel);
+    	  CardLayout cl = (CardLayout) this.questionArea.getLayout();
+    	  cl.last(questionArea);
+    	  
+    	  JPanel wager = new JPanel();
+    	  JLabel wagerMessage = new JLabel("Min: $5, Max: "+max);
+    	  SpinnerNumberModel sModel = new SpinnerNumberModel(5, 5, max, 100);
+    	  JSpinner spinner = new JSpinner(sModel);
+    	  wager.add(wagerMessage);
+    	  wager.add(spinner);
+    	  //do{
+    	  JOptionPane.showMessageDialog(questionArea, wager, "Enter a wager", JOptionPane.QUESTION_MESSAGE);
+    	  //}while(spinner.getValue());
+    	  int value = (Integer) spinner.getValue();
+    	  source.dailyDouble(value);
+    	  questionArea.remove(dailyDoublePanel);
+    }
     QuestionPanel questionDisplay = new QuestionPanel(source, this);
     this.questionArea.add(questionDisplay);
 

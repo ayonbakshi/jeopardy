@@ -5,6 +5,7 @@ public class Question extends JButton{
   private String question;
   private String[] answers;
   private String topic;
+  private boolean isDailyDouble;
     
   public Question(int dollars){
     //constructor
@@ -16,7 +17,7 @@ public class Question extends JButton{
     this.topic = null;
   }
     
-  public Question(int dollars, int correct, String question, String[] answers, String topic){
+  public Question(int dollars, int correct, String question, String[] answers, String topic, boolean isDailyDouble){
     //constructor
     super("$" + dollars);
     this.dollars = dollars;
@@ -24,6 +25,7 @@ public class Question extends JButton{
     this.question = question;
     this.answers = answers;
     this.topic = topic;
+    this.isDailyDouble=isDailyDouble;
   }
     
   public int getValue(){//get the award of a correctly answered question
@@ -48,5 +50,14 @@ public class Question extends JButton{
     
   public boolean checkGuess(int guess){ //return the validity the guess
     return guess == correct;
+  }
+  
+  public void dailyDouble(int amount){
+	  if(isDailyDouble)
+		  this.dollars = amount;
+  }
+  
+  public boolean getDailyDouble(){
+	  return this.isDailyDouble;
   }
 }
