@@ -28,7 +28,7 @@ public class Jeopardy extends JFrame implements ActionListener {
   private Question[][] buttons;
   private JLabel[] playerTags;
   private JLabel[] playerDollars;
-  
+
   public Jeopardy() throws FileNotFoundException {
     super();
 
@@ -52,6 +52,7 @@ public class Jeopardy extends JFrame implements ActionListener {
      */
 
     List<Question> questions = new ArrayList<Question>();
+    List<String> allTopics = new ArrayList<String>();
     while (qScan.hasNextLine()) { // Go until there are no more lines
       String[] dataRow = qScan.nextLine().split("\t"); // Read a line and split it along tab characters
 
@@ -66,18 +67,32 @@ public class Jeopardy extends JFrame implements ActionListener {
 
       // Create a Question object and add it to the list
       questions.add(new Question(v, c, q, a, t));
+
+      // If this topic has not been seen before, add it to the list
+      if (allTopics.indexOf(t) == -1) {
+        topics.add(t);
+      }
+    }
+
+    // Randomly choose 6 unique topics
+    int[] topicIndices = {-1, -1, -1, -1, -1, -1}; // 6 -1s, which are guaranteed not to be valid topics
+    while (topicsIndices.indexOf(-1) != -1) { // Keep going until each slot is filled
+      int topicNum = (int) Math.random * topics.size();
+      if (topicIndices.indexOf(topicNum) == -1) {
+        topicIndices[topicIndices.indexOf(-1)] = topicNum; // indexOf returns the first match, so this fills in the slots in order
+      }
     }
 
     // Get the players' names
     this.players = new Player[3];
-    
+
     for (int i = 0; i < 3; i++) {
       String name = JOptionPane.showInputDialog("Enter player " + (i + 1) + "'s name");
 
       if (name == null || name.equals("")) {
         name = "Player " + (i + 1);
       }
-      
+
       this.players[i] = new Player(name);
     }
 
@@ -105,7 +120,7 @@ public class Jeopardy extends JFrame implements ActionListener {
     c.insets = new Insets(0, 0, 0, 0);
     c.anchor = GridBagConstraints.CENTER;
     scoreboard.add(titleSB, c);
-    
+
     // Players
     this.playerTags = new JLabel[3];
     this.playerDollars = new JLabel[3];
@@ -121,7 +136,7 @@ public class Jeopardy extends JFrame implements ActionListener {
       c.gridx = 0;
       c.gridy = 1 + (i % 3);
       scoreboard.add(playerTags[i], c);
-                        
+
       c.gridx = 3;
       c.gridy = 1 + (i % 3);
       scoreboard.add(playerDollars[i], c);
@@ -135,21 +150,21 @@ public class Jeopardy extends JFrame implements ActionListener {
     c.anchor = GridBagConstraints.FIRST_LINE_START;
     c.gridwidth = 2;
     content.add(scoreboard, c);
-    
+
     Font f = playerTags[0].getFont();
     this.playerTags[0].setFont(f.deriveFont(f.getStyle() | Font.BOLD));
     this.playerDollars[0].setFont(f.deriveFont(f.getStyle() ^ Font.BOLD));
-    
+
     // Fill game board
     this.questionArea = new JPanel(new CardLayout());
     JPanel questionGrid = new JPanel(new GridBagLayout());
-    
+
     // Common layout
     c = new GridBagConstraints(); // Reset constraints
     c.fill = GridBagConstraints.BOTH;
     c.ipadx = 20;
     c.ipady = 30;
-    
+
     // Topic headers
     this.headers = new JLabel[6];
     for (int i = 0; i < 6; i++) {
@@ -211,7 +226,7 @@ public class Jeopardy extends JFrame implements ActionListener {
 	  Font f = playerTags[turn].getFont();
 	  this.playerTags[turn].setFont(f.deriveFont(f.getStyle() ^ Font.BOLD));
 	  this.playerDollars[turn].setFont(f.deriveFont(f.getStyle() ^ Font.BOLD));
-	  
+
 	  //increments turn
 	  this.turn = (this.turn + 1) % 3;
 	  //bolds current player
@@ -228,8 +243,8 @@ public class Jeopardy extends JFrame implements ActionListener {
     Player current = this.players[this.turn];
     this.playerDollars[this.turn].setText("$" + current.getDollars());
   }
-  
-  
+
+
   public static void main(String[] args) throws FileNotFoundException {
     // Use the look and feel native to the system instead of Java's
     try {
@@ -243,9 +258,9 @@ public class Jeopardy extends JFrame implements ActionListener {
     } catch (IllegalAccessException e) {
       System.out.println("Couldn't set up native look and feel: " + e);
     }
-    
+
     Jeopardy game = new Jeopardy();
     game.setResizable(false);
-    
+
   }
 }
