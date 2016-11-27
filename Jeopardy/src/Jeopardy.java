@@ -73,7 +73,7 @@ public class Jeopardy extends JFrame implements ActionListener {
       };
 
       // Create a Question object and add it to the list
-      questions.add(new Question(v, c, q, a, t,false));
+      questions.add(new Question(q, a, c, v, t, false));
 
       // If this topic has not been seen before, add it to the list
       if (allTopics.indexOf(t) == -1) {
@@ -93,11 +93,6 @@ public class Jeopardy extends JFrame implements ActionListener {
     }
 
     // Get the questions associated with the chosen topics
-    //int DDX = (int)(Math.random()*6);
-    //int DDY = (int)(Math.random()*5);
-    // Daily double testing on first button
-    int DDX = 0;
-    int DDY = 0;
     this.buttons = new Question[6][5];
     for (Question q : questions) {
       String topic = q.getTopic();
@@ -108,7 +103,11 @@ public class Jeopardy extends JFrame implements ActionListener {
         this.buttons[x][y] = q; // Add it to the grid
       }
     }
-    buttons[DDX][DDY] = new Question(buttons[DDX][DDY].getValue(), buttons[DDX][DDY].getCorrect(), buttons[DDX][DDY].getQuestion(), buttons[DDX][DDY].getAnswer(), buttons[DDX][DDY].getTopic(),true);
+
+    // Make a random question a daily double
+    int ddx = (int) (Math.random() * 6);
+    int ddy = (int) (Math.random() * 5);
+    buttons[DDX][DDY].makeDailyDouble();
 
     // Get the players' names
     this.players = new Player[3];

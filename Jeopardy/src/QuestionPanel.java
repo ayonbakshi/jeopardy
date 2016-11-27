@@ -23,7 +23,7 @@ public class QuestionPanel extends JPanel implements ActionListener{
 
     this.answers = new JButton[4];
     for (int i = 0; i < 4; i++){
-      answers[i] = new JButton(question.getAnswer()[i]);
+      answers[i] = new JButton(question.getAnswers()[i]);
       answers[i].addActionListener(this);
     }
 
@@ -73,14 +73,14 @@ public class QuestionPanel extends JPanel implements ActionListener{
     else {
       //blackout the answer chosen if answer is wrong
     	if(qObj.getDailyDouble()){
-    		JOptionPane.showMessageDialog(game, "Incorrect. The correct answer was " + qObj.getAnswer()[qObj.getCorrect()]);
+    		JOptionPane.showMessageDialog(game, "Incorrect. The correct answer was " + qObj.getAnswers()[qObj.getCorrect()]);
             CardLayout cl = (CardLayout)(game.questionArea.getLayout());
-            cl.first(game.questionArea);    	
+            cl.first(game.questionArea);
     	}
       answers[index].setEnabled(false);
       game.incrementTurn();
        if (guesses == 3) {
-        JOptionPane.showMessageDialog(game, "Incorrect. The correct answer was " + qObj.getAnswer()[qObj.getCorrect()]);
+        JOptionPane.showMessageDialog(game, "Incorrect. The correct answer was " + qObj.getAnswers()[qObj.getCorrect()]);
         CardLayout cl = (CardLayout)(game.questionArea.getLayout());
         cl.first(game.questionArea);
        } else {

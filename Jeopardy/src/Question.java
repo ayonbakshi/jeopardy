@@ -1,63 +1,148 @@
 import javax.swing.JButton;
 
-public class Question extends JButton{
-  private int correct, dollars;
+/**
+ * A multiple-choice question in Jeopardy. A question has 4 possible
+ * answers, only one of which is correct. A question has a certain
+ * dollar value and is part of a topic.
+ */
+public class Question extends JButton {
+  /**
+   * The question text
+   */
   private String question;
+
+  /**
+   * The possible answers to the question
+   */
   private String[] answers;
+
+  /**
+   * The index of the correct answer
+   */
+  private int correct;
+
+  /**
+   * The value of the question.
+   */
+  private int dollars;
+
+  /**
+   * The topic of the question
+   */
   private String topic;
+
+  /**
+   * If the question is a daily double
+   */
   private boolean isDailyDouble;
-    
-  public Question(int dollars){
-    //constructor
+
+  /**
+   * Creates a new question.
+   *
+   * @param question the text of the question
+   * @param answers the answers of the question
+   * @param correct the index in the array of answers of the correct
+   * answer
+   * @param dollars the value awarded to the player for correctly answering the question
+   * @param topic the topic of the question
+   * @param isDailyDouble if the question is a daily double
+   *
+   * @throws IllegalArgumentException if the dollar value is negative,
+   * the correct answer isn't in [0, 3], or there aren't 4 answers
+   */
+  public Question(String question, String[] answers, int correct, int dollars, String topic, boolean isDailyDouble) {
     super("$" + dollars);
+
+    if (dollars < 0) {
+      throw new IllegalArgumentException("A question can't have negative value.");
+    }
     this.dollars = dollars;
-    this.correct = 0;//index in the answer array where the right answer can be found
-    this.question = null;
-    this.answers = null;
-    this.topic = null;
-  }
-    
-  public Question(int dollars, int correct, String question, String[] answers, String topic, boolean isDailyDouble){
-    //constructor
-    super("$" + dollars);
-    this.dollars = dollars;
-    this.correct = correct;//index in the answer array where the right answer can be found
+
+    if (correct < 0 || correct > 3) {
+      throw new IllegalArgumentException("Invalid correct answer: " + correct);
+    }
+    this.correct = correct; // Index in the answer array where the right answer can be found
+
     this.question = question;
+
+    if (answers.length != 4) {
+      throw new IllegalArgumentException("Invalid number of answers: " + answers.length + ". Must be four answers.");
+    }
     this.answers = answers;
+
     this.topic = topic;
-    this.isDailyDouble=isDailyDouble;
+    this.isDailyDouble = isDailyDouble;
   }
-    
-  public int getValue(){//get the award of a correctly answered question
+
+  /**
+   * Get the value awarded to the player for correctly answering the question.
+   *
+   * @return the dollar value of the question
+   */
+  public int getValue() {
     return dollars;
   }
-    
-  public String getQuestion(){//get the question
+
+  /**
+   * @return the text of the question
+   */
+  public String getQuestion() {//get the question
     return question;
   }
-    
-  public String[] getAnswer(){//get the possible answers
+
+  /**
+   * @return all the possible answers to the question
+   */
+  public String[] getAnswers() {
     return answers;
   }
 
+  /**
+   * @return the index of the correct answer in the array of answers
+   */
   public int getCorrect() {
     return this.correct;
   }
 
+  /**
+   * @return the topic of the question
+   */
   public String getTopic() {
     return this.topic;
   }
-    
-  public boolean checkGuess(int guess){ //return the validity the guess
+
+  /**
+   * Check if a guess is correct
+   *
+   * @return true if the guess was correct, false otherwise
+   */
+  public boolean checkGuess(int guess) {
     return guess == correct;
   }
-  
-  public void dailyDouble(int amount){
-	  if(isDailyDouble)
-		  this.dollars = amount;
+
+  /**
+   * @return if this question is a daily double
+   */
+  public boolean getDailyDouble() {
+    return this.isDailyDouble;
   }
-  
-  public boolean getDailyDouble(){
-	  return this.isDailyDouble;
+
+  /**
+   * Make the question a daily double
+   */
+  public void makeDailyDouble() {
+    this.isDailyDouble = true;
+  }
+
+  /**
+   * Set the amount of money the question is worth if this is a daily
+   * double.
+   *
+   * @param amount the amount of money the player bid
+   */
+  public void dailyDouble(int amount) {
+    if(isDailyDouble) {
+      this.dollars = amount;
+    }
   }
 }
