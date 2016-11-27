@@ -1,24 +1,32 @@
 import java.awt.CardLayout;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Rectangle;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -37,10 +45,24 @@ public class Jeopardy extends JFrame implements ActionListener {
   public Jeopardy() throws FileNotFoundException {
     super();
 
+ // Window size - as big as possible, 4:3
+    Rectangle screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds(); // Get the biggest possible size for the window
+    int width;
+    int height;
+    if (screen.getWidth() < screen.getHeight()) {
+      width = (int) screen.getWidth();
+      height = width / 4 * 3;
+    } else {
+      height = (int) screen.getHeight();
+      width = height / 3 * 4;
+    }
+    this.setSize(width,height);
+    this.setResizable(false);
+    
     // Read questions
     Scanner qScan;
     try {
-      qScan = new Scanner(new File("data" + File.separator + "questions.csv")); // Open the file
+      qScan = new Scanner(new File("src" + File.separator + "data" + File.separator + "questions.csv")); // Open the file
     } catch (FileNotFoundException fnfe) { // Can't find question file
       JOptionPane.showMessageDialog(null, "Can't find question file.", "Error", JOptionPane.ERROR_MESSAGE);
       throw fnfe;
@@ -73,7 +95,7 @@ public class Jeopardy extends JFrame implements ActionListener {
       };
 
       // Create a Question object and add it to the list
-      questions.add(new Question(q, a, c, v, t, false));
+      questions.add(new Question(q, a, c, v, t, false, resize(new ImageIcon("src" + File.separator + "data" + File.separator + v+".png"),199,159)));
 
       // If this topic has not been seen before, add it to the list
       if (allTopics.indexOf(t) == -1) {
@@ -93,13 +115,13 @@ public class Jeopardy extends JFrame implements ActionListener {
     }
 
     // Get the questions associated with the chosen topics
-    this.buttons = new Question[6][5];
+    this.buttons = new Question[6][5]; 
     for (Question q : questions) {
       String topic = q.getTopic();
       int x = Arrays.asList(topics).indexOf(topic);
       if (x != -1) { // This question's topic is one of the ones chosen
         int y = q.getValue() / 200 - 1; // $200 -> 0, $400 -> 1, $600 -> 2, etc.
-
+        
         this.buttons[x][y] = q; // Add it to the grid
       }
     }
@@ -107,7 +129,7 @@ public class Jeopardy extends JFrame implements ActionListener {
     // Make a random question a daily double
     int ddx = (int) (Math.random() * 6);
     int ddy = (int) (Math.random() * 5);
-    buttons[DDX][DDY].makeDailyDouble();
+    buttons[ddx][ddy].makeDailyDouble();
 
     // Get the players' names
     this.players = new Player[3];
@@ -195,9 +217,18 @@ public class Jeopardy extends JFrame implements ActionListener {
 
     // Topic headers
     this.headers = new JLabel[6];
+    int largestWidth = 0;
+    
     for (int i = 0; i < 6; i++) {
-      this.headers[i] = new JLabel(topics[i]);
-
+    	this.headers[i] = new JLabel("<html><div style='text-align: center;'>"+topics[i]+"</div></html>",SwingConstants.CENTER);
+    	if(headers[i].getPreferredSize().getWidth()>largestWidth)
+    		largestWidth = (int) headers[i].getPreferredSize().getWidth();
+    }
+    for (int i = 0; i < 6; i++) {
+    	headers[i].setPreferredSize(new Dimension(largestWidth,(int)headers[i].getPreferredSize().getHeight()));
+    }
+    
+    for (int i = 0; i < 6; i++) {
       // Layout stuff
       c.gridx = i;
       c.gridy = 0;
@@ -219,7 +250,7 @@ public class Jeopardy extends JFrame implements ActionListener {
       }
     }
     this.questionArea.add(questionGrid);
-
+        
     // Add the question area to the main window
     c = new GridBagConstraints(); // Reset constraints
     c.fill = GridBagConstraints.BOTH;
@@ -228,26 +259,23 @@ public class Jeopardy extends JFrame implements ActionListener {
     c.weightx = 0.9;
     content.add(questionArea, c);
 
-    // Window size - as big as possible, 4:3
-    Rectangle screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds(); // Get the biggest possible size for the window
-    int width;
-    int height;
-    if (screen.getWidth() < screen.getHeight()) {
-      width = (int) screen.getWidth();
-      height = width / 4 * 3;
-    } else {
-      height = (int) screen.getHeight();
-      width = height / 3 * 4;
-    }
-    this.setSize(width, height);
-    this.setResizable(false);
-
     this.setTitle("Jeopardy!");
     this.setContentPane(content);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setVisible(true);
-  }
+    }
 
+  private ImageIcon resize(ImageIcon srcImg, int w, int h){
+	    BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+	    Graphics2D g2 = resizedImg.createGraphics();
+
+	    g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+	    g2.drawImage(srcImg.getImage(), 0, 0, w, h, null);
+	    g2.dispose();
+
+	    return new ImageIcon(resizedImg);
+	}
+  
   public void actionPerformed(ActionEvent e) {
     Question source = (Question) e.getSource();
     if(source.getDailyDouble()){
@@ -317,7 +345,7 @@ public class Jeopardy extends JFrame implements ActionListener {
 
   public static void main(String[] args) throws FileNotFoundException {
     // Use the look and feel native to the system instead of Java's
-    try {
+    /*try {
       UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
     } catch (UnsupportedLookAndFeelException e) {
       System.out.println("Native look and feel not supported: " + e);
@@ -327,7 +355,7 @@ public class Jeopardy extends JFrame implements ActionListener {
       System.out.println("Couldn't set up native look and feel: " + e);
     } catch (IllegalAccessException e) {
       System.out.println("Couldn't set up native look and feel: " + e);
-    }
+    }*/
 
     Jeopardy game = new Jeopardy();
   }

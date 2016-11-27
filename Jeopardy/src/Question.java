@@ -1,3 +1,4 @@
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 /**
@@ -50,8 +51,10 @@ public class Question extends JButton {
    * @throws IllegalArgumentException if the dollar value is negative,
    * the correct answer isn't in [0, 3], or there aren't 4 answers
    */
-  public Question(String question, String[] answers, int correct, int dollars, String topic, boolean isDailyDouble) {
-    super("$" + dollars);
+  public Question(String question, String[] answers, int correct, int dollars, String topic, boolean isDailyDouble, ImageIcon icon) {
+	
+	super(icon);  
+	setBorder(null);  
 
     if (dollars < 0) {
       throw new IllegalArgumentException("A question can't have negative value.");
