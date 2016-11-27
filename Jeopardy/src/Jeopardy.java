@@ -266,7 +266,7 @@ public class Jeopardy extends JFrame implements ActionListener {
     	  cl.last(questionArea);
     	  
     	  JPanel wager = new JPanel();
-    	  JLabel wagerMessage = new JLabel("Min: $5, Max: "+max);
+    	  JLabel wagerMessage = new JLabel("Min: $5, Max: $"+max);
     	  SpinnerNumberModel sModel = new SpinnerNumberModel(5, 5, max, 100);
     	  JSpinner spinner = new JSpinner(sModel);
     	  wager.add(wagerMessage);
