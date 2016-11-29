@@ -5,11 +5,12 @@ import java.awt.event.*;
 
 public class QuestionPanel extends JPanel implements ActionListener{
   private JButton[] answers;
-  private JLabel question;
+  private JLabel question, blank;
   private Question qObj;
   private GridBagConstraints gbc = new GridBagConstraints();
   private Jeopardy game;
   private int guesses;
+  private JPanel answersPnl;
 
   public QuestionPanel(Question question, Jeopardy game) {
     this.game = game;
@@ -27,24 +28,52 @@ public class QuestionPanel extends JPanel implements ActionListener{
       answers[i].addActionListener(this);
     }
 
+    
     this.question = new JLabel(question.getQuestion());
-    gbc.gridx = 2;
+    gbc.gridx = 0;
     gbc.gridy = 0;
-    gbc.insets = new Insets(10, 10, 120 ,10);
+    gbc.gridwidth = 3;
+    gbc.weighty = 0.5;
+    gbc.weightx = 1;
+    gbc.anchor = GridBagConstraints.CENTER;
     add(this.question, gbc);
-
-    for(int i = 0; i < 4; i++){
-      // Use columns 1 and 4
-      gbc.gridx = 1 + (i % 2) * 4;
-      // Use rows 5 and 7
-      gbc.gridy = 5 + (i / 2) * 2;
-      gbc.fill = GridBagConstraints.HORIZONTAL;
-      gbc.ipadx = 20;
-      gbc.ipady = 30;
-      gbc.insets = new Insets(0, 10, 10 ,10);
-
-      add(answers[i], gbc);
+    
+    answersPnl = new JPanel();
+    answersPnl.setLayout(new GridLayout(2,2));
+    for (int i = 0; i < 4; i++){
+    	answers[i].setPreferredSize(new Dimension(300, 60));
+    	answersPnl.add(answers[i]);
     }
+    
+    gbc.gridx = 0;
+    gbc.gridy = 1;
+    this.add(answersPnl, gbc);
+    /*
+    gbc.gridwidth = 1;
+    gbc.weighty = 0.2;
+    gbc.weightx = 0.5;
+    gbc.fill = GridBagConstraints.BOTH;
+    
+    for (int i = 0; i < 4; i+=2){
+    	gbc.anchor = GridBagConstraints.CENTER;
+    	gbc.gridx = 0;
+    	gbc.gridy = i + 1;
+    	answersPnl.add(answers[i], gbc);
+    	
+    	gbc.gridx = 2;
+    	gbc.gridy = i + 1;
+    	answersPnl.add(answers[i + 1], gbc);
+    }
+    
+    //blank = new JLabel("&&&&");
+    gbc.gridx = 0;
+    gbc.gridy = 3;
+    gbc.gridwidth = 2;
+    gbc.weighty = 1;
+    //gbc.weightx = 1;
+    //add(blank, gbc);
+     */
+    
   }
 
   public void actionPerformed (ActionEvent e){

@@ -95,7 +95,10 @@ public class Jeopardy extends JFrame implements ActionListener {
       };
 
       // Create a Question object and add it to the list
-      questions.add(new Question(q, a, c, v, t, false, resize(new ImageIcon("src" + File.separator + "data" + File.separator + v+".png"),199,159)));
+      
+      questions.add(new Question(q, a, c, v, t, false
+    		  ,resize(new ImageIcon("src" + File.separator + "data" + File.separator + v+".png"),134,106)
+    		  ));
 
       // If this topic has not been seen before, add it to the list
       if (allTopics.indexOf(t) == -1) {
@@ -263,6 +266,7 @@ public class Jeopardy extends JFrame implements ActionListener {
     this.setContentPane(content);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setVisible(true);
+    System.out.println(buttons[0][0].getWidth() + " " + buttons[0][0].getHeight());
     }
 
   private ImageIcon resize(ImageIcon srcImg, int w, int h){

@@ -31,6 +31,7 @@ public class StartPanel extends JFrame{
 		gbc.gridy = 2;
 		gbc.gridwidth = 1;
 		gbc.fill = GridBagConstraints.NONE;
+		gbc.weighty = 0.05;
 		add(player1, gbc);
 		
 		gbc.gridx = 1;
@@ -43,6 +44,7 @@ public class StartPanel extends JFrame{
 		
 		gbc.gridx = 0;
 		gbc.gridy = 3;
+		// gbc.weighty = 0.5;
 		add(player1TF, gbc);
 		
 		gbc.gridx = 1;
@@ -63,6 +65,6 @@ public class StartPanel extends JFrame{
 		StartPanel gui = new StartPanel();
 		gui.setVisible(true);
 		gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		gui.setSize(500,500);
+		gui.setSize(400,300);
 	}
 }
