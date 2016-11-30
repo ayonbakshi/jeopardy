@@ -12,5 +12,12 @@ A Jeopardy clone in Java.
 - [ ] Double Jeopardy (optional)
 - [ ] Final jeopardy (optional)
 - [ ] Main screen
-- [ ] Instructions (optional-ish)
+- [ ] Instructions
 - [ ] Document everything
+  - [ ] Jeopardy.java
+  - [x] Player.java
+  - [x] Question.java
+  - [x] QuestionPanel.java
+  - [ ] StartPanel.java
+- [ ] Big/custom fonts
+- [ ] Custom icons for popups (optional)

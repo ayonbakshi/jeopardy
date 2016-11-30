@@ -1,123 +1,157 @@
+import java.awt.CardLayout;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-
-public class QuestionPanel extends JPanel implements ActionListener{
+/**
+ * The panel that displays a single question and its answers.
+ *
+ * This class handles displaying the question, checking answers,
+ * updating player money, and changing the turn.
+ */
+public class QuestionPanel extends JPanel implements ActionListener {
+  /**
+   * The buttons with the answers to the question
+   */
   private JButton[] answers;
-  private JLabel question, blank;
-  private Question qObj;
-  private GridBagConstraints gbc = new GridBagConstraints();
-  private Jeopardy game;
-  private int guesses;
-  private JPanel answersPnl;
 
+  /**
+   * The question that is being displayed
+   */
+  private Question qObj;
+
+  /**
+   * The Jeopardy game that made this question
+   *
+   * This is a field of the QuestionPanel so that it can update the
+   * turn and amount of money the players have.
+   */
+  private Jeopardy game;
+
+  /**
+   * The number of guesses the users have made.
+   *
+   * This is limited to three - one per player.
+   */
+  private int guesses;
+
+  /**
+   * Create a question panel with the question and answer buttons.
+   *
+   * @param question the Question object being displayed
+   * @param game the Jeopardy game that this came from
+   */
   public QuestionPanel(Question question, Jeopardy game) {
     this.game = game;
     this.guesses = 0;
 
-    qObj = question;
     this.setPreferredSize(new Dimension(600, 500));
     this.setLayout(new GridBagLayout());
-
     this.setSize(new Dimension(600, 430));
 
+    this.qObj = question;
+
+    // The answer buttons
     this.answers = new JButton[4];
-    for (int i = 0; i < 4; i++){
+    for (int i = 0; i < 4; i++) {
       answers[i] = new JButton(question.getAnswers()[i]);
       answers[i].addActionListener(this);
     }
 
-    
-    this.question = new JLabel(question.getQuestion());
+    // The text of the question
+    JLabel qText = new JLabel(question.getQuestion());
+    GridBagConstraints gbc = new GridBagConstraints();
     gbc.gridx = 0;
     gbc.gridy = 0;
     gbc.gridwidth = 3;
     gbc.weighty = 0.5;
     gbc.weightx = 1;
     gbc.anchor = GridBagConstraints.CENTER;
-    add(this.question, gbc);
-    
-    answersPnl = new JPanel();
-    answersPnl.setLayout(new GridLayout(2,2));
-    for (int i = 0; i < 4; i++){
-    	answers[i].setPreferredSize(new Dimension(300, 60));
-    	answersPnl.add(answers[i]);
+    this.add(qText, gbc);
+
+    // The answer buttons
+    JPanel answersPnl = new JPanel(new GridLayout(2, 2));
+    for (int i = 0; i < 4; i++) {
+      answers[i].setPreferredSize(new Dimension(300, 60));
+      answersPnl.add(answers[i]);
     }
-    
+
+    gbc = new GridBagConstraints(); // Reset the constraints object
     gbc.gridx = 0;
     gbc.gridy = 1;
     this.add(answersPnl, gbc);
-    /*
-    gbc.gridwidth = 1;
-    gbc.weighty = 0.2;
-    gbc.weightx = 0.5;
-    gbc.fill = GridBagConstraints.BOTH;
-    
-    for (int i = 0; i < 4; i+=2){
-    	gbc.anchor = GridBagConstraints.CENTER;
-    	gbc.gridx = 0;
-    	gbc.gridy = i + 1;
-    	answersPnl.add(answers[i], gbc);
-    	
-    	gbc.gridx = 2;
-    	gbc.gridy = i + 1;
-    	answersPnl.add(answers[i + 1], gbc);
-    }
-    
-    //blank = new JLabel("&&&&");
-    gbc.gridx = 0;
-    gbc.gridy = 3;
-    gbc.gridwidth = 2;
-    gbc.weighty = 1;
-    //gbc.weightx = 1;
-    //add(blank, gbc);
-     */
-    
+
   }
 
-  public void actionPerformed (ActionEvent e){
+  /**
+   * Handle clicks on the answer buttons.
+   *
+   * @param e the action that occured
+   */
+  @Override
+  public void actionPerformed (ActionEvent e) {
+    // Find the index of the answer chosen
     int index = 0;
-
-    for (int i = 0; i < 4; i++){
-      if (answers[i] == (JButton)(e.getSource())){
+    for (int i = 0; i < 4; i++) {
+      if (answers[i] == (JButton)(e.getSource())) {
         index = i;
       }
     }
 
-    Player current = game.players[game.getTurn()];
-    guesses++;
+    Player current = game.players[game.getTurn()]; // Get the current player
+    guesses++; // A guess was made, increment the number of guesses
 
-    if(qObj.checkGuess(index)){
-      //increment $$ here
-      //display amount earned and balance
+    // Check the answer
+    if (this.qObj.checkGuess(index)) { // If the answer was correct
       CardLayout cl = (CardLayout)(game.questionArea.getLayout());
-      cl.first(game.questionArea);
+      cl.first(game.questionArea); // Go to the panel in the question area (the button grid)
 
-      current.addDollars(qObj.getValue());
-      game.updateDollars();
-      JOptionPane.showMessageDialog(game, current.getName() + " now has $" + current.getDollars(), "Correct", JOptionPane.INFORMATION_MESSAGE);
-      // TODO custom check icon
+      current.addDollars(this.qObj.getValue()); // Add money to the current player
+      game.updateDollars(); // Update the dollar amount in the sidebar
+
+      // Tell the user they were correct and their new balance
+      JOptionPane.showMessageDialog(game,
+                                    current.getName() + " now has $" + current.getDollars(),
+                                    "Correct",
+                                    JOptionPane.INFORMATION_MESSAGE);
     }
     else {
-      //blackout the answer chosen if answer is wrong
-    	if(qObj.getDailyDouble()){
-    		JOptionPane.showMessageDialog(game, "Incorrect. The correct answer was " + qObj.getAnswers()[qObj.getCorrect()]);
-            CardLayout cl = (CardLayout)(game.questionArea.getLayout());
-            cl.first(game.questionArea);
-    	}
-      answers[index].setEnabled(false);
-      game.incrementTurn();
-       if (guesses == 3) {
-        JOptionPane.showMessageDialog(game, "Incorrect. The correct answer was " + qObj.getAnswers()[qObj.getCorrect()]);
+      // Blackout the answer chosen if answer is wrong
+      if(this.qObj.getDailyDouble()) { // Only one player gets to guess on a daily double
+        // Only one guess, so show the correct answer
+        JOptionPane.showMessageDialog(game,
+                                      "Incorrect. The correct answer was " + this.qObj.getAnswers()[this.qObj.getCorrect()]);
+
+        // Go back to the grid of questions
         CardLayout cl = (CardLayout)(game.questionArea.getLayout());
         cl.first(game.questionArea);
-       } else {
-         current = game.players[game.getTurn()];
-         JOptionPane.showMessageDialog(game, "Incorrect. It is now " + current.getName() + "'s turn.", "Incorrect", JOptionPane.INFORMATION_MESSAGE);
-       }
+      }
+
+      answers[index].setEnabled(false); // Disable the answer chosen
+      game.incrementTurn(); // Move on to the next player
+
+      if (guesses == 3) { // If all the players get the question wrong
+        // All the players guessed, so show the correct answer
+        JOptionPane.showMessageDialog(game,
+                                      "Incorrect. The correct answer was " + this.qObj.getAnswers()[this.qObj.getCorrect()]);
+
+        // Go back to the question grid
+        CardLayout cl = (CardLayout)(game.questionArea.getLayout());
+        cl.first(game.questionArea);
+      } else {
+        current = game.players[game.getTurn()]; // Get the current player
+
+        // Inform the player they were incorrect and show who the next player is
+        JOptionPane.showMessageDialog(game,
+                                      "Incorrect. It is now " + current.getName() + "'s turn.", "Incorrect", JOptionPane.INFORMATION_MESSAGE);
+      }
     }
-
   }
-
 }

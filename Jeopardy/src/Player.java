@@ -25,10 +25,16 @@ public class Player {
     this.dollars = 0;
   }
 
+  /**
+   * @return the player's name
+   */
   public String getName() {
     return this.name;
   }
 
+  /**
+   * @return the amount of money the player has
+   */
   public int getDollars() {
     return this.dollars;
   }
