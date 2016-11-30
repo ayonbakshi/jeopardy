@@ -87,7 +87,6 @@ public class QuestionPanel extends JPanel implements ActionListener {
     gbc.gridx = 0;
     gbc.gridy = 1;
     this.add(answersPnl, gbc);
-
   }
 
   /**
