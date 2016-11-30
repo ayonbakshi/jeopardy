@@ -30,7 +30,7 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-public class Jeopardy extends JFrame implements ActionListener {
+public class Jeopardy extends JPanel implements ActionListener {
   public Player[] players;
   private int turn = 0;
 
@@ -41,23 +41,11 @@ public class Jeopardy extends JFrame implements ActionListener {
   private Question[][] buttons;
   private JLabel[] playerTags;
   private JLabel[] playerDollars;
+  JPanel content = new JPanel(new GridBagLayout());
 
-  public Jeopardy() throws FileNotFoundException {
+  public Jeopardy(String[] names) throws FileNotFoundException {
     super();
 
- // Window size - as big as possible, 4:3
-    Rectangle screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds(); // Get the biggest possible size for the window
-    int width;
-    int height;
-    if (screen.getWidth() < screen.getHeight()) {
-      width = (int) screen.getWidth();
-      height = width / 4 * 3;
-    } else {
-      height = (int) screen.getHeight();
-      width = height / 3 * 4;
-    }
-    this.setSize(width,height);
-    this.setResizable(false);
     
     // Read questions
     Scanner qScan;
@@ -136,7 +124,10 @@ public class Jeopardy extends JFrame implements ActionListener {
 
     // Get the players' names
     this.players = new Player[3];
-
+    
+    StartPanel startPanel = new StartPanel();
+    
+    /*
     for (int i = 0; i < 3; i++) {
       String name = JOptionPane.showInputDialog("Enter player " + (i + 1) + "'s name");
 
@@ -146,11 +137,11 @@ public class Jeopardy extends JFrame implements ActionListener {
 
       this.players[i] = new Player(name);
     }
+    
+    */
 
     // Set up GUI
     GridBagConstraints c;
-    JPanel content = new JPanel(new GridBagLayout());
-
     // Title
     JLabel title = new JLabel("Jeopardy!");
     c = new GridBagConstraints();
@@ -261,12 +252,6 @@ public class Jeopardy extends JFrame implements ActionListener {
     c.gridy = 1;
     c.weightx = 0.9;
     content.add(questionArea, c);
-
-    this.setTitle("Jeopardy!");
-    this.setContentPane(content);
-    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    this.setVisible(true);
-    System.out.println(buttons[0][0].getWidth() + " " + buttons[0][0].getHeight());
     }
 
   private ImageIcon resize(ImageIcon srcImg, int w, int h){
@@ -347,6 +332,38 @@ public class Jeopardy extends JFrame implements ActionListener {
 	  }
   }
 
+  public void run() throws FileNotFoundException{
+	  StartPanel startPnl = new StartPanel();
+	  
+	  String[] names = startPnl.getNames();
+	  
+	  Jeopardy gamePnl = new Jeopardy(names);
+	  
+	  JFrame gameFrame = new JFrame();
+	  gameFrame.setLayout(new CardLayout());
+	  gameFrame.setTitle("Jeopardy!");
+	    gameFrame.setContentPane(startPnl);
+	    gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    gameFrame.setVisible(true);
+	    System.out.println(buttons[0][0].getWidth() + " " + buttons[0][0].getHeight());
+	    
+	    gameFrame.setContentPane(gamePnl);
+	  
+	// Window size - as big as possible, 4:3
+	    Rectangle screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds(); // Get the biggest possible size for the window
+	    int width;
+	    int height;
+	    if (screen.getWidth() < screen.getHeight()) {
+	      width = (int) screen.getWidth();
+	      height = width / 4 * 3;
+	    } else {
+	      height = (int) screen.getHeight();
+	      width = height / 3 * 4;
+	    }
+	    gameFrame.setSize(width,height);
+	    gameFrame.setResizable(false);
+  }
+  
   public static void main(String[] args) throws FileNotFoundException {
     // Use the look and feel native to the system instead of Java's
     /*try {
@@ -360,7 +377,7 @@ public class Jeopardy extends JFrame implements ActionListener {
     } catch (IllegalAccessException e) {
       System.out.println("Couldn't set up native look and feel: " + e);
     }*/
-
-    Jeopardy game = new Jeopardy();
+	 
+	
   }
 }
