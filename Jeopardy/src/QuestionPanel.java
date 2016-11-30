@@ -48,31 +48,6 @@ public class QuestionPanel extends JPanel implements ActionListener{
     gbc.gridx = 0;
     gbc.gridy = 1;
     this.add(answersPnl, gbc);
-    /*
-    gbc.gridwidth = 1;
-    gbc.weighty = 0.2;
-    gbc.weightx = 0.5;
-    gbc.fill = GridBagConstraints.BOTH;
-    
-    for (int i = 0; i < 4; i+=2){
-    	gbc.anchor = GridBagConstraints.CENTER;
-    	gbc.gridx = 0;
-    	gbc.gridy = i + 1;
-    	answersPnl.add(answers[i], gbc);
-    	
-    	gbc.gridx = 2;
-    	gbc.gridy = i + 1;
-    	answersPnl.add(answers[i + 1], gbc);
-    }
-    
-    //blank = new JLabel("&&&&");
-    gbc.gridx = 0;
-    gbc.gridy = 3;
-    gbc.gridwidth = 2;
-    gbc.weighty = 1;
-    //gbc.weightx = 1;
-    //add(blank, gbc);
-     */
     
   }
 
