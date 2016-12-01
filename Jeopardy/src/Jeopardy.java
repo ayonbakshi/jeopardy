@@ -46,20 +46,6 @@ public class Jeopardy extends JPanel implements ActionListener {
   public Jeopardy(String[] names) throws FileNotFoundException {
     super();
 
-    // Window size - as big as possible, 4:3
-    Rectangle screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds(); // Get the biggest possible size for the window
-    int width;
-    int height;
-    if (screen.getWidth() < screen.getHeight()) {
-      width = (int) screen.getWidth();
-      height = width / 4 * 3;
-    } else {
-      height = (int) screen.getHeight();
-      width = height / 3 * 4;
-    }
-    this.setSize(width,height);
-    this.setResizable(false);
-
     // Read questions
     Scanner qScan = null;
     // Open the file
@@ -137,21 +123,13 @@ public class Jeopardy extends JPanel implements ActionListener {
 
     // Get the players' names
     this.players = new Player[3];
-
-    StartPanel startPanel = new StartPanel();
-
-    /*
     for (int i = 0; i < 3; i++) {
-      String name = JOptionPane.showInputDialog("Enter player " + (i + 1) + "'s name");
-
-      if (name == null || name.equals("")) {
-        name = "Player " + (i + 1);
+      if (names[i] == null || names[i].equals("")) {
+        names[i] = "Player " + (i + 1);
       }
 
-      this.players[i] = new Player(name);
+      this.players[i] = new Player(names[i]);
     }
-
-    */
 
     // Set up GUI
     GridBagConstraints c;
@@ -340,57 +318,40 @@ public class Jeopardy extends JPanel implements ActionListener {
   }
 
   public void assignNames(String[] names){//create player objects using names entred from startPanel
-	  for (int i = 0; i < 3; i++){
-		  players[i] = new Player(names[i]);
-	  }
+    for (int i = 0; i < 3; i++){
+      players[i] = new Player(names[i]);
+    }
   }
 
-  public void run() throws FileNotFoundException{
-	  StartPanel startPnl = new StartPanel();
-
-	  String[] names = startPnl.getNames();
-
-	  Jeopardy gamePnl = new Jeopardy(names);
-
-	  JFrame gameFrame = new JFrame();
-	  gameFrame.setLayout(new CardLayout());
-	  gameFrame.setTitle("Jeopardy!");
-	    gameFrame.setContentPane(startPnl);
-	    gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    gameFrame.setVisible(true);
-	    System.out.println(buttons[0][0].getWidth() + " " + buttons[0][0].getHeight());
-
-	    gameFrame.setContentPane(gamePnl);
-
-	// Window size - as big as possible, 4:3
-	    Rectangle screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds(); // Get the biggest possible size for the window
-	    int width;
-	    int height;
-	    if (screen.getWidth() < screen.getHeight()) {
-	      width = (int) screen.getWidth();
-	      height = width / 4 * 3;
-	    } else {
-	      height = (int) screen.getHeight();
-	      width = height / 3 * 4;
-	    }
-	    gameFrame.setSize(width,height);
-	    gameFrame.setResizable(false);
+  public static void run(StartPanel sp) {
+    try {
+      Jeopardy game = new Jeopardy(sp.getNames());
+    } catch (FileNotFoundException fnfe) {
+      System.exit(1);
+    }
   }
 
-  public static void main(String[] args) throws FileNotFoundException {
-    // Use the look and feel native to the system instead of Java's
-    /*try {
-      UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-    } catch (UnsupportedLookAndFeelException e) {
-      System.out.println("Native look and feel not supported: " + e);
-    } catch (ClassNotFoundException e) {
-      System.out.println("Not a recognized look and feel: " + e);
-    } catch (InstantiationException e) {
-      System.out.println("Couldn't set up native look and feel: " + e);
-    } catch (IllegalAccessException e) {
-      System.out.println("Couldn't set up native look and feel: " + e);
-    }*/
+  public static void main(String[] args) {
+    StartPanel sp = new StartPanel();
 
-
+    JFrame gameFrame = new JFrame();
+    gameFrame.setLayout(new CardLayout());
+    gameFrame.setTitle("Jeopardy!");
+    // Window size - as big as possible, 4:3
+    Rectangle screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds(); // Get the biggest possible size for the window
+    int width;
+    int height;
+    if (screen.getWidth() < screen.getHeight()) {
+      width = (int) screen.getWidth();
+      height = width / 4 * 3;
+    } else {
+      height = (int) screen.getHeight();
+      width = height / 3 * 4;
+    }
+    gameFrame.setSize(width,height);
+    gameFrame.setResizable(false);
+    gameFrame.add(sp);
+    gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    gameFrame.setVisible(true);
   }
 }
