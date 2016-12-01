@@ -43,6 +43,8 @@ public class Jeopardy extends JPanel implements ActionListener {
   private JLabel[] playerDollars;
   JPanel content = new JPanel(new GridBagLayout());
 
+  public static JFrame gameFrame;
+
   public Jeopardy(String[] names) throws FileNotFoundException {
     super();
 
@@ -140,7 +142,7 @@ public class Jeopardy extends JPanel implements ActionListener {
     c.gridy = 0;
     c.gridwidth = 3;
     c.anchor = GridBagConstraints.CENTER;
-    content.add(title, c);
+    this.add(title, c);
 
     // Scoreboard
     scoreboard = new JPanel(new GridBagLayout());
@@ -182,7 +184,7 @@ public class Jeopardy extends JPanel implements ActionListener {
     c.weighty = 1;
     c.anchor = GridBagConstraints.FIRST_LINE_START;
     c.gridwidth = 2;
-    content.add(scoreboard, c);
+    this.add(scoreboard, c);
 
     Font f = playerTags[0].getFont();
     this.playerTags[0].setFont(f.deriveFont(f.getStyle() | Font.BOLD));
@@ -242,7 +244,7 @@ public class Jeopardy extends JPanel implements ActionListener {
     c.gridx = 2;
     c.gridy = 1;
     c.weightx = 0.9;
-    content.add(questionArea, c);
+    this.add(questionArea, c);
     }
 
   private ImageIcon resize(ImageIcon srcImg, int w, int h){
@@ -326,6 +328,9 @@ public class Jeopardy extends JPanel implements ActionListener {
   public static void run(StartPanel sp) {
     try {
       Jeopardy game = new Jeopardy(sp.getNames());
+      Jeopardy.gameFrame.setContentPane(game);
+      Jeopardy.gameFrame.repaint();
+      Jeopardy.gameFrame.revalidate();
     } catch (FileNotFoundException fnfe) {
       System.exit(1);
     }
@@ -334,9 +339,8 @@ public class Jeopardy extends JPanel implements ActionListener {
   public static void main(String[] args) {
     StartPanel sp = new StartPanel();
 
-    JFrame gameFrame = new JFrame();
-    gameFrame.setLayout(new CardLayout());
-    gameFrame.setTitle("Jeopardy!");
+    Jeopardy.gameFrame = new JFrame();
+    Jeopardy.gameFrame.setTitle("Jeopardy!");
     // Window size - as big as possible, 4:3
     Rectangle screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds(); // Get the biggest possible size for the window
     int width;
@@ -348,10 +352,10 @@ public class Jeopardy extends JPanel implements ActionListener {
       height = (int) screen.getHeight();
       width = height / 3 * 4;
     }
-    gameFrame.setSize(width,height);
-    gameFrame.setResizable(false);
-    gameFrame.add(sp);
-    gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    gameFrame.setVisible(true);
+    Jeopardy.gameFrame.setSize(width,height);
+    Jeopardy.gameFrame.setResizable(false);
+    Jeopardy.gameFrame.setContentPane(sp);
+    Jeopardy.gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    Jeopardy.gameFrame.setVisible(true);
   }
 }

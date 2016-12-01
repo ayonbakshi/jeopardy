@@ -78,9 +78,6 @@ public class StartPanel extends JPanel implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-          CardLayout cl = (CardLayout) this.getParent().getLayout();
-          cl.last(this.getParent());
-
           names[0] = player1TF.getText();
           names[1] = player2TF.getText();
           names[2] = player3TF.getText();
