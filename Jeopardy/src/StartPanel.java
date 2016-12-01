@@ -1,14 +1,19 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class StartPanel extends JFrame{
+public class StartPanel extends JPanel implements ActionListener{
 	JLabel title, player1, player2, player3;
 	JTextField player1TF, player2TF, player3TF;
 	JButton startBtn;
+	String[] names = new String[3];
 	
 	GridBagConstraints gbc = new GridBagConstraints();
 	
 	public StartPanel(){
+		
+		
 		setLayout(new GridBagLayout());
 		
 		title = new JLabel("Jeopardy");
@@ -18,7 +23,8 @@ public class StartPanel extends JFrame{
 		player1TF = new JTextField(8);
 		player2TF = new JTextField(8);
 		player3TF = new JTextField(8);
-		startBtn = new JButton();
+		startBtn = new JButton("Start!");
+		startBtn.addActionListener(this);
 		
 		gbc.gridx = 0;
 		gbc.gridy = 0;
@@ -59,12 +65,31 @@ public class StartPanel extends JFrame{
 		gbc.gridy = 4;
 		add(startBtn, gbc);
 		
+		//if ()
+		names[0] = player1TF.getText();
+		names[1] = player2TF.getText();
+		names[2] = player3TF.getText();
+		//Jeopardy.assignNames(names);
+		
 	}
 	
+	public String[] getNames(){
+		return names;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		CardLayout cl = (CardLayout) this.getParent().getLayout();
+	    cl.last(this.getParent());
+		
+	}
+	
+	/*
 	public static void main(String[] args){
 		StartPanel gui = new StartPanel();
 		gui.setVisible(true);
 		gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		gui.setSize(400,300);
 	}
+	*/
 }
