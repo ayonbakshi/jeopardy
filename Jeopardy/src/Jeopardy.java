@@ -56,16 +56,14 @@ public class Jeopardy extends JPanel implements ActionListener {
       "data" + File.separator + "questions.csv"
     };
 
-    for (String fName : dataLocs) {
-      File dataFile = new File(fName);
-      if (dataFile.exists()) {
-        qScan = new Scanner(dataFile);
-        break;
-      }
+    String fName = chooseFile(dataLocs);
+    if (fName != null) {
+      qScan = new Scanner(new File(fName));
     }
 
     if (qScan == null) {
       JOptionPane.showMessageDialog(null, "Can't find question file.", "Error", JOptionPane.ERROR_MESSAGE);
+      throw new FileNotFoundException();
     }
 
     List<Question> questions = new ArrayList<Question>();
@@ -85,8 +83,12 @@ public class Jeopardy extends JPanel implements ActionListener {
       };
 
       // Create a Question object and add it to the list
+      String[] iconLocs = {
+        "src" + File.separator + "data" + File.separator + v + ".png",
+        "data" + File.separator + v + ".png"
+      };
       questions.add(new Question(q, a, c, v, t, false
-    		  ,resize(new ImageIcon("src" + File.separator + "data" + File.separator + v+".png"),134,106)
+                                 ,resize(new ImageIcon(chooseFile(iconLocs)),134,106)
     		  ));
 
       // If this topic has not been seen before, add it to the list
@@ -334,6 +336,17 @@ public class Jeopardy extends JPanel implements ActionListener {
     } catch (FileNotFoundException fnfe) {
       System.exit(1);
     }
+  }
+
+  public static String chooseFile(String[] locs) {
+    for (String loc : locs) {
+      File f = new File(loc);
+      if (f.exists()) {
+        return loc;
+      }
+    }
+
+    return null;
   }
 
   public static void main(String[] args) {

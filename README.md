@@ -11,7 +11,7 @@ A Jeopardy clone in Java.
 - [x] Proper read from file
 - [ ] Double Jeopardy (optional)
 - [ ] Final jeopardy (optional)
-- [ ] Main screen
+- [x] Main screen
 - [ ] Instructions
 - [ ] Document everything
   - [ ] Jeopardy.java
@@ -23,3 +23,5 @@ A Jeopardy clone in Java.
 - [ ] Big/custom fonts
 - [ ] Custom icons for popups (optional)
 - [ ] Validate file (very optional)
+- [ ] Fix ordering on Jeopardy page
+- [ ] Make buttons flush to each other/closer together

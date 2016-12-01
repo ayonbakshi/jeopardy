@@ -55,6 +55,10 @@ public class Question extends JButton {
 
     super(icon);
     setBorder(null);
+    this.setBorderPainted(false);
+    this.setContentAreaFilled(false);
+    this.setFocusPainted(false);
+    this.setOpaque(false);
 
     if (dollars < 0) {
       throw new IllegalArgumentException("A question can't have negative value.");
