@@ -45,7 +45,7 @@ public class Jeopardy extends JFrame implements ActionListener {
   public Jeopardy() throws FileNotFoundException {
     super();
 
- // Window size - as big as possible, 4:3
+    // Window size - as big as possible, 4:3
     Rectangle screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds(); // Get the biggest possible size for the window
     int width;
     int height;
@@ -58,25 +58,26 @@ public class Jeopardy extends JFrame implements ActionListener {
     }
     this.setSize(width,height);
     this.setResizable(false);
-    
+
     // Read questions
-    Scanner qScan;
-    try {
-      qScan = new Scanner(new File("src" + File.separator + "data" + File.separator + "questions.csv")); // Open the file
-    } catch (FileNotFoundException fnfe) { // Can't find question file
-      JOptionPane.showMessageDialog(null, "Can't find question file.", "Error", JOptionPane.ERROR_MESSAGE);
-      throw fnfe;
+    Scanner qScan = null;
+    // Open the file
+    String[] dataLocs = {
+      "src" + File.separator + "data" + File.separator + "questions.csv",
+      "data" + File.separator + "questions.csv"
+    };
+
+    for (String fName : dataLocs) {
+      File dataFile = new File(fName);
+      if (dataFile.exists()) {
+        qScan = new Scanner(dataFile);
+        break;
+      }
     }
 
-    /*
-     * TODO validate file
-     * - 5 questions per topic
-     * - 1 question of each value per topic
-     * - 6 answers per question
-     * - Value is an int
-     * - Correct is an int in [0, 5]
-     * - At least 6 topics
-     */
+    if (qScan == null) {
+      JOptionPane.showMessageDialog(null, "Can't find question file.", "Error", JOptionPane.ERROR_MESSAGE);
+    }
 
     List<Question> questions = new ArrayList<Question>();
     List<String> allTopics = new ArrayList<String>();
@@ -95,7 +96,6 @@ public class Jeopardy extends JFrame implements ActionListener {
       };
 
       // Create a Question object and add it to the list
-      
       questions.add(new Question(q, a, c, v, t, false
     		  ,resize(new ImageIcon("src" + File.separator + "data" + File.separator + v+".png"),134,106)
     		  ));
@@ -118,13 +118,13 @@ public class Jeopardy extends JFrame implements ActionListener {
     }
 
     // Get the questions associated with the chosen topics
-    this.buttons = new Question[6][5]; 
+    this.buttons = new Question[6][5];
     for (Question q : questions) {
       String topic = q.getTopic();
       int x = Arrays.asList(topics).indexOf(topic);
       if (x != -1) { // This question's topic is one of the ones chosen
         int y = q.getValue() / 200 - 1; // $200 -> 0, $400 -> 1, $600 -> 2, etc.
-        
+
         this.buttons[x][y] = q; // Add it to the grid
       }
     }
@@ -221,7 +221,7 @@ public class Jeopardy extends JFrame implements ActionListener {
     // Topic headers
     this.headers = new JLabel[6];
     int largestWidth = 0;
-    
+
     for (int i = 0; i < 6; i++) {
     	this.headers[i] = new JLabel("<html><div style='text-align: center;'>"+topics[i]+"</div></html>",SwingConstants.CENTER);
     	if(headers[i].getPreferredSize().getWidth()>largestWidth)
@@ -230,7 +230,7 @@ public class Jeopardy extends JFrame implements ActionListener {
     for (int i = 0; i < 6; i++) {
     	headers[i].setPreferredSize(new Dimension(largestWidth,(int)headers[i].getPreferredSize().getHeight()));
     }
-    
+
     for (int i = 0; i < 6; i++) {
       // Layout stuff
       c.gridx = i;
@@ -253,7 +253,7 @@ public class Jeopardy extends JFrame implements ActionListener {
       }
     }
     this.questionArea.add(questionGrid);
-        
+
     // Add the question area to the main window
     c = new GridBagConstraints(); // Reset constraints
     c.fill = GridBagConstraints.BOTH;
@@ -279,7 +279,7 @@ public class Jeopardy extends JFrame implements ActionListener {
 
 	    return new ImageIcon(resizedImg);
 	}
-  
+
   public void actionPerformed(ActionEvent e) {
     Question source = (Question) e.getSource();
     if(source.getDailyDouble()){

@@ -19,5 +19,7 @@ A Jeopardy clone in Java.
   - [x] Question.java
   - [x] QuestionPanel.java
   - [ ] StartPanel.java
+  - [ ] User guide
 - [ ] Big/custom fonts
 - [ ] Custom icons for popups (optional)
+- [ ] Validate file (very optional)
