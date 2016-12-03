@@ -23,5 +23,5 @@ A Jeopardy clone in Java.
 - [ ] Big/custom fonts
 - [ ] Custom icons for popups (optional)
 - [ ] Validate file (very optional)
-- [ ] Fix ordering on Jeopardy page
+- [x] Fix ordering on Jeopardy page
 - [ ] Make buttons flush to each other/closer together

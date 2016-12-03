@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -41,12 +40,11 @@ public class Jeopardy extends JPanel implements ActionListener {
   private Question[][] buttons;
   private JLabel[] playerTags;
   private JLabel[] playerDollars;
-  JPanel content = new JPanel(new GridBagLayout());
 
   public static JFrame gameFrame;
 
   public Jeopardy(String[] names) throws FileNotFoundException {
-    super();
+    super(new GridBagLayout()); // Use a GridBagLayout for the game panel
 
     // Read questions
     Scanner qScan = null;
@@ -89,7 +87,7 @@ public class Jeopardy extends JPanel implements ActionListener {
       };
       questions.add(new Question(q, a, c, v, t, false
                                  ,resize(new ImageIcon(chooseFile(iconLocs)),134,106)
-    		  ));
+                                 ));
 
       // If this topic has not been seen before, add it to the list
       if (allTopics.indexOf(t) == -1) {
@@ -209,12 +207,12 @@ public class Jeopardy extends JPanel implements ActionListener {
     int largestWidth = 0;
 
     for (int i = 0; i < 6; i++) {
-    	this.headers[i] = new JLabel("<html><div style='text-align: center;'>"+topics[i]+"</div></html>",SwingConstants.CENTER);
-    	if(headers[i].getPreferredSize().getWidth()>largestWidth)
-    		largestWidth = (int) headers[i].getPreferredSize().getWidth();
+      this.headers[i] = new JLabel("<html><div style='text-align: center;'>"+topics[i]+"</div></html>",SwingConstants.CENTER);
+      if(headers[i].getPreferredSize().getWidth()>largestWidth)
+        largestWidth = (int) headers[i].getPreferredSize().getWidth();
     }
     for (int i = 0; i < 6; i++) {
-    	headers[i].setPreferredSize(new Dimension(largestWidth,(int)headers[i].getPreferredSize().getHeight()));
+      headers[i].setPreferredSize(new Dimension(largestWidth,(int)headers[i].getPreferredSize().getHeight()));
     }
 
     for (int i = 0; i < 6; i++) {
@@ -247,47 +245,44 @@ public class Jeopardy extends JPanel implements ActionListener {
     c.gridy = 1;
     c.weightx = 0.9;
     this.add(questionArea, c);
-    }
+  }
 
   private ImageIcon resize(ImageIcon srcImg, int w, int h){
-	    BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-	    Graphics2D g2 = resizedImg.createGraphics();
+    BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+    Graphics2D g2 = resizedImg.createGraphics();
 
-	    g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-	    g2.drawImage(srcImg.getImage(), 0, 0, w, h, null);
-	    g2.dispose();
+    g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+    g2.drawImage(srcImg.getImage(), 0, 0, w, h, null);
+    g2.dispose();
 
-	    return new ImageIcon(resizedImg);
-	}
+    return new ImageIcon(resizedImg);
+  }
 
   public void actionPerformed(ActionEvent e) {
     Question source = (Question) e.getSource();
     if(source.getDailyDouble()){
-    	//Display daily double panel here
-    	//Ask for wager
-    	  int max =  players[turn].getDollars();
-    	  if(max<1000)
-    		  max = 1000;
+      //Display daily double panel here
+      //Ask for wager
+      // A player can wager up to all their money or the value of the highest question in the round, whichever is higher
+      int max =  Math.max(players[turn].getDollars(), 1000);
 
-    	  JPanel dailyDoublePanel = new JPanel(new GridBagLayout());
-    	  JLabel dailyDoubleLabel = new JLabel("Daily Double!");
-    	  dailyDoublePanel.add(dailyDoubleLabel);
-    	  questionArea.add(dailyDoublePanel);
-    	  CardLayout cl = (CardLayout) this.questionArea.getLayout();
-    	  cl.last(questionArea);
+      JPanel dailyDoublePanel = new JPanel(new GridBagLayout());
+      JLabel dailyDoubleLabel = new JLabel("Daily Double!");
+      dailyDoublePanel.add(dailyDoubleLabel);
+      questionArea.add(dailyDoublePanel);
+      CardLayout cl = (CardLayout) this.questionArea.getLayout();
+      cl.last(questionArea);
 
-    	  JPanel wager = new JPanel();
-    	  JLabel wagerMessage = new JLabel("Min: $5, Max: $"+max);
-    	  SpinnerNumberModel sModel = new SpinnerNumberModel(5, 5, max, 100);
-    	  JSpinner spinner = new JSpinner(sModel);
-    	  wager.add(wagerMessage);
-    	  wager.add(spinner);
-    	  //do{
-    	  JOptionPane.showMessageDialog(questionArea, wager, "Enter a wager", JOptionPane.QUESTION_MESSAGE);
-    	  //}while(spinner.getValue());
-    	  int value = (Integer) spinner.getValue();
-    	  source.dailyDouble(value);
-    	  questionArea.remove(dailyDoublePanel);
+      JPanel wager = new JPanel();
+      JLabel wagerMessage = new JLabel("Min: $5, Max: $"+max);
+      SpinnerNumberModel sModel = new SpinnerNumberModel(5, 5, max, 100);
+      JSpinner spinner = new JSpinner(sModel);
+      wager.add(wagerMessage);
+      wager.add(spinner);
+      JOptionPane.showMessageDialog(questionArea, wager, "Enter a wager", JOptionPane.QUESTION_MESSAGE);
+      int value = (Integer) spinner.getValue();
+      source.dailyDouble(value);
+      questionArea.remove(dailyDoublePanel);
     }
     QuestionPanel questionDisplay = new QuestionPanel(source, this);
     this.questionArea.add(questionDisplay);
@@ -299,17 +294,17 @@ public class Jeopardy extends JPanel implements ActionListener {
   }
 
   public void incrementTurn() {//increments turn and bolds the label on scoreboard
-	  //unbolds previous player
-	  Font f = playerTags[turn].getFont();
-	  this.playerTags[turn].setFont(f.deriveFont(f.getStyle() ^ Font.BOLD));
-	  this.playerDollars[turn].setFont(f.deriveFont(f.getStyle() ^ Font.BOLD));
+    //unbolds previous player
+    Font f = playerTags[turn].getFont();
+    this.playerTags[turn].setFont(f.deriveFont(f.getStyle() ^ Font.BOLD));
+    this.playerDollars[turn].setFont(f.deriveFont(f.getStyle() ^ Font.BOLD));
 
-	  //increments turn
-	  this.turn = (this.turn + 1) % 3;
-	  //bolds current player
-	  f = playerTags[turn].getFont();
-	  this.playerTags[turn].setFont(f.deriveFont(f.getStyle() | Font.BOLD));
-	  this.playerDollars[turn].setFont(f.deriveFont(f.getStyle() | Font.BOLD));
+    //increments turn
+    this.turn = (this.turn + 1) % 3;
+    //bolds current player
+    f = playerTags[turn].getFont();
+    this.playerTags[turn].setFont(f.deriveFont(f.getStyle() | Font.BOLD));
+    this.playerDollars[turn].setFont(f.deriveFont(f.getStyle() | Font.BOLD));
   }
 
   public int getTurn() {
