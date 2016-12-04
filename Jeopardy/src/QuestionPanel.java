@@ -67,6 +67,17 @@ public class QuestionPanel extends JPanel implements ActionListener {
 
     // The text of the question
     JLabel qText = new JLabel(question.getQuestion());
+    if (question.getQuestion().length() > 60){
+    	//find space char
+    	int index = 0;
+    	for (int i = 50; i< question.getQuestion().length(); i++){
+    		if (question.getQuestion().charAt(i) == ' '){
+    			index = i;
+    			break;
+    		}
+    	}
+    	qText = new JLabel("<html>" + question.getQuestion().substring(0, index) + "<br>" + question.getQuestion().substring(index) + "</html>");
+    }
 
     GridBagConstraints gbc = new GridBagConstraints();
     gbc.gridx = 0;
