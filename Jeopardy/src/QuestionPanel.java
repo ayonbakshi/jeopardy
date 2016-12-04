@@ -2,13 +2,23 @@ import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import javax.swing.BoxLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextPane;
+import javax.swing.SwingUtilities;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 
 /**
  * The panel that displays a single question and its answers.
@@ -51,7 +61,7 @@ public class QuestionPanel extends JPanel implements ActionListener {
   public QuestionPanel(Question question, Jeopardy game) {
     this.game = game;
     this.guesses = 0;
-
+    
     this.setPreferredSize(new Dimension(600, 500));
     this.setLayout(new GridBagLayout());
     this.setSize(new Dimension(600, 430));
@@ -66,43 +76,41 @@ public class QuestionPanel extends JPanel implements ActionListener {
     }
 
     // The text of the question
-    JLabel qText = new JLabel(question.getQuestion());
-    if (question.getQuestion().length() > 60){
-    	//find space char
-    	int index = 0;
-    	for (int i = 50; i< question.getQuestion().length(); i++){
-    		if (question.getQuestion().charAt(i) == ' '){
-    			index = i;
-    			break;
-    		}
-    	}
-    	qText = new JLabel("<html>" + question.getQuestion().substring(0, index) + "<br>" + question.getQuestion().substring(index) + "</html>");
-    }
+    JTextPane qText = new JTextPane();
+    
+    StyledDocument doc = qText.getStyledDocument();
+    SimpleAttributeSet center = new SimpleAttributeSet();
+    StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+    doc.setParagraphAttributes(0, doc.getLength(), center, false);
+    qText.setText(question.getQuestion());
+    qText.setPreferredSize(new Dimension(100, 50));
+    qText.setEditable(false);  
+    qText.setCursor(null);  
+    qText.setOpaque(false);  
 
+    
     GridBagConstraints gbc = new GridBagConstraints();
     gbc.gridx = 0;
     gbc.gridy = 0;
     gbc.gridwidth = 3;
     gbc.weighty = 0.7;
-    gbc.weightx = 1;
     gbc.anchor = GridBagConstraints.CENTER;
+    gbc.fill = GridBagConstraints.HORIZONTAL;
+    
     this.add(qText, gbc);
 
+   
     // The answer buttons
     JPanel answersPnl = new JPanel(new GridLayout(2, 2));
     for (int i = 0; i < 4; i++) {
-      answers[i].setPreferredSize(new Dimension(300, 60));
+      answers[i].setPreferredSize(new Dimension(400, 70));
       answersPnl.add(answers[i]);
     }
-
-    gbc = new GridBagConstraints(); // Reset the constraints object
-    gbc.anchor = GridBagConstraints.CENTER;
-    gbc.gridx = 1;
+    gbc.gridx = 0;
     gbc.gridy = 1;
     gbc.gridwidth = 3;
-    gbc.anchor = GridBagConstraints.CENTER;
-    gbc.weightx = 0;
-    gbc.weighty = 0.4;
+    gbc.fill = GridBagConstraints.BOTH;
+    gbc.weighty = 0.3;
     this.add(answersPnl, gbc);
   }
 
