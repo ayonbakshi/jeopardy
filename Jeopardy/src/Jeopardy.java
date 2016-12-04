@@ -190,6 +190,7 @@ public class Jeopardy extends JPanel implements ActionListener {
         allTopics.add(t);
       }
     }
+    qScan.close(); // Clean up after the scanner
 
     // Randomly choose 6 unique topics
     String[] topics = new String[6]; // The default value of an object in an array is null
@@ -425,8 +426,9 @@ public class Jeopardy extends JPanel implements ActionListener {
     * current player.
     */
   public void updateDollars() {
-    Player current = this.players[this.turn];
-    this.playerDollars[this.turn].setText("$" + current.getDollars());
+    for (int i = 0; i < 3; i++) {
+      this.playerDollars[i].setText("$" + this.players[i].getDollars());
+    }
   }
 
   /**

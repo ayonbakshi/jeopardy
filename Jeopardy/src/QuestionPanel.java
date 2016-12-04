@@ -140,7 +140,13 @@ public class QuestionPanel extends JPanel implements ActionListener {
     }
     else {
       // Blackout the answer chosen if answer is wrong
-      if(this.qObj.getDailyDouble()) { // Only one player gets to guess on a daily double
+      answers[index].setEnabled(false); // Disable the answer chosen
+      game.incrementTurn(); // Move on to the next player
+
+      if (this.qObj.getDailyDouble()) { // Only one player gets to guess on a daily double
+        current.addDollars(-this.qObj.getValue()); // Subtract the amount user wagered
+        game.updateDollars(); // Update the dollar amount in the sidebar
+
         // Only one guess, so show the correct answer
         JOptionPane.showMessageDialog(game,
                                       "Incorrect. The correct answer was " + this.qObj.getAnswers()[this.qObj.getCorrect()]);
@@ -148,12 +154,7 @@ public class QuestionPanel extends JPanel implements ActionListener {
         // Go back to the grid of questions
         CardLayout cl = (CardLayout)(game.questionArea.getLayout());
         cl.first(game.questionArea);
-      }
-
-      answers[index].setEnabled(false); // Disable the answer chosen
-      game.incrementTurn(); // Move on to the next player
-
-      if (guesses == 3) { // If all the players get the question wrong
+      } else if (guesses == 3) { // If all the players get the question wrong
         // All the players guessed, so show the correct answer
         JOptionPane.showMessageDialog(game,
                                       "Incorrect. The correct answer was " + this.qObj.getAnswers()[this.qObj.getCorrect()]);

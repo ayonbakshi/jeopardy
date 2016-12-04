@@ -1,0 +1,19 @@
+Jeopardy is a quiz-show style game with three contestants. The game
+board consists of a grid of questions with 6 topics and 5 questions
+per topic with values $200, $400, $600, $800, $1000. Players choose a
+question, then are presented with the answer and must select the
+correct question that goes with the answer. If the player guesses
+correctly, they are awarded the value of the question. If the player
+guesses incorrectly, the next player gets a chance to guess. If no
+player guesses correctly, they are shown the answer and nobody gets
+money. After a question has been played, it is disabled. The last
+correct answerer chooses the next question.
+
+One question in the game is a daily double. The player who selects the
+daily double can wager any amount of money up to their current balance
+or $1000, whichever is larger. Only the player who selects the daily
+double gets to guess. If the player is correct, they gain the amount
+they wagered. If they are incorrect, they lose that amount.
+
+The game ends when all the questions have been played. The player with
+the largest amount of money at the end of the game wins.
