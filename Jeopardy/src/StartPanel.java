@@ -11,11 +11,17 @@ import javax.swing.JTextField;
 /**
  * Display the Jeopardy title card and get the names of the players.
  */
-public class StartPanel extends JPanel implements ActionListener{
+public class StartPanel extends JPanel implements ActionListener {
+  /**
+   * The text fields where the users enter their names.
+   */
   JTextField[] playerFields;
-  String[] names = new String[3];
 
-  public StartPanel(){
+  /**
+   * Create a new start panel containing the title and three text
+   * fields to get the player names.
+   */
+  public StartPanel() {
     this.setLayout(new GridBagLayout());
 
     // Start button
@@ -60,19 +66,28 @@ public class StartPanel extends JPanel implements ActionListener{
     gbc.gridx = 1;
     gbc.gridy = 4;
     this.add(startBtn, gbc);
-
   }
 
+  /**
+   * @return the names entered in the text fields
+   */
   public String[] getNames() {
+    String[] names = new String[3];
+    for (int i = 0; i < 3; i++) {
+      names[i] = this.playerFields[i].getText();
+    }
     return this.names;
   }
 
+  /**
+   * Handle actions on the start button. Starts the main Jeopardy game
+   * by invoking {@link Jeopardy#run};
+   *
+   * @param e the event which triggered the action. This handler
+   * should only be used on the start button, so the source doesn't matter.
+   */
   @Override
   public void actionPerformed(ActionEvent e) {
-    for (int i = 0; i < 3; i++) {
-      this.names[i] = this.playerFields[i].getText();
-    }
-
     Jeopardy.run(this); // Start the game
   }
 }
