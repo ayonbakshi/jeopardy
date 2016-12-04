@@ -16,7 +16,7 @@ A Jeopardy clone in Java.
 - [ ] Document everything
   - [x] GameUtils.java
   - [ ] Instructions.java
-  - [ ] Jeopardy.java
+  - [x] Jeopardy.java
   - [x] Player.java
   - [x] Question.java
   - [x] QuestionPanel.java
