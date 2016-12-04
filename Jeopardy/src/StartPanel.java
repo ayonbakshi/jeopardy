@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -24,9 +25,25 @@ public class StartPanel extends JPanel implements ActionListener {
   public StartPanel() {
     this.setLayout(new GridBagLayout());
 
-    // Start button
+    // Start/help buttons
+    JPanel btnPanel = new JPanel();
+    JButton helpBtn = new JButton("Instructions");
+
+    // Try to set up the instructions. It isn't a fatal error if the
+    // instructions file can't be found, so inform the user, disable
+    // the instructions button, and move on.
+    try {
+      helpBtn.addActionListener(new Instructions());
+    } catch (FileNotFoundException fnfe) {
+      JOptionPane.showMessageDialog(this, "Can't find instructions file.", "Error", JOptionPane.ERROR_MESSAGE);
+      helpBtn.setEnabled(false);
+    }
+
     JButton startBtn = new JButton("Start!");
     startBtn.addActionListener(this);
+
+    btnPanel.add(helpBtn);
+    btnPanel.add(startBtn);
 
     // Title
     JLabel title = new JLabel("Jeopardy");
@@ -66,7 +83,7 @@ public class StartPanel extends JPanel implements ActionListener {
 
     gbc.gridx = 1;
     gbc.gridy = 4;
-    this.add(startBtn, gbc);
+    this.add(btnPanel, gbc);
   }
 
   /**
