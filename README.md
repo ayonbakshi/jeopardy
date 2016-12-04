@@ -15,13 +15,14 @@ A Jeopardy clone in Java.
 - [ ] Instructions
 - [ ] Document everything
   - [x] GameUtils.java
+  - [ ] Instructions.java
   - [ ] Jeopardy.java
   - [x] Player.java
   - [x] Question.java
   - [x] QuestionPanel.java
   - [x] StartPanel.java
   - [ ] User guide
-- [ ] Big/custom fonts
+- [x] Big/custom fonts
 - [ ] Custom icons for popups (optional)
 - [ ] Validate file (very optional)
 - [x] Fix ordering on Jeopardy page

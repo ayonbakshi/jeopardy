@@ -67,6 +67,7 @@ public class QuestionPanel extends JPanel implements ActionListener {
 
     // The text of the question
     JLabel qText = new JLabel(question.getQuestion());
+
     GridBagConstraints gbc = new GridBagConstraints();
     gbc.gridx = 0;
     gbc.gridy = 0;
@@ -84,6 +85,7 @@ public class QuestionPanel extends JPanel implements ActionListener {
     }
 
     gbc = new GridBagConstraints(); // Reset the constraints object
+    gbc.anchor = GridBagConstraints.CENTER;
     gbc.gridx = 0;
     gbc.gridy = 1;
     this.add(answersPnl, gbc);

@@ -124,6 +124,7 @@ public class Jeopardy extends JPanel implements ActionListener {
     GridBagConstraints c;
     // Title
     JLabel title = new JLabel("Jeopardy!");
+    title.setFont(GameUtils.TITLE_FONT);
     c = new GridBagConstraints();
     c.gridx = 0;
     c.gridy = 0;
@@ -136,6 +137,7 @@ public class Jeopardy extends JPanel implements ActionListener {
 
     // Scoreboard title
     JLabel titleSB = new JLabel("Scoreboard");
+    titleSB.setFont(GameUtils.TITLE_FONT);
     c = new GridBagConstraints();
     c.gridx = 0;
     c.gridy = 0;
@@ -175,7 +177,7 @@ public class Jeopardy extends JPanel implements ActionListener {
 
     Font f = playerTags[0].getFont();
     this.playerTags[0].setFont(f.deriveFont(f.getStyle() | Font.BOLD));
-    this.playerDollars[0].setFont(f.deriveFont(f.getStyle() ^ Font.BOLD));
+    this.playerDollars[0].setFont(f.deriveFont(f.getStyle() | Font.BOLD));
 
     // Fill game board
     this.questionArea = new JPanel(new CardLayout());
@@ -195,7 +197,8 @@ public class Jeopardy extends JPanel implements ActionListener {
 
     for (int i = 0; i < 6; i++) {
       this.headers[i] = new JLabel("<html><div style='text-align: center;'>"+topics[i]+"</div></html>",SwingConstants.CENTER);
-      if(headers[i].getPreferredSize().getWidth()>largestWidth)
+      this.headers[i].setFont(GameUtils.TITLE_FONT);
+      if (headers[i].getPreferredSize().getWidth() > largestWidth)
         largestWidth = (int) headers[i].getPreferredSize().getWidth();
     }
     for (int i = 0; i < 6; i++) {
@@ -244,6 +247,7 @@ public class Jeopardy extends JPanel implements ActionListener {
 
       JPanel dailyDoublePanel = new JPanel(new GridBagLayout());
       JLabel dailyDoubleLabel = new JLabel("Daily Double!");
+      dailyDoubleLabel.setFont(GameUtils.TITLE_FONT);
       dailyDoublePanel.add(dailyDoubleLabel);
       questionArea.add(dailyDoublePanel);
       CardLayout cl = (CardLayout) this.questionArea.getLayout();
@@ -310,6 +314,12 @@ public class Jeopardy extends JPanel implements ActionListener {
   }
 
   public static void main(String[] args) {
+    // Set fonts
+    UIManager.put("OptionPane.font", GameUtils.GAME_FONT);
+    UIManager.put("Label.font", GameUtils.GAME_FONT);
+    UIManager.put("Button.font", GameUtils.GAME_FONT);
+    UIManager.put("TextField.font", GameUtils.GAME_FONT);
+
     StartPanel sp = new StartPanel();
 
     Jeopardy.gameFrame = new JFrame();

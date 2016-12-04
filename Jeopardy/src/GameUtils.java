@@ -1,3 +1,4 @@
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
@@ -13,6 +14,16 @@ public class GameUtils {
    * instantiated, so this method is private.
    */
   private GameUtils() {}
+
+  /**
+   * The default font for game text should be 16pt plain sans
+   */
+  public static final Font GAME_FONT = new Font("SansSerif", Font.PLAIN, 16);
+
+  /**
+   * The default font for game titles should be 20pt bold sans
+   */
+  public static final Font TITLE_FONT = new Font("SansSerif", Font.BOLD, 20);
 
   /**
    * Change the size of an icon.
