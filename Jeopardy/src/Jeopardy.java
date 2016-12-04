@@ -40,6 +40,7 @@ public class Jeopardy extends JPanel implements ActionListener {
   private Question[][] buttons;
   private JLabel[] playerTags;
   private JLabel[] playerDollars;
+  private static int width, height;
 
   public static JFrame gameFrame;
 
@@ -86,7 +87,7 @@ public class Jeopardy extends JPanel implements ActionListener {
         "data" + File.separator + v + ".png"
       };
       questions.add(new Question(q, a, c, v, t, false
-                                 ,resize(new ImageIcon(chooseFile(iconLocs)),134,106)
+                                 ,resize(new ImageIcon(chooseFile(iconLocs)),(int)(width/7.8432835820895522388059701492537),(int)(height/7.4056603773584905660377358490566))
                                  ));
 
       // If this topic has not been seen before, add it to the list
@@ -232,7 +233,7 @@ public class Jeopardy extends JPanel implements ActionListener {
         // Layout
         c.gridx = x;
         c.gridy = y + 1;
-        c.insets = new Insets(3, 3, 3, 3);
+        c.insets = new Insets(0, 0, 0, 0);
         questionGrid.add(buttons[x][y], c);
       }
     }
@@ -245,6 +246,9 @@ public class Jeopardy extends JPanel implements ActionListener {
     c.gridy = 1;
     c.weightx = 0.9;
     this.add(questionArea, c);
+    
+    System.out.println(buttons[0][0].getPreferredSize().getWidth() + " " + this.getPreferredSize().getWidth());
+    System.out.println(buttons[0][0].getPreferredSize().getHeight() + " " + this.getPreferredSize().getHeight());
   }
 
   private ImageIcon resize(ImageIcon srcImg, int w, int h){
@@ -351,8 +355,6 @@ public class Jeopardy extends JPanel implements ActionListener {
     Jeopardy.gameFrame.setTitle("Jeopardy!");
     // Window size - as big as possible, 4:3
     Rectangle screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds(); // Get the biggest possible size for the window
-    int width;
-    int height;
     if (screen.getWidth() < screen.getHeight()) {
       width = (int) screen.getWidth();
       height = width / 4 * 3;
