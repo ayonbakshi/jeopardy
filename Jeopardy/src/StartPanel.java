@@ -76,7 +76,7 @@ public class StartPanel extends JPanel implements ActionListener {
     for (int i = 0; i < 3; i++) {
       names[i] = this.playerFields[i].getText();
     }
-    return this.names;
+    return names;
   }
 
   /**

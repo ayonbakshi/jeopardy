@@ -81,13 +81,13 @@ public class GameUtils {
   public static String chooseFile(String[] prefixes, String name) {
     for (String loc : prefixes) { // Go through each possible location of the file
       // If the location doesn't end with the folder separator, add it
-      if (loc.charAt(loc.length()) != File.separator) {
+      if (loc.charAt(loc.length()-1) != File.separator.charAt(0)) {
         loc += File.separator;
       }
 
       File f = new File(loc + name); // Create a file from the location
       if (f.exists()) { // If the file exists, we're done
-        return loc;
+        return loc + name;
       }
     }
 
