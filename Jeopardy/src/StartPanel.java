@@ -1,87 +1,111 @@
-import java.awt.*;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
-public class StartPanel extends JPanel implements ActionListener{
-	JLabel title, player1, player2, player3;
-	JTextField player1TF, player2TF, player3TF;
-	JButton startBtn;
-	String[] names = new String[3];
+/**
+ * Display the Jeopardy title card and get the names of the players.
+ */
+public class StartPanel extends JPanel implements ActionListener {
+  /**
+   * The text fields where the users enter their names.
+   */
+  JTextField[] playerFields;
 
-	GridBagConstraints gbc = new GridBagConstraints();
+  /**
+   * Create a new start panel containing the title and three text
+   * fields to get the player names.
+   */
+  public StartPanel() {
+    this.setLayout(new GridBagLayout());
 
-	public StartPanel(){
+    // Start/help buttons
+    JPanel btnPanel = new JPanel();
+    JButton helpBtn = new JButton("Instructions");
 
+    // Try to set up the instructions. It isn't a fatal error if the
+    // instructions file can't be found, so inform the user, disable
+    // the instructions button, and move on.
+    try {
+      helpBtn.addActionListener(new Instructions());
+    } catch (FileNotFoundException fnfe) {
+      JOptionPane.showMessageDialog(this, "Can't find instructions file.", "Error", JOptionPane.ERROR_MESSAGE);
+      helpBtn.setEnabled(false);
+    }
 
-		setLayout(new GridBagLayout());
+    JButton startBtn = new JButton("Start!");
+    startBtn.addActionListener(this);
 
-		title = new JLabel("Jeopardy");
-		player1 = new JLabel("Player 1:");
-		player2 = new JLabel("Player 2:");
-		player3 = new JLabel("Player 3:");
-		player1TF = new JTextField(8);
-		player2TF = new JTextField(8);
-		player3TF = new JTextField(8);
-		startBtn = new JButton("Start!");
-		startBtn.addActionListener(this);
+    btnPanel.add(helpBtn);
+    btnPanel.add(startBtn);
 
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		gbc.gridwidth = 3;
-		gbc.fill = GridBagConstraints.BOTH;
-		gbc.weighty = 1;
-		add(title, gbc);
+    // Title
+    JLabel title = new JLabel("Jeopardy");
+    title.setFont(GameUtils.TITLE_FONT);
+    GridBagConstraints gbc = new GridBagConstraints();
+    gbc.gridx = 0;
+    gbc.gridy = 0;
+    gbc.gridwidth = 3;
+    gbc.fill = GridBagConstraints.BOTH;
+    gbc.weighty = 1;
+    this.add(title, gbc);
 
-		gbc.gridx = 0;
-		gbc.gridy = 2;
-		gbc.gridwidth = 1;
-		gbc.fill = GridBagConstraints.NONE;
-		gbc.weighty = 0.05;
-		add(player1, gbc);
+    // Player name labels
+    JLabel[] playerLabels = new JLabel[3];
+    for (int i = 0; i < 3; i++) {
+      playerLabels[i] = new JLabel("Player " + (i+1) + ":");
+    }
 
-		gbc.gridx = 1;
-		gbc.gridy = 2;
-		add(player2, gbc);
+    // Player name text fields
+    this.playerFields = new JTextField[3];
+    for (int i = 0; i < 3; i++) {
+      this.playerFields[i] = new JTextField(8);
+    }
 
-		gbc.gridx = 2;
-		gbc.gridy = 2;
-		add(player3, gbc);
+    // GUI positioning
+    gbc = new GridBagConstraints(); // Reset the constraints
+    gbc.gridwidth = 1;
+    gbc.fill = GridBagConstraints.NONE;
+    gbc.weighty = 0.05;
+    for (int i = 0; i < 3; i++) {
+      gbc.gridx = i;
+      gbc.gridy = 2;
+      this.add(playerLabels[i], gbc);
+      gbc.gridy = 3;
+      this.add(this.playerFields[i], gbc);
+    }
 
-		gbc.gridx = 0;
-		gbc.gridy = 3;
-		// gbc.weighty = 0.5;
-		add(player1TF, gbc);
+    gbc.gridx = 1;
+    gbc.gridy = 4;
+    this.add(btnPanel, gbc);
+  }
 
-		gbc.gridx = 1;
-		gbc.gridy = 3;
-		add(player2TF, gbc);
+  /**
+   * @return the names entered in the text fields
+   */
+  public String[] getNames() {
+    String[] names = new String[3];
+    for (int i = 0; i < 3; i++) {
+      names[i] = this.playerFields[i].getText();
+    }
+    return names;
+  }
 
-		gbc.gridx = 2;
-		gbc.gridy = 3;
-		add(player3TF, gbc);
-
-		gbc.gridx = 1;
-		gbc.gridy = 4;
-		add(startBtn, gbc);
-
-		//if ()
-
-		//Jeopardy.assignNames(names);
-
-	}
-
-	public String[] getNames() {
-          return names;
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-          names[0] = player1TF.getText();
-          names[1] = player2TF.getText();
-          names[2] = player3TF.getText();
-
-          Jeopardy.run(this); // Start the game
-	}
+  /**
+   * Handle actions on the start button. Starts the main Jeopardy game
+   * by invoking {@link Jeopardy#run};
+   *
+   * @param e the event which triggered the action. This handler
+   * should only be used on the start button, so the source doesn't matter.
+   */
+  @Override
+  public void actionPerformed(ActionEvent e) {
+    Jeopardy.run(this); // Start the game
+  }
 }

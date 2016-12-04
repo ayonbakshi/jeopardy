@@ -12,15 +12,17 @@ A Jeopardy clone in Java.
 - [ ] Double Jeopardy (optional)
 - [ ] Final jeopardy (optional)
 - [x] Main screen
-- [ ] Instructions
+- [x] Instructions
 - [ ] Document everything
-  - [ ] Jeopardy.java
+  - [x] GameUtils.java
+  - [x] Instructions.java
+  - [x] Jeopardy.java
   - [x] Player.java
   - [x] Question.java
   - [x] QuestionPanel.java
-  - [ ] StartPanel.java
+  - [x] StartPanel.java
   - [ ] User guide
-- [ ] Big/custom fonts
+- [x] Big/custom fonts
 - [ ] Custom icons for popups (optional)
 - [ ] Validate file (very optional)
 - [x] Fix ordering on Jeopardy page
