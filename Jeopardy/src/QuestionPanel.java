@@ -1,4 +1,5 @@
 import java.awt.CardLayout;
+import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -16,8 +17,10 @@ import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
 /**
@@ -68,25 +71,21 @@ public class QuestionPanel extends JPanel implements ActionListener {
 
     this.qObj = question;
 
-    // The answer buttons
-    this.answers = new JButton[4];
-    for (int i = 0; i < 4; i++) {
-      answers[i] = new JButton(question.getAnswers()[i]);
-      answers[i].addActionListener(this);
-    }
 
     // The text of the question
+    
     JTextPane qText = new JTextPane();
+    qText.setText(qObj.getQuestion());   
+    
+    //centre the question
     
     StyledDocument doc = qText.getStyledDocument();
     SimpleAttributeSet center = new SimpleAttributeSet();
     StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
     doc.setParagraphAttributes(0, doc.getLength(), center, false);
-    qText.setText(question.getQuestion());
-    qText.setPreferredSize(new Dimension(100, 50));
+    
     qText.setEditable(false);  
-    qText.setCursor(null);  
-    qText.setOpaque(false);  
+    qText.setOpaque(false);
 
     
     GridBagConstraints gbc = new GridBagConstraints();
@@ -99,7 +98,14 @@ public class QuestionPanel extends JPanel implements ActionListener {
     
     this.add(qText, gbc);
 
-   
+    
+ // The answer buttons
+    this.answers = new JButton[4];
+    for (int i = 0; i < 4; i++) {
+      answers[i] = new JButton(question.getAnswers()[i]);
+      answers[i].addActionListener(this);
+    }
+  
     // The answer buttons
     JPanel answersPnl = new JPanel(new GridLayout(2, 2));
     for (int i = 0; i < 4; i++) {
