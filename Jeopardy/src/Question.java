@@ -44,17 +44,21 @@ public class Question extends JButton {
    * @param answers the answers of the question
    * @param correct the index in the array of answers of the correct
    * answer
-   * @param dollars the value awarded to the player for correctly answering the question
+   * @param dollars the value awarded to the player for correctly
+   * answering the question
    * @param topic the topic of the question
    * @param isDailyDouble if the question is a daily double
+   * @param icon the icon to use on the question button. Icons are
+   * resized so that all Questions have the same dimensions.
    *
    * @throws IllegalArgumentException if the dollar value is negative,
    * the correct answer isn't in [0, 3], or there aren't 4 answers
    */
   public Question(String question, String[] answers, int correct, int dollars, String topic, boolean isDailyDouble, ImageIcon icon) {
+    super(GameUtils.resize(icon, 134, 106));
 
-    super(icon);
-    setBorder(null);
+    // Remove the background
+    this.setBorder(null);
     this.setBorderPainted(false);
     this.setContentAreaFilled(false);
     this.setFocusPainted(false);
@@ -121,6 +125,7 @@ public class Question extends JButton {
   /**
    * Check if a guess is correct
    *
+   * @param guess the option the user selected
    * @return true if the guess was correct, false otherwise
    */
   public boolean checkGuess(int guess) {

@@ -49,17 +49,10 @@ public class Jeopardy extends JPanel implements ActionListener {
     // Read questions
     Scanner qScan = null;
     // Open the file
-    String[] dataLocs = {
-      "src" + File.separator + "data" + File.separator + "questions.csv",
-      "data" + File.separator + "questions.csv"
-    };
-
-    String fName = chooseFile(dataLocs);
+    String fName = GameUtils.findFile("questions.csv");
     if (fName != null) {
       qScan = new Scanner(new File(fName));
-    }
-
-    if (qScan == null) {
+    } else { // The file wasn't found
       JOptionPane.showMessageDialog(null, "Can't find question file.", "Error", JOptionPane.ERROR_MESSAGE);
       throw new FileNotFoundException();
     }
@@ -81,13 +74,7 @@ public class Jeopardy extends JPanel implements ActionListener {
       };
 
       // Create a Question object and add it to the list
-      String[] iconLocs = {
-        "src" + File.separator + "data" + File.separator + v + ".png",
-        "data" + File.separator + v + ".png"
-      };
-      questions.add(new Question(q, a, c, v, t, false
-                                 ,resize(new ImageIcon(chooseFile(iconLocs)),134,106)
-                                 ));
+      questions.add(new Question(q, a, c, v, t, false, new ImageIcon(GameUtils.findImage(v + ".png"))));
 
       // If this topic has not been seen before, add it to the list
       if (allTopics.indexOf(t) == -1) {
@@ -247,17 +234,6 @@ public class Jeopardy extends JPanel implements ActionListener {
     this.add(questionArea, c);
   }
 
-  private ImageIcon resize(ImageIcon srcImg, int w, int h){
-    BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-    Graphics2D g2 = resizedImg.createGraphics();
-
-    g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-    g2.drawImage(srcImg.getImage(), 0, 0, w, h, null);
-    g2.dispose();
-
-    return new ImageIcon(resizedImg);
-  }
-
   public void actionPerformed(ActionEvent e) {
     Question source = (Question) e.getSource();
     if(source.getDailyDouble()){
@@ -331,17 +307,6 @@ public class Jeopardy extends JPanel implements ActionListener {
     } catch (FileNotFoundException fnfe) {
       System.exit(1);
     }
-  }
-
-  public static String chooseFile(String[] locs) {
-    for (String loc : locs) {
-      File f = new File(loc);
-      if (f.exists()) {
-        return loc;
-      }
-    }
-
-    return null;
   }
 
   public static void main(String[] args) {
