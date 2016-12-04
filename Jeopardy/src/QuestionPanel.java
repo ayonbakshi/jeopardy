@@ -72,7 +72,7 @@ public class QuestionPanel extends JPanel implements ActionListener {
     gbc.gridx = 0;
     gbc.gridy = 0;
     gbc.gridwidth = 3;
-    gbc.weighty = 0.5;
+    gbc.weighty = 0.7;
     gbc.weightx = 1;
     gbc.anchor = GridBagConstraints.CENTER;
     this.add(qText, gbc);
@@ -86,8 +86,12 @@ public class QuestionPanel extends JPanel implements ActionListener {
 
     gbc = new GridBagConstraints(); // Reset the constraints object
     gbc.anchor = GridBagConstraints.CENTER;
-    gbc.gridx = 0;
+    gbc.gridx = 1;
     gbc.gridy = 1;
+    gbc.gridwidth = 3;
+    gbc.anchor = GridBagConstraints.CENTER;
+    gbc.weightx = 0;
+    gbc.weighty = 0.4;
     this.add(answersPnl, gbc);
   }
 
