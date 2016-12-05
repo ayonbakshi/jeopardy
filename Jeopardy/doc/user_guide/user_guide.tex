@@ -1,0 +1,97 @@
+\documentclass{article}
+
+\begin{document}
+
+\begin{center}
+  \huge{User Guide}
+\end{center}
+
+\section{Getting Started}
+\label{sec:getting-started}
+
+Welcome to the magnificent game of Jeopardy! To start a new game,
+please enter the names of all three players and press start. If you
+are unsure of how to play, please refer to the instructions, which can
+be accessed from the starting game panel.
+
+\section{Brief Instructions}
+\label{sec:brief-instructions}
+
+Once in the game board screen, Player 1 will pick a question. The
+player will attempt to answer the question. If they are wrong, it is
+the next player’s (1 $\rightarrow$ 2, 2 $\rightarrow$ 3, 3
+$\rightarrow$ 1) turn to answer the question. If all three players get
+it wrong, the correct answer will be revealed and the question will no
+longer be available for picking. The correct answerer will be awarded
+with an amount of money (indicated on the question button) and will be
+able to select the next question. There is a special double jeopardy
+question that is assigned by random. If a player selects this
+question, they will get a chance to wager an amount (from \$5 to
+either their current score or \$1000, whichever is higher) and answer
+the question. They are the only player that can answer (players don’t
+take turns answering if the previous player was wrong). If they are
+correct, they win the amount of money they wagered, and they lose if
+they are wrong. When all the questions are answered, the player with
+the highest score wins, and the game is over.
+
+\section{Features}
+\label{sec:features}
+
+\begin{itemize}
+\item Instructions on starting panel for those who don't know who to play
+\item Custom button graphics specific to \texttt{Question} objects
+\item Dynamic frame/component resizing: finds the size of the screen
+  and makes the frame a large as possible while maintaining a 4:3
+  aspect ratio
+\item Daily doubles randomly on one question
+\item Questions that are buttons: the class holds question data but
+  acts like a button in the GUI
+\item Several classes that extend \texttt{JPanel}
+  \begin{itemize}
+  \item Create better organization
+  \item Have some code that is unique to each object
+  \end{itemize}
+\item \texttt{GameUtils} class
+  \begin{itemize}
+  \item Utilities used in other classes
+  \item Reduces code duplication
+  \end{itemize}
+\item Reads questions from a file
+  \begin{itemize}
+  \item File in an easy-to-extend CSV format
+  \item Uses a \texttt{Scanner}, used to create \texttt{Question}
+    objects
+  \end{itemize}
+\item Flexible file locations
+  \begin{itemize}
+  \item All files that the code can read are in one folder
+  \item The code that finds searches more than one place and can be
+    easily extended to search more
+  \end{itemize}
+\item Dialogues
+  \begin{itemize}
+  \item Used when there is an error retrieving a file
+  \item Used for the instructions
+  \item Used for daily double wager
+  \end{itemize}
+\end{itemize}
+
+\section{Limitations}
+\label{sec:limitations}
+
+\begin{itemize}
+\item Limited number of topics - any given topic will likely come up
+  two games in a row
+\item Only one round, TV Jeopardy! games have 3
+\item The code that parses the question file will break if it has errors
+\end{itemize}
+
+\section{Bugs}
+\label{sec:bugs}
+
+\begin{itemize}
+\item Buttons for answers sometimes change sizes when the player
+  answers a question incorrectly
+\end{itemize}
+
+\end{document}
