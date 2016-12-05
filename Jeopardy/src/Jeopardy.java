@@ -193,8 +193,11 @@ public class Jeopardy extends JPanel implements ActionListener {
                                  ,resize(new ImageIcon(chooseFile(iconLocs)),(int)(width/7.8432835820895522388059701492537),(int)(height/7.4056603773584905660377358490566))
                                  ));
 =======
+
+
       questions.add(new Question(q, a, c, v, t, false, new ImageIcon(GameUtils.findImage(v + ".png"))));
 >>>>>>> 0906a177269aaa7f04371eeb29ec34bdc509d446
+
 
       // If this topic has not been seen before, add it to the list
       if (allTopics.indexOf(t) == -1) {
@@ -338,25 +341,19 @@ public class Jeopardy extends JPanel implements ActionListener {
       for (int y = 0; y < 5; y++) {
         this.buttons[x][y].addActionListener(this);
 
-<<<<<<< HEAD
-        // Layout
-        c.gridx = x;
-        c.gridy = y + 1;
-        c.insets = new Insets(0, 0, 0, 0);
-        questionGrid.add(buttons[x][y], c);
-=======
+
         gbc.gridx = x;
         gbc.gridy = y + 1;
         gbc.insets = new Insets(3, 3, 3, 3);
         questionGrid.add(buttons[x][y], gbc);
->>>>>>> 0906a177269aaa7f04371eeb29ec34bdc509d446
+
       }
     }
     this.questionArea.add(questionGrid);
 
     // Add the question area to the main window
-<<<<<<< HEAD
-    c = new GridBagConstraints(); // Reset constraints
+
+    GridBagConstraints c = new GridBagConstraints(); // Reset constraints
     c.fill = GridBagConstraints.BOTH;
     c.gridx = 2;
     c.gridy = 1;
@@ -376,14 +373,7 @@ public class Jeopardy extends JPanel implements ActionListener {
     g2.dispose();
 
     return new ImageIcon(resizedImg);
-=======
-    gbc = new GridBagConstraints(); // Reset constraints
-    gbc.fill = GridBagConstraints.BOTH;
-    gbc.gridx = 2;
-    gbc.gridy = 1;
-    gbc.weightx = 0.9;
-    this.add(questionArea, gbc);
->>>>>>> 0906a177269aaa7f04371eeb29ec34bdc509d446
+
   }
 
   /**
@@ -507,13 +497,9 @@ public class Jeopardy extends JPanel implements ActionListener {
 
     // Window size - as big as possible, 4:3
     Rectangle screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds(); // Get the biggest possible size for the window
-<<<<<<< HEAD
+
     if (screen.getWidth() < screen.getHeight()) {
-=======
-    int width;
-    int height;
-    if (screen.getWidth() < screen.getHeight()) { // Protrait orientation
->>>>>>> 0906a177269aaa7f04371eeb29ec34bdc509d446
+
       width = (int) screen.getWidth();
       height = width / 4 * 3;
     } else { // Labscape orientation
