@@ -56,17 +56,15 @@ public class Question extends JButton implements MouseListener{
    * answering the question
    * @param topic the topic of the question
    * @param isDailyDouble if the question is a daily double
-   * @param icon the icon to use on the question button. Icons are
-   * resized so that all Questions have the same dimensions.
    *
    * @throws IllegalArgumentException if the dollar value is negative,
    * the correct answer isn't in [0, 3], or there aren't 4 answers
    */
   public Question(String question, String[] answers, int correct, int dollars, String topic, boolean isDailyDouble) {
-	btnWidth = (int)(Jeopardy.width/7.8432835820895522388059701492537);
-	btnHeight = (int)(Jeopardy.height/7.4056603773584905660377358490566);
-	defaultIcon = GameUtils.resize(new ImageIcon(GameUtils.findImage(dollars + ".png")),btnWidth,btnHeight);
-	setIcon(defaultIcon);
+    btnWidth = (int)(Jeopardy.width/7.8432835820895522388059701492537);
+    btnHeight = (int)(Jeopardy.height/7.4056603773584905660377358490566);
+    defaultIcon = GameUtils.resize(new ImageIcon(GameUtils.findImage(dollars + ".png")), btnWidth, btnHeight);
+    setIcon(defaultIcon);
 
     // Remove the background
 	this.setBorder(BorderFactory.createEmptyBorder());
