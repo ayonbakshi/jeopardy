@@ -3,17 +3,18 @@ import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import javax.swing.BoxLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JTextArea;
-import javax.swing.JTextPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextPane;
+import javax.swing.JTextPane;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -71,14 +72,22 @@ public class QuestionPanel extends JPanel implements ActionListener {
 
     this.qObj = question;
 
+    // The topic and value of the question
+    JLabel qInfo = new JLabel(qObj.getTopic() + " - $" + qObj.getValue());
+    qInfo.setFont(GameUtils.TITLE_FONT);
+
+    GridBagConstraints gbc = new GridBagConstraints();
+    gbc.gridx = 0;
+    gbc.gridy = 0;
+    gbc.gridwidth = 1;
+    this.add(qInfo, gbc);
 
     // The text of the question
-
     JTextPane qText = new JTextPane();
     qText.setText(qObj.getQuestion());
+    qText.setFont(GameUtils.GAME_FONT);
 
-    //centre the question
-
+    // Centre the question
     StyledDocument doc = qText.getStyledDocument();
     SimpleAttributeSet center = new SimpleAttributeSet();
     StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
@@ -87,10 +96,9 @@ public class QuestionPanel extends JPanel implements ActionListener {
     qText.setEditable(false);
     qText.setOpaque(false);
 
-
-    GridBagConstraints gbc = new GridBagConstraints();
+    gbc = new GridBagConstraints(); // Reset the constraints
     gbc.gridx = 0;
-    gbc.gridy = 0;
+    gbc.gridy = 1;
     gbc.gridwidth = 3;
     gbc.weighty = 0.7;
     gbc.anchor = GridBagConstraints.CENTER;
@@ -99,7 +107,7 @@ public class QuestionPanel extends JPanel implements ActionListener {
     this.add(qText, gbc);
 
 
- // The answer buttons
+    // The answer buttons
     this.answers = new JButton[4];
     for (int i = 0; i < 4; i++) {
       answers[i] = new JButton(question.getAnswers()[i]);
@@ -113,7 +121,7 @@ public class QuestionPanel extends JPanel implements ActionListener {
       answersPnl.add(answers[i]);
     }
     gbc.gridx = 0;
-    gbc.gridy = 1;
+    gbc.gridy = 2;
     gbc.gridwidth = 3;
     gbc.fill = GridBagConstraints.BOTH;
     gbc.weighty = 0.3;

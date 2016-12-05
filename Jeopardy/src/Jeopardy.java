@@ -92,7 +92,7 @@ public class Jeopardy extends JPanel implements ActionListener {
    * The player who's turn it currently is
    */
   private int turn;
-  
+
   /**
    * How many questions have already been chosen
    * When 30/30 questions have been chosen, game ends
@@ -230,8 +230,7 @@ public class Jeopardy extends JPanel implements ActionListener {
     // Set up GUI
     GridBagConstraints gbc;
     // Title
-    JLabel title = new JLabel("Jeopardy!");
-    title.setFont(GameUtils.TITLE_FONT);
+    JLabel title = new JLabel(new ImageIcon(GameUtils.findImage("title.png")));
 
     gbc = new GridBagConstraints();
     gbc.gridx = 0;
@@ -339,18 +338,18 @@ public class Jeopardy extends JPanel implements ActionListener {
         gbc.gridx = x;
         gbc.gridy = y + 1;
         gbc.insets = new Insets(0, 0, 0, 0);
-        
+
         //code for testing purposes
         //this.buttons[x][y].setEnabled(false);
-        
+
         questionGrid.add(buttons[x][y], gbc);
       }
     }
-    
+
     //code for testing purposes
     //this.buttons[0][0].setEnabled(true);
     //questionsAsked = 29;
-    
+
     this.questionArea.add(questionGrid);
 
     // Add the question area to the main window
@@ -360,8 +359,8 @@ public class Jeopardy extends JPanel implements ActionListener {
     gbc.gridy = 1;
     gbc.weightx = 0.9;
     this.add(questionArea, gbc);
-    
-   
+
+
   }
 
   /**
@@ -410,16 +409,16 @@ public class Jeopardy extends JPanel implements ActionListener {
     // Display the question
     QuestionPanel questionDisplay = new QuestionPanel(source, this);
     this.questionArea.add(questionDisplay);
-    
+
     CardLayout cl = (CardLayout) this.questionArea.getLayout();
     cl.last(questionArea);
-    
+
   }
-  
+
   public int getQuestionsAsked(){//returns how may questions have been asked
 	  return questionsAsked;
   }
-  
+
   public void incrementQuestionsAsked(){//add selected question to tally of questions completed
 	  questionsAsked++;
   }
