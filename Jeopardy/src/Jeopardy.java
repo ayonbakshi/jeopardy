@@ -109,8 +109,8 @@ public class Jeopardy extends JPanel implements ActionListener {
   private int turn;
 
   /**
-   * How many questions have already been chosen
-   * When 30/30 questions have been chosen, game ends
+   * How many questions have already been chosen. When 30/30 questions
+   * have been chosen, game ends
    */
   private int questionsAsked = 0;
 
@@ -359,20 +359,6 @@ public class Jeopardy extends JPanel implements ActionListener {
       }
     }
 
-    //code for testing purposes
-
-    /*
-    this.buttons[0][0].setEnabled(true);
-    this.buttons[0][1].setEnabled(true);
-    this.buttons[0][2].setEnabled(true);
-    questionsAsked = 27;
-    */
-    
-
-    //this.buttons[0][0].setEnabled(true);
-    //questionsAsked = 29;
-
-
     this.questionArea.add(questionGrid);
 
     // Add the question area to the main window
@@ -382,8 +368,6 @@ public class Jeopardy extends JPanel implements ActionListener {
     gbc.gridy = 1;
     gbc.weightx = 0.85;
     this.add(questionArea, gbc);
-
-
   }
 
   /**
@@ -397,6 +381,7 @@ public class Jeopardy extends JPanel implements ActionListener {
   public void actionPerformed(ActionEvent e) {
     Question source = (Question) e.getSource(); // Get the button that triggered the handler
     source.setEnabled(false); // Disable the button
+    this.incrementQuestionsAsked();//increments amount of questions asked
 
     if(source.getDailyDouble()) {
       // Display daily double panel. The panel asks for the amount the
@@ -438,12 +423,20 @@ public class Jeopardy extends JPanel implements ActionListener {
 
   }
 
-  public int getQuestionsAsked(){//returns how may questions have been asked
-	  return questionsAsked;
+  /**
+   * Get the number of questions that the users have selected.
+   *
+   * @return the number of questions that the users have been asked
+   */
+  public int getQuestionsAsked() {
+    return questionsAsked;
   }
 
-  public void incrementQuestionsAsked(){//add selected question to tally of questions completed
-	  questionsAsked++;
+  /**
+   * Increment the number of questions asked.
+   */
+  public void incrementQuestionsAsked() {
+    questionsAsked++;
   }
 
   /**
@@ -463,19 +456,18 @@ public class Jeopardy extends JPanel implements ActionListener {
     this.playerTags[turn].setFont(f.deriveFont(f.getStyle() | Font.BOLD));
     this.playerDollars[turn].setFont(f.deriveFont(f.getStyle() | Font.BOLD));
   }
- 
+
   /**
-   * Unbolds all players and the scoreboard
-   * Used by question panel when game ends
+   * Unbolds all players and the scoreboard. Used by question panel when game ends
    */
-  public void unboldScoreboard(){
-	  Font f = playerTags[turn].getFont();
-	  for(int i = 0; i < 3; i++){
-		  this.playerTags[i].setFont(f.deriveFont(f.getStyle() ^ Font.BOLD));
-		  this.playerDollars[i].setFont(f.deriveFont(f.getStyle() ^ Font.BOLD));
-	  }
+  public void unboldScoreboard() {
+    Font f = playerTags[turn].getFont();
+    for(int i = 0; i < 3; i++){
+      this.playerTags[i].setFont(f.deriveFont(f.getStyle() ^ Font.BOLD));
+      this.playerDollars[i].setFont(f.deriveFont(f.getStyle() ^ Font.BOLD));
+    }
   }
-  
+
   /**
    * @return whose turn it currently is
    */

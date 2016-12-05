@@ -148,33 +148,15 @@ public class QuestionPanel extends JPanel implements ActionListener {
     Player current = game.players[game.getTurn()]; // Get the current player
     guesses++; // A guess was made, increment the number of guesses
 
-    // Check the answer
     if (this.qObj.checkGuess(index)) { // If the answer was correct
-    	game.incrementQuestionsAsked();//increments amount of questions asked
-    	current.addDollars(this.qObj.getValue()); // Add money to the current player
-        game.updateDollars(); // Update the dollar amount in the sidebar
-        
-     // Tell the user they were correct and their new balance
-        JOptionPane.showMessageDialog(game,
-                                      current.getName() + " now has $" + current.getDollars(),
-                                      "Correct",
-                                      JOptionPane.INFORMATION_MESSAGE);
-        
-    	if(game.getQuestionsAsked() == 30){//if all questions have been asked, determine the winner
-    		game.unboldScoreboard();
-        	EndPanel endDisplay = new EndPanel(game.players);
-            game.questionArea.add(endDisplay);
-        	CardLayout cl = (CardLayout) game.questionArea.getLayout();
-        	cl.last(game.questionArea);
-        }
-    	else{
-      CardLayout cl = (CardLayout)(game.questionArea.getLayout());
-      cl.first(game.questionArea); // Go to the panel in the question area (the button grid)
-    	}
+      current.addDollars(this.qObj.getValue()); // Add money to the current player
+      game.updateDollars(); // Update the dollar amount in the sidebar
 
-      
-
-     
+      // Tell the user they were correct and their new balance
+      JOptionPane.showMessageDialog(game,
+                                    current.getName() + " now has $" + current.getDollars(),
+                                    "Correct",
+                                    JOptionPane.INFORMATION_MESSAGE);
     }
     else {
       answers[index].setEnabled(false); // Disable the answer chosen
@@ -186,24 +168,30 @@ public class QuestionPanel extends JPanel implements ActionListener {
         // Only one guess, so show the correct answer
         JOptionPane.showMessageDialog(game,
                                       "Incorrect. The correct answer was " + this.qObj.getAnswers()[this.qObj.getCorrect()]);
-
-        // Go back to the grid of questions
-        CardLayout cl = (CardLayout)(game.questionArea.getLayout());
-        cl.first(game.questionArea);
       } else if (guesses == 3) { // If all the players get the question wrong
         // All the players guessed, so show the correct answer
         JOptionPane.showMessageDialog(game,
                                       "Incorrect. The correct answer was " + this.qObj.getAnswers()[this.qObj.getCorrect()]);
-
-        // Go back to the question grid
-        CardLayout cl = (CardLayout)(game.questionArea.getLayout());
-        cl.first(game.questionArea);
       } else {
         current = game.players[game.getTurn()]; // Get the current player
 
         // Inform the player they were incorrect and show who the next player is
         JOptionPane.showMessageDialog(game,
                                       "Incorrect. It is now " + current.getName() + "'s turn.", "Incorrect", JOptionPane.INFORMATION_MESSAGE);
+      }
+    }
+
+    // Check if this question is over
+    if (this.qObj.checkGuess(index) || this.qObj.getDailyDouble() || guesses == 3) {
+      // Go back to the question grid
+      CardLayout cl = (CardLayout)(game.questionArea.getLayout());
+      cl.first(game.questionArea);
+
+      if (game.getQuestionsAsked() == 30) { // if all questions have been asked, determine the winner
+        game.unboldScoreboard();
+        EndPanel endDisplay = new EndPanel(game.players);
+        game.questionArea.add(endDisplay);
+        cl.last(game.questionArea);
       }
     }
   }

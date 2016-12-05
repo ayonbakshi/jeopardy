@@ -13,7 +13,8 @@ A Jeopardy clone in Java.
 - [ ] Final jeopardy (optional)
 - [x] Main screen
 - [x] Instructions
-- [ ] Document everything
+- [x] Document everything
+  - [x] EndPanel.java
   - [x] GameUtils.java
   - [x] Instructions.java
   - [x] Jeopardy.java
@@ -21,7 +22,7 @@ A Jeopardy clone in Java.
   - [x] Question.java
   - [x] QuestionPanel.java
   - [x] StartPanel.java
-  - [ ] User guide
+- [ ] User guide
 - [x] Big/custom fonts
 - [ ] Custom icons for popups (optional)
 - [ ] Validate file (very optional)
