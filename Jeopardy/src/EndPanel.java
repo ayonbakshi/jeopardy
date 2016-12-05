@@ -13,9 +13,6 @@ import javax.swing.JPanel;
  * won and what the final balance for each player was.
  */
 public class EndPanel extends JPanel {
-  GridBagConstraints gbc;
-  JLabel message, title, winner;
-
   /**
    * Create the panel to display at the end of the game.
    *
@@ -25,25 +22,26 @@ public class EndPanel extends JPanel {
     setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
     ArrayList<Integer> winners;
 
-    title = new JLabel(new ImageIcon(GameUtils.findImage("title.png")));
+    JLabel title = new JLabel(new ImageIcon(GameUtils.findImage("title.png")));
     this.add(Box.createVerticalStrut(200));
     title.setAlignmentX(Component.CENTER_ALIGNMENT);
     this.add(title);
 
+    JLabel winner;
     winners = determineWinner(players);
     if (winners.size() == 1) {
-      this.winner = new JLabel("Player " + (winners.get(0) + 1) + " has won");
+      winner = new JLabel("Player " + (winners.get(0) + 1) + " has won");
     } else if (winners.size() == 2) {
-      this.winner = new JLabel("Player " + (winners.get(0) + 1) + " and Player " + + (winners.get(1) + 1)  + " have tied");
+      winner = new JLabel("Player " + (winners.get(0) + 1) + " and Player " + + (winners.get(1) + 1)  + " have tied");
     } else {
-      this.winner = new JLabel("Player 1, Player 2 and Player 3 have tied");
+      winner = new JLabel("Player 1, Player 2 and Player 3 have tied");
     }
-    this.winner.setFont(GameUtils.TITLE_FONT);
+    winner.setFont(GameUtils.TITLE_FONT);
     this.add(Box.createVerticalStrut(100));
-    this.winner.setAlignmentX(Component.CENTER_ALIGNMENT);
-    this.add(this.winner);
+    winner.setAlignmentX(Component.CENTER_ALIGNMENT);
+    this.add(winner);
 
-    message = new JLabel("Thanks for playing!");
+    JLabel message = new JLabel("Thanks for playing!");
     message.setFont(GameUtils.TITLE_FONT);
     this.add(Box.createVerticalStrut(30));
     message.setAlignmentX(Component.CENTER_ALIGNMENT);
