@@ -64,7 +64,7 @@ public class QuestionPanel extends JPanel implements ActionListener {
   public QuestionPanel(Question question, Jeopardy game) {
     this.game = game;
     this.guesses = 0;
-    
+
     this.setPreferredSize(new Dimension(600, 500));
     this.setLayout(new GridBagLayout());
     this.setSize(new Dimension(600, 430));
@@ -73,21 +73,21 @@ public class QuestionPanel extends JPanel implements ActionListener {
 
 
     // The text of the question
-    
+
     JTextPane qText = new JTextPane();
-    qText.setText(qObj.getQuestion());   
-    
+    qText.setText(qObj.getQuestion());
+
     //centre the question
-    
+
     StyledDocument doc = qText.getStyledDocument();
     SimpleAttributeSet center = new SimpleAttributeSet();
     StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
     doc.setParagraphAttributes(0, doc.getLength(), center, false);
-    
-    qText.setEditable(false);  
+
+    qText.setEditable(false);
     qText.setOpaque(false);
 
-    
+
     GridBagConstraints gbc = new GridBagConstraints();
     gbc.gridx = 0;
     gbc.gridy = 0;
@@ -95,17 +95,17 @@ public class QuestionPanel extends JPanel implements ActionListener {
     gbc.weighty = 0.7;
     gbc.anchor = GridBagConstraints.CENTER;
     gbc.fill = GridBagConstraints.HORIZONTAL;
-    
+
     this.add(qText, gbc);
 
-    
+
  // The answer buttons
     this.answers = new JButton[4];
     for (int i = 0; i < 4; i++) {
       answers[i] = new JButton(question.getAnswers()[i]);
       answers[i].addActionListener(this);
     }
-  
+
     // The answer buttons
     JPanel answersPnl = new JPanel(new GridLayout(2, 2));
     for (int i = 0; i < 4; i++) {
@@ -153,14 +153,12 @@ public class QuestionPanel extends JPanel implements ActionListener {
                                     JOptionPane.INFORMATION_MESSAGE);
     }
     else {
-      // Blackout the answer chosen if answer is wrong
       answers[index].setEnabled(false); // Disable the answer chosen
+      current.addDollars(-this.qObj.getValue()); // Subtract the value of the question or the amount the user wagered if this is a daily double
+      game.updateDollars();
       game.incrementTurn(); // Move on to the next player
 
       if (this.qObj.getDailyDouble()) { // Only one player gets to guess on a daily double
-        current.addDollars(-this.qObj.getValue()); // Subtract the amount user wagered
-        game.updateDollars(); // Update the dollar amount in the sidebar
-
         // Only one guess, so show the correct answer
         JOptionPane.showMessageDialog(game,
                                       "Incorrect. The correct answer was " + this.qObj.getAnswers()[this.qObj.getCorrect()]);
