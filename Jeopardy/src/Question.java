@@ -1,3 +1,7 @@
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
@@ -6,7 +10,7 @@ import javax.swing.JButton;
  * answers, only one of which is correct. A question has a certain
  * dollar value and is part of a topic.
  */
-public class Question extends JButton {
+public class Question extends JButton implements MouseListener{
   /**
    * The question text
    */
@@ -36,6 +40,10 @@ public class Question extends JButton {
    * If the question is a daily double
    */
   private boolean isDailyDouble;
+  
+  private int btnWidth, btnHeight;
+  
+  private ImageIcon defaultIcon;
 
   /**
    * Creates a new question.
@@ -54,15 +62,16 @@ public class Question extends JButton {
    * @throws IllegalArgumentException if the dollar value is negative,
    * the correct answer isn't in [0, 3], or there aren't 4 answers
    */
-  public Question(String question, String[] answers, int correct, int dollars, String topic, boolean isDailyDouble, ImageIcon icon) {
-    super(GameUtils.resize(icon, 134, 106));
-
+  public Question(String question, String[] answers, int correct, int dollars, String topic, boolean isDailyDouble) {
+	btnWidth = (int)(Jeopardy.width/7.8432835820895522388059701492537);
+	btnHeight = (int)(Jeopardy.height/7.4056603773584905660377358490566);
+	defaultIcon = GameUtils.resize(new ImageIcon(GameUtils.findImage(dollars + ".png")),btnWidth,btnHeight);
+	setIcon(defaultIcon);
+    
     // Remove the background
-    this.setBorder(null);
+	this.setBorder(BorderFactory.createEmptyBorder());
     this.setBorderPainted(false);
     this.setContentAreaFilled(false);
-    this.setFocusPainted(false);
-    this.setOpaque(false);
 
     if (dollars < 0) {
       throw new IllegalArgumentException("A question can't have negative value.");
@@ -83,6 +92,7 @@ public class Question extends JButton {
 
     this.topic = topic;
     this.isDailyDouble = isDailyDouble;
+    addMouseListener(this);
   }
 
   /**
@@ -157,4 +167,34 @@ public class Question extends JButton {
       this.dollars = amount;
     }
   }
+
+@Override
+public void mouseClicked(MouseEvent arg0) {
+	// TODO Auto-generated method stub
+	
+}
+
+@Override
+public void mouseEntered(MouseEvent arg0) {
+	ImageIcon pressed = GameUtils.resize(new ImageIcon(GameUtils.findImage(dollars + "hover.png")),btnWidth,btnHeight);
+	setIcon(pressed);
+}
+
+@Override
+public void mouseExited(MouseEvent arg0) {
+	setIcon(defaultIcon);	
+}
+
+@Override
+public void mousePressed(MouseEvent arg0) {
+	ImageIcon pressed = GameUtils.resize(new ImageIcon(GameUtils.findImage(dollars + "pressed.png")),btnWidth,btnHeight);
+	setIcon(pressed);
+	
+}
+
+@Override
+public void mouseReleased(MouseEvent arg0) {
+	setIcon(defaultIcon);
+	
+}
 }
