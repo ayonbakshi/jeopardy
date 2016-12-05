@@ -348,8 +348,12 @@ public class Jeopardy extends JPanel implements ActionListener {
     }
     
     //code for testing purposes
-    //this.buttons[0][0].setEnabled(true);
-    //questionsAsked = 29;
+    /*
+    this.buttons[0][0].setEnabled(true);
+    this.buttons[0][1].setEnabled(true);
+    this.buttons[0][2].setEnabled(true);
+    questionsAsked = 27;
+    */
     
     this.questionArea.add(questionGrid);
 
@@ -441,7 +445,19 @@ public class Jeopardy extends JPanel implements ActionListener {
     this.playerTags[turn].setFont(f.deriveFont(f.getStyle() | Font.BOLD));
     this.playerDollars[turn].setFont(f.deriveFont(f.getStyle() | Font.BOLD));
   }
-
+ 
+  /**
+   * Unbolds all players and the scoreboard
+   * Used by question panel when game ends
+   */
+  public void unboldScoreboard(){
+	  Font f = playerTags[turn].getFont();
+	  for(int i = 0; i < 3; i++){
+		  this.playerTags[i].setFont(f.deriveFont(f.getStyle() ^ Font.BOLD));
+		  this.playerDollars[i].setFont(f.deriveFont(f.getStyle() ^ Font.BOLD));
+	  }
+  }
+  
   /**
    * @return whose turn it currently is
    */

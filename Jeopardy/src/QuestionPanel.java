@@ -140,9 +140,19 @@ public class QuestionPanel extends JPanel implements ActionListener {
 
     // Check the answer
     if (this.qObj.checkGuess(index)) { // If the answer was correct
-    	game.incrementQuestionsAsked();
+    	game.incrementQuestionsAsked();//increments amount of questions asked
+    	current.addDollars(this.qObj.getValue()); // Add money to the current player
+        game.updateDollars(); // Update the dollar amount in the sidebar
+        
+     // Tell the user they were correct and their new balance
+        JOptionPane.showMessageDialog(game,
+                                      current.getName() + " now has $" + current.getDollars(),
+                                      "Correct",
+                                      JOptionPane.INFORMATION_MESSAGE);
+        
     	if(game.getQuestionsAsked() == 30){//if all questions have been asked, determine the winner
-        	EndPanel endDisplay = new EndPanel();
+    		game.unboldScoreboard();
+        	EndPanel endDisplay = new EndPanel(game.players);
             game.questionArea.add(endDisplay);
         	CardLayout cl = (CardLayout) game.questionArea.getLayout();
         	cl.last(game.questionArea);
@@ -152,14 +162,9 @@ public class QuestionPanel extends JPanel implements ActionListener {
       cl.first(game.questionArea); // Go to the panel in the question area (the button grid)
     	}
 
-      current.addDollars(this.qObj.getValue()); // Add money to the current player
-      game.updateDollars(); // Update the dollar amount in the sidebar
+      
 
-      // Tell the user they were correct and their new balance
-      JOptionPane.showMessageDialog(game,
-                                    current.getName() + " now has $" + current.getDollars(),
-                                    "Correct",
-                                    JOptionPane.INFORMATION_MESSAGE);
+     
     }
     else {
       answers[index].setEnabled(false); // Disable the answer chosen
