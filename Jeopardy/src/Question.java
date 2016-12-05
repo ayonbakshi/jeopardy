@@ -72,6 +72,10 @@ public class Question extends JButton implements MouseListener{
 	this.setBorder(BorderFactory.createEmptyBorder());
     this.setBorderPainted(false);
     this.setContentAreaFilled(false);
+    
+    //Set the disabled icon
+    ImageIcon disabled = GameUtils.resize(new ImageIcon(GameUtils.findImage("disabled")),btnWidth,btnHeight);
+    this.setDisabledIcon(disabled);
 
     if (dollars < 0) {
       throw new IllegalArgumentException("A question can't have negative value.");
