@@ -184,19 +184,8 @@ public class Jeopardy extends JPanel implements ActionListener {
       };
 
       // Create a Question object and add it to the list
-<<<<<<< HEAD
-      String[] iconLocs = {
-        "src" + File.separator + "data" + File.separator + v + ".png",
-        "data" + File.separator + v + ".png"
-      };
-      questions.add(new Question(q, a, c, v, t, false
-                                 ,resize(new ImageIcon(chooseFile(iconLocs)),(int)(width/7.8432835820895522388059701492537),(int)(height/7.4056603773584905660377358490566))
-                                 ));
-=======
-
 
       questions.add(new Question(q, a, c, v, t, false, new ImageIcon(GameUtils.findImage(v + ".png"))));
->>>>>>> 0906a177269aaa7f04371eeb29ec34bdc509d446
 
 
       // If this topic has not been seen before, add it to the list
@@ -204,6 +193,7 @@ public class Jeopardy extends JPanel implements ActionListener {
         allTopics.add(t);
       }
     }
+    qScan.close(); // Clean up after the scanner
 
     // Randomly choose 6 unique topics
     String[] topics = new String[6]; // The default value of an object in an array is null
@@ -236,13 +226,12 @@ public class Jeopardy extends JPanel implements ActionListener {
     // Set up GUI
     GridBagConstraints gbc;
     // Title
-    JLabel title = new JLabel("Jeopardy!");
-    title.setFont(GameUtils.TITLE_FONT);
-
+    JLabel title = new JLabel(new ImageIcon(GameUtils.findImage("title.png")));
     gbc = new GridBagConstraints();
     gbc.gridx = 0;
     gbc.gridy = 0;
     gbc.gridwidth = 3;
+    gbc.insets = new Insets(10, 0, 0, 0);
     gbc.anchor = GridBagConstraints.CENTER; // Centre the title
     this.add(title, gbc);
 
@@ -347,33 +336,18 @@ public class Jeopardy extends JPanel implements ActionListener {
         gbc.insets = new Insets(3, 3, 3, 3);
         questionGrid.add(buttons[x][y], gbc);
 
-      }
-    }
     this.questionArea.add(questionGrid);
 
     // Add the question area to the main window
 
-    GridBagConstraints c = new GridBagConstraints(); // Reset constraints
-    c.fill = GridBagConstraints.BOTH;
-    c.gridx = 2;
-    c.gridy = 1;
-    c.weightx = 0.9;
-    this.add(questionArea, c);
-    
-    System.out.println(buttons[0][0].getPreferredSize().getWidth() + " " + this.getPreferredSize().getWidth());
-    System.out.println(buttons[0][0].getPreferredSize().getHeight() + " " + this.getPreferredSize().getHeight());
-  }
-
-  private ImageIcon resize(ImageIcon srcImg, int w, int h){
-    BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-    Graphics2D g2 = resizedImg.createGraphics();
-
-    g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-    g2.drawImage(srcImg.getImage(), 0, 0, w, h, null);
-    g2.dispose();
-
-    return new ImageIcon(resizedImg);
-
+    gbc = new GridBagConstraints(); // Reset constraints
+    gbc.fill = GridBagConstraints.BOTH;
+    gbc.gridx = 2;
+    gbc.gridy = 1;
+    gbc.weightx = 0.9;
+    this.add(questionArea, gbc);
+    }
+   }
   }
 
   /**
@@ -457,8 +431,9 @@ public class Jeopardy extends JPanel implements ActionListener {
     * current player.
     */
   public void updateDollars() {
-    Player current = this.players[this.turn];
-    this.playerDollars[this.turn].setText("$" + current.getDollars());
+    for (int i = 0; i < 3; i++) {
+      this.playerDollars[i].setText("$" + this.players[i].getDollars());
+    }
   }
 
   /**
@@ -498,8 +473,9 @@ public class Jeopardy extends JPanel implements ActionListener {
     // Window size - as big as possible, 4:3
     Rectangle screen = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds(); // Get the biggest possible size for the window
 
-    if (screen.getWidth() < screen.getHeight()) {
-
+    int width;
+    int height;
+    if (screen.getWidth() < screen.getHeight()) { // Protrait orientation
       width = (int) screen.getWidth();
       height = width / 4 * 3;
     } else { // Labscape orientation
