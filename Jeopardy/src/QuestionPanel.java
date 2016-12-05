@@ -140,8 +140,17 @@ public class QuestionPanel extends JPanel implements ActionListener {
 
     // Check the answer
     if (this.qObj.checkGuess(index)) { // If the answer was correct
+    	game.incrementQuestionsAsked();
+    	if(game.getQuestionsAsked() == 30){//if all questions have been asked, determine the winner
+        	EndPanel endDisplay = new EndPanel();
+            game.questionArea.add(endDisplay);
+        	CardLayout cl = (CardLayout) game.questionArea.getLayout();
+        	cl.last(game.questionArea);
+        }
+    	else{
       CardLayout cl = (CardLayout)(game.questionArea.getLayout());
       cl.first(game.questionArea); // Go to the panel in the question area (the button grid)
+    	}
 
       current.addDollars(this.qObj.getValue()); // Add money to the current player
       game.updateDollars(); // Update the dollar amount in the sidebar
