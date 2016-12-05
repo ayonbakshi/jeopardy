@@ -40,9 +40,9 @@ public class Question extends JButton implements MouseListener{
    * If the question is a daily double
    */
   private boolean isDailyDouble;
-  
+
   private int btnWidth, btnHeight;
-  
+
   private ImageIcon defaultIcon;
 
   /**
@@ -67,11 +67,15 @@ public class Question extends JButton implements MouseListener{
 	btnHeight = (int)(Jeopardy.height/7.4056603773584905660377358490566);
 	defaultIcon = GameUtils.resize(new ImageIcon(GameUtils.findImage(dollars + ".png")),btnWidth,btnHeight);
 	setIcon(defaultIcon);
-    
+
     // Remove the background
 	this.setBorder(BorderFactory.createEmptyBorder());
     this.setBorderPainted(false);
     this.setContentAreaFilled(false);
+
+    //Set the disabled icon
+    ImageIcon disabled = GameUtils.resize(new ImageIcon(GameUtils.findImage("disabled.png")),btnWidth,btnHeight);
+    this.setDisabledIcon(disabled);
 
     if (dollars < 0) {
       throw new IllegalArgumentException("A question can't have negative value.");
@@ -169,7 +173,7 @@ public class Question extends JButton implements MouseListener{
   }
 
 @Override
-public void mouseClicked(MouseEvent arg0) {	
+public void mouseClicked(MouseEvent arg0) {
 }
 
 @Override
@@ -180,19 +184,19 @@ public void mouseEntered(MouseEvent arg0) {
 
 @Override
 public void mouseExited(MouseEvent arg0) {
-	setIcon(defaultIcon);	
+	setIcon(defaultIcon);
 }
 
 @Override
 public void mousePressed(MouseEvent arg0) {
 	ImageIcon pressed = GameUtils.resize(new ImageIcon(GameUtils.findImage(dollars + "pressed.png")),btnWidth,btnHeight);
 	setIcon(pressed);
-	
+
 }
 
 @Override
 public void mouseReleased(MouseEvent arg0) {
 	setIcon(defaultIcon);
-	
+
 }
 }
