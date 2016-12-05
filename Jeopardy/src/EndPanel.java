@@ -34,11 +34,11 @@ public class EndPanel extends JPanel {
     JLabel winner;
     winners = determineWinner(players);
     if (winners.size() == 1) {
-      winner = new JLabel("Player " + (winners.get(0) + 1) + " has won");
+      winner = new JLabel(players[winners.get(0)].getName() + " has won!");
     } else if (winners.size() == 2) {
-      winner = new JLabel("Player " + (winners.get(0) + 1) + " and Player " + + (winners.get(1) + 1)  + " have tied");
+      winner = new JLabel(players[winners.get(0)].getName() + " and " + players[winners.get(1)].getName()  + " have tied.");
     } else {
-      winner = new JLabel("Player 1, Player 2 and Player 3 have tied");
+      winner = new JLabel(players[winners.get(0)].getName() + ", " + players[winners.get(1)].getName() + " and " + players[winners.get(2)].getName() + " have tied.");
     }
     winner.setFont(GameUtils.TITLE_FONT);
     this.add(Box.createVerticalStrut(100));
@@ -84,9 +84,9 @@ public class EndPanel extends JPanel {
     	for (int i = 1; i < 3; i++) {
     		if(players[i].getDollars() > players[winner].getDollars()) {
     			winner = i;
-    		}	
+    		}
     	}
-    	
+
     	winners.add(winner);
 	  }
 
