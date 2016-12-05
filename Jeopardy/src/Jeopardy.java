@@ -172,7 +172,7 @@ public class Jeopardy extends JPanel implements ActionListener {
     while (qScan.hasNextLine()) { // Go until there are no more lines
       String[] dataRow = qScan.nextLine().split("\t"); // Read a line and split it along tab characters
 
-      if (dataRow.length == 1) { continue; } // Skip blank lines
+      if (dataRow.length != 8) { continue; } // Skip lines which aren't the right length
 
       // Extract data
       String q = dataRow[0]; // The question
