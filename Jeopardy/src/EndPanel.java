@@ -25,11 +25,13 @@ public class EndPanel extends JPanel {
     setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
     ArrayList<Integer> winners;
 
+    //logo
     title = new JLabel(new ImageIcon(GameUtils.findImage("title.png")));
     this.add(Box.createVerticalStrut(200));
     title.setAlignmentX(Component.CENTER_ALIGNMENT);
     this.add(title);
 
+    //winner declaration
     winners = determineWinner(players);
     if (winners.size() == 1) {
       this.winner = new JLabel("Player " + (winners.get(0) + 1) + " has won");
@@ -43,6 +45,7 @@ public class EndPanel extends JPanel {
     this.winner.setAlignmentX(Component.CENTER_ALIGNMENT);
     this.add(this.winner);
 
+    //thank you message
     message = new JLabel("Thanks for playing!");
     message.setFont(GameUtils.TITLE_FONT);
     this.add(Box.createVerticalStrut(30));
@@ -58,31 +61,34 @@ public class EndPanel extends JPanel {
    * @return the player(s) who won or tied for first
    */
   public ArrayList<Integer> determineWinner(Player[] players) {
-    ArrayList<Integer> winners = new ArrayList<Integer>();
-    if (players[0].getDollars() == players[1].getDollars() && players[0].getDollars() == players[2].getDollars() && players[1].getDollars() == players[2].getDollars()) {
-      winners.add(0);
-      winners.add(1);
-      winners.add(2);
-    } else if (players[0].getDollars() == players[1].getDollars() && players[1].getDollars() > players[2].getDollars()) {
-      winners.add(0);
-      winners.add(1);
-    } else if (players[0].getDollars() == players[2].getDollars() && players[2].getDollars() > players[1].getDollars()) {
-      winners.add(0);
-      winners.add(2);
-    } else if (players[2].getDollars() == players[1].getDollars() && players[1].getDollars() > players[0].getDollars()) {
-      winners.add(1);
-      winners.add(2);
-    } else {
-      int winner = 0;
-      for (int i = 1; i < 3; i++) {
-        if(players[i].getDollars() > players[winner].getDollars()) {
-          winner = i;
-        }
-      }
+	  ArrayList<Integer> winners = new ArrayList<Integer>();
+	  if (players[0].getDollars() == players[1].getDollars() && players[0].getDollars() == players[2].getDollars() && players[1].getDollars() == players[2].getDollars()) {
+    	//if players have same amount, all win
+		  winners.add(0);
+		  winners.add(1);
+		  winners.add(2);
+      //if two players have the same amount, both win
+	  } else if (players[0].getDollars() == players[1].getDollars() && players[1].getDollars() > players[2].getDollars()) {
+		  winners.add(0);
+		  winners.add(1);
+	  } else if (players[0].getDollars() == players[2].getDollars() && players[2].getDollars() > players[1].getDollars()) {
+		  winners.add(0);
+		  winners.add(2);
+	  } else if (players[2].getDollars() == players[1].getDollars() && players[1].getDollars() > players[0].getDollars()) {
+		  winners.add(1);
+		  winners.add(2);
+	  } else {
+		  //calcs player with most money
+    	int winner = 0;
+    	for (int i = 1; i < 3; i++) {
+    		if(players[i].getDollars() > players[winner].getDollars()) {
+    			winner = i;
+    		}	
+    	}
+    	
+    	winners.add(winner);
+	  }
 
-      winners.add(winner);
-    }
-
-    return winners;
-  }
+	  return winners;
+  	}
 }
