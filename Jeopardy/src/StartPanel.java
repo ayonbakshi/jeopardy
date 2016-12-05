@@ -3,6 +3,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -46,8 +47,7 @@ public class StartPanel extends JPanel implements ActionListener {
     btnPanel.add(startBtn);
 
     // Title
-    JLabel title = new JLabel("Jeopardy");
-    title.setFont(GameUtils.TITLE_FONT);
+    JLabel title = new JLabel(new ImageIcon(GameUtils.findImage("title.png")));
     GridBagConstraints gbc = new GridBagConstraints();
     gbc.gridx = 0;
     gbc.gridy = 0;

@@ -441,6 +441,7 @@ public class Jeopardy extends JPanel implements ActionListener {
     try {
       Jeopardy game = new Jeopardy(sp.getNames()); // Create the game object
       Jeopardy.gameFrame.setContentPane(game); // Switch the content pane to the game
+
       // Repaint the frame
       Jeopardy.gameFrame.repaint();
       Jeopardy.gameFrame.revalidate();

@@ -27,3 +27,4 @@ A Jeopardy clone in Java.
 - [ ] Validate file (very optional)
 - [x] Fix ordering on Jeopardy page
 - [ ] Make buttons flush to each other/closer together
+- [ ] End screen

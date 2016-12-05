@@ -32,6 +32,7 @@ public class Instructions implements ActionListener {
     while (helpScan.hasNextLine()) { // Keep going until the file runs out of lines
       this.helpText += helpScan.nextLine() + "\n"; // Read a line and add it to the text
     }
+    helpScan.close(); // Clean up the scannerx
   }
 
   /**
