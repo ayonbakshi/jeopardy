@@ -87,12 +87,13 @@ public class StartPanel extends JPanel implements ActionListener {
   }
 
   /**
-   * @return the names entered in the text fields
+   * @return the names entered in the text fields, without leading and
+   * trailing whitespace
    */
   public String[] getNames() {
     String[] names = new String[3];
     for (int i = 0; i < 3; i++) {
-      names[i] = this.playerFields[i].getText();
+      names[i] = this.playerFields[i].getText().trim();
     }
     return names;
   }

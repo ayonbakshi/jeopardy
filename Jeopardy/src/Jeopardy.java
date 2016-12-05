@@ -1,4 +1,5 @@
 import java.awt.CardLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -11,13 +12,13 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -27,7 +28,6 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  * A game of Jeopardy.
@@ -84,6 +84,21 @@ import javax.swing.UnsupportedLookAndFeelException;
  */
 public class Jeopardy extends JPanel implements ActionListener {
   /**
+   * The total width of the game window
+   */
+  public static int width;
+
+  /**
+   * The total height of the game window
+   */
+  public static int height;
+
+  /**
+   * The window the game is being conducted in
+   */
+  public static JFrame gameFrame;
+
+  /**
    * The three contestants in the game
    */
   public Player[] players;
@@ -131,12 +146,6 @@ public class Jeopardy extends JPanel implements ActionListener {
    * The amount of money the players have on the scoreboard
    */
   private JLabel[] playerDollars;
-  static int width, height;
-
-  /**
-   * The window the game is being conducted in
-   */
-  public static JFrame gameFrame;
 
   /**
    * Sets up the main game of Jeopardy.
@@ -236,21 +245,19 @@ public class Jeopardy extends JPanel implements ActionListener {
     gbc.gridx = 0;
     gbc.gridy = 0;
     gbc.gridwidth = 3;
+    gbc.insets = new Insets(10, 0, 0, 0);
     gbc.anchor = GridBagConstraints.CENTER; // Centre the title
     this.add(title, gbc);
 
     // Scoreboard
-    scoreboard = new JPanel(new GridBagLayout());
+    scoreboard = new JPanel();
+    scoreboard.setLayout(new BoxLayout(scoreboard, BoxLayout.PAGE_AXIS)); // Veritcally aligned BoxLayout
 
     // Scoreboard title
-    JLabel titleSB = new JLabel("Scoreboard");
+    JLabel titleSB = new JLabel("Scoreboard", SwingConstants.CENTER);
     titleSB.setFont(GameUtils.TITLE_FONT);
-
-    gbc = new GridBagConstraints(); // Reset the constraints
-    gbc.gridx = 0;
-    gbc.gridy = 0;
-    gbc.anchor = GridBagConstraints.CENTER;
-    scoreboard.add(titleSB, gbc);
+    titleSB.setAlignmentX(Component.CENTER_ALIGNMENT);
+    scoreboard.add(titleSB);
 
     // Scoreboard player labels
     this.playerTags = new JLabel[3]; // Names
@@ -265,26 +272,32 @@ public class Jeopardy extends JPanel implements ActionListener {
     this.playerTags[0].setFont(f.deriveFont(f.getStyle() | Font.BOLD));
     this.playerDollars[0].setFont(f.deriveFont(f.getStyle() | Font.BOLD));
 
+    // Add the labels to the scoreboard
     gbc = new GridBagConstraints();
     gbc.ipadx = 10;
     gbc.ipady = 10;
-    for (int i = 0; i < 3; i++){
+    for (int i = 0; i < 3; i++) {
+      JPanel playerBox = new JPanel(new GridBagLayout());
       gbc.gridx = 0;
       gbc.gridy = 1 + (i % 3);
-      scoreboard.add(playerTags[i], gbc);
+      playerBox.add(playerTags[i], gbc);
 
       gbc.gridx = 3;
       gbc.gridy = 1 + (i % 3);
-      scoreboard.add(playerDollars[i], gbc);
+      playerBox.add(playerDollars[i], gbc);
+
+      playerBox.setAlignmentX(Component.CENTER_ALIGNMENT);
+      scoreboard.add(playerBox);
     }
 
     // Add the scoreboard to the window
     gbc = new GridBagConstraints(); // Reset GridBagConstraints
     gbc.gridx = 0;
     gbc.gridy = 1;
-    gbc.weightx = 0.1;
+    gbc.weightx = 0.15;
     gbc.weighty = 1;
     gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+    gbc.fill = GridBagConstraints.HORIZONTAL;
     gbc.gridwidth = 2;
     this.add(scoreboard, gbc);
 
@@ -367,7 +380,7 @@ public class Jeopardy extends JPanel implements ActionListener {
     gbc.fill = GridBagConstraints.BOTH;
     gbc.gridx = 2;
     gbc.gridy = 1;
-    gbc.weightx = 0.9;
+    gbc.weightx = 0.85;
     this.add(questionArea, gbc);
 
 
