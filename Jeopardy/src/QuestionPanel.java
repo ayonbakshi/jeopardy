@@ -79,7 +79,9 @@ public class QuestionPanel extends JPanel implements ActionListener {
     GridBagConstraints gbc = new GridBagConstraints();
     gbc.gridx = 0;
     gbc.gridy = 0;
-    gbc.gridwidth = 1;
+    gbc.gridwidth = 3;
+    gbc.weighty = 0.15;
+    gbc.anchor = GridBagConstraints.CENTER;
     this.add(qInfo, gbc);
 
     // The text of the question
@@ -100,7 +102,7 @@ public class QuestionPanel extends JPanel implements ActionListener {
     gbc.gridx = 0;
     gbc.gridy = 1;
     gbc.gridwidth = 3;
-    gbc.weighty = 0.7;
+    gbc.weighty = 0.55;
     gbc.anchor = GridBagConstraints.CENTER;
     gbc.fill = GridBagConstraints.HORIZONTAL;
 

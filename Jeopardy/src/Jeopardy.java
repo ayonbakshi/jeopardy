@@ -347,7 +347,7 @@ public class Jeopardy extends JPanel implements ActionListener {
     }
 
     //code for testing purposes
-<<<<<<< HEAD
+
     /*
     this.buttons[0][0].setEnabled(true);
     this.buttons[0][1].setEnabled(true);
@@ -355,11 +355,11 @@ public class Jeopardy extends JPanel implements ActionListener {
     questionsAsked = 27;
     */
     
-=======
+
     //this.buttons[0][0].setEnabled(true);
     //questionsAsked = 29;
 
->>>>>>> ce7ed7dfdea8b6c7e212f14e87fd9ffc979204cc
+
     this.questionArea.add(questionGrid);
 
     // Add the question area to the main window
