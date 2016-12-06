@@ -1,5 +1,6 @@
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -19,6 +20,8 @@ public class GameUtils {
    * The default font for game text should be 16pt plain sans
    */
   public static final Font GAME_FONT = new Font("SansSerif", Font.PLAIN, 16);
+  
+  public static final Font QUESTION_FONT = new Font("Korinna", Font.PLAIN, 35);
 
   /**
    * The default font for game titles should be 20pt bold sans
@@ -33,6 +36,9 @@ public class GameUtils {
    * @param h the new height
    * @return the resized icon
    */
+  
+  public static final ImageIcon questionBackground = new ImageIcon(findImage("background.png"));
+  
   public static ImageIcon resize(ImageIcon srcImg, int w, int h){
     BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
     Graphics2D g2 = resizedImg.createGraphics();
@@ -73,6 +79,10 @@ public class GameUtils {
   public static String findImage(String name) {
     return GameUtils.findFile("images" + File.separator + name);
   }
+  
+  public static String findFont(String name) {
+	    return GameUtils.findFile("fonts" + File.separator + name);
+	  }
 
   /**
    * Find a file in one of several possible directories.

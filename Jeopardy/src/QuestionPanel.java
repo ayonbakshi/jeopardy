@@ -1,6 +1,7 @@
 import java.awt.CardLayout;
 import java.awt.ComponentOrientation;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -63,6 +64,7 @@ public class QuestionPanel extends JPanel implements ActionListener {
    * @param game the Jeopardy game that this came from
    */
   public QuestionPanel(Question question, Jeopardy game) {
+	this.setOpaque(false);  
     this.game = game;
     this.guesses = 0;
 
@@ -79,15 +81,14 @@ public class QuestionPanel extends JPanel implements ActionListener {
     GridBagConstraints gbc = new GridBagConstraints();
     gbc.gridx = 0;
     gbc.gridy = 0;
-    gbc.gridwidth = 3;
     gbc.weighty = 0.15;
     gbc.anchor = GridBagConstraints.CENTER;
     this.add(qInfo, gbc);
 
     // The text of the question
-    JTextPane qText = new JTextPane();
+    /*JTextPane qText = new JTextPane();
     qText.setText(qObj.getQuestion());
-    qText.setFont(GameUtils.GAME_FONT);
+    qText.setFont(GameUtils.QUESTION_FONT);
 
     // Centre the question
     StyledDocument doc = qText.getStyledDocument();
@@ -97,14 +98,18 @@ public class QuestionPanel extends JPanel implements ActionListener {
 
     qText.setEditable(false);
     qText.setOpaque(false);
-
+    */
+    JLabel qText = new JLabel("<html><div style='text-align: center;'>"+qObj.getQuestion()+"</div></html>",SwingConstants.CENTER);
+    qText.setFont(GameUtils.QUESTION_FONT);
+    
+    
     gbc = new GridBagConstraints(); // Reset the constraints
     gbc.gridx = 0;
     gbc.gridy = 1;
-    gbc.gridwidth = 3;
     gbc.weighty = 0.55;
+    gbc.weightx = 1;
     gbc.anchor = GridBagConstraints.CENTER;
-    gbc.fill = GridBagConstraints.HORIZONTAL;
+    gbc.fill = GridBagConstraints.BOTH;
 
     this.add(qText, gbc);
 
@@ -118,16 +123,21 @@ public class QuestionPanel extends JPanel implements ActionListener {
 
     // The answer buttons
     JPanel answersPnl = new JPanel(new GridLayout(2, 2));
+    answersPnl.setOpaque(false);
     for (int i = 0; i < 4; i++) {
       answers[i].setPreferredSize(new Dimension(400, 70));
       answersPnl.add(answers[i]);
     }
     gbc.gridx = 0;
     gbc.gridy = 2;
-    gbc.gridwidth = 3;
     gbc.fill = GridBagConstraints.BOTH;
     gbc.weighty = 0.3;
     this.add(answersPnl, gbc);
+  }
+  
+  public void paintComponent(Graphics g){
+	  super.paintComponent(g);
+	  g.drawImage(GameUtils.questionBackground.getImage(), 0, 0, this);
   }
 
   /**

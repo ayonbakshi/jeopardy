@@ -70,6 +70,7 @@ public class Question extends JButton implements MouseListener{
 	this.setBorder(BorderFactory.createEmptyBorder());
     this.setBorderPainted(false);
     this.setContentAreaFilled(false);
+    this.setOpaque(false);
 
     //Set the disabled icon
     ImageIcon disabled = GameUtils.resize(new ImageIcon(GameUtils.findImage("disabled.png")),btnWidth,btnHeight);

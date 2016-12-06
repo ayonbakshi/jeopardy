@@ -2,6 +2,7 @@ import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
@@ -509,6 +510,15 @@ public class Jeopardy extends JPanel implements ActionListener {
     UIManager.put("Label.font", GameUtils.GAME_FONT);
     UIManager.put("TextField.font", GameUtils.GAME_FONT);
     UIManager.put("OptionPane.font", GameUtils.GAME_FONT);
+    
+    try {
+        GraphicsEnvironment ge = 
+            GraphicsEnvironment.getLocalGraphicsEnvironment();
+        ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(GameUtils.findFont("Korinna Bold.ttf"))));
+        ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(GameUtils.findFont("Swiss911 XCm BT.ttf"))));
+   } catch (Exception e) {
+        // no idea what to do here
+   }
 
     // Set up the game window
     Jeopardy.gameFrame = new JFrame();
