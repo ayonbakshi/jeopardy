@@ -22,6 +22,8 @@ public class GameUtils {
   public static final Font GAME_FONT = new Font("SansSerif", Font.PLAIN, 16);
   
   public static final Font QUESTION_FONT = new Font("Korinna", Font.PLAIN, 35);
+  
+  public static final Font TOPIC_FONT = new  Font("Swiss911 XCm BT", Font.PLAIN, 32);
 
   /**
    * The default font for game titles should be 20pt bold sans
@@ -36,6 +38,8 @@ public class GameUtils {
    * @param h the new height
    * @return the resized icon
    */
+  
+  public static final ImageIcon disabled = new ImageIcon(findImage("200.png"));
   
   public static final ImageIcon questionBackground = new ImageIcon(findImage("background.png"));
   

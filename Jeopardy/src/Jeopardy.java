@@ -1,4 +1,5 @@
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -245,8 +246,8 @@ public class Jeopardy extends JPanel implements ActionListener {
     gbc = new GridBagConstraints();
     gbc.gridx = 0;
     gbc.gridy = 0;
-    gbc.gridwidth = 3;
-    gbc.insets = new Insets(10, 0, 0, 0);
+    gbc.gridwidth = 2;
+    gbc.insets = new Insets(10, 0, 10, 0);
     gbc.anchor = GridBagConstraints.CENTER; // Centre the title
     this.add(title, gbc);
 
@@ -299,7 +300,7 @@ public class Jeopardy extends JPanel implements ActionListener {
     gbc.weighty = 1;
     gbc.anchor = GridBagConstraints.FIRST_LINE_START;
     gbc.fill = GridBagConstraints.HORIZONTAL;
-    gbc.gridwidth = 2;
+    gbc.gridwidth = 1;
     this.add(scoreboard, gbc);
 
     // Question area
@@ -321,7 +322,10 @@ public class Jeopardy extends JPanel implements ActionListener {
     for (int i = 0; i < 6; i++) {
       // Centre the topic headers
       this.headers[i] = new JLabel("<html><div style='text-align: center;'>"+topics[i]+"</div></html>",SwingConstants.CENTER);
-      this.headers[i].setFont(GameUtils.TITLE_FONT);
+      this.headers[i].setFont(GameUtils.TOPIC_FONT);
+      this.headers[i].setPreferredSize(new Dimension(buttons[0][0].btnWidth, buttons[0][0].btnHeight));
+      this.headers[i].setHorizontalTextPosition(JLabel.CENTER);
+      this.headers[i].setIcon(GameUtils.resize(new ImageIcon(GameUtils.findImage("disabled.png")), buttons[0][0].btnWidth, buttons[0][0].btnHeight));
 
       // Check if this is bigger than the largest header so far
       if (headers[i].getPreferredSize().getWidth() > largestWidth) {
@@ -359,13 +363,13 @@ public class Jeopardy extends JPanel implements ActionListener {
         questionGrid.add(buttons[x][y], gbc);
       }
     }
-
+    
     this.questionArea.add(questionGrid);
 
     // Add the question area to the main window
     gbc = new GridBagConstraints(); // Reset constraints
     gbc.fill = GridBagConstraints.BOTH;
-    gbc.gridx = 2;
+    gbc.gridx = 1;
     gbc.gridy = 1;
     gbc.weightx = 0.85;
     this.add(questionArea, gbc);

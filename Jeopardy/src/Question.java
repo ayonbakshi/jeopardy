@@ -41,7 +41,7 @@ public class Question extends JButton implements MouseListener{
    */
   private boolean isDailyDouble;
 
-  private int btnWidth, btnHeight;
+  public int btnWidth, btnHeight;
 
   private ImageIcon defaultIcon;
 
