@@ -76,7 +76,7 @@ public class QuestionPanel extends JPanel implements ActionListener {
 
     // The topic and value of the question
     JLabel qInfo = new JLabel(qObj.getTopic() + " - $" + qObj.getValue());
-    qInfo.setFont(GameUtils.TITLE_FONT);
+    qInfo.setFont(GameUtils.TOPIC_FONT);
 
     GridBagConstraints gbc = new GridBagConstraints();
     gbc.gridx = 0;

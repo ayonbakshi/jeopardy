@@ -1,5 +1,6 @@
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
@@ -55,34 +56,47 @@ public class StartPanel extends JPanel implements ActionListener {
     gbc.fill = GridBagConstraints.BOTH;
     gbc.weighty = 1;
     this.add(title, gbc);
-
+    
+    //panel for input  of player names
+    JPanel inputFields = new JPanel();
+    inputFields.setLayout(new GridLayout(2, 3));
+    
     // Player name labels
     JLabel[] playerLabels = new JLabel[3];
     for (int i = 0; i < 3; i++) {
       playerLabels[i] = new JLabel("Player " + (i+1) + ":");
+      playerLabels[i].setHorizontalAlignment(JLabel.CENTER);
+      inputFields.add(playerLabels[i]);
     }
 
     // Player name text fields
     this.playerFields = new JTextField[3];
     for (int i = 0; i < 3; i++) {
       this.playerFields[i] = new JTextField(8);
+      inputFields.add(playerFields[i]);
     }
 
     // GUI positioning
     gbc = new GridBagConstraints(); // Reset the constraints
-    gbc.gridwidth = 1;
+    gbc.gridx = 1;
+    gbc.gridy = 2;
+    gbc.gridwidth = 3;
     gbc.fill = GridBagConstraints.NONE;
+    gbc.anchor = GridBagConstraints.CENTER;
     gbc.weighty = 0.05;
+    this.add(inputFields, gbc);
+    /**
     for (int i = 0; i < 3; i++) {
       gbc.gridx = i;
-      gbc.gridy = 2;
+      gbc.gridy = 1;
       this.add(playerLabels[i], gbc);
-      gbc.gridy = 3;
+      gbc.gridy = 2;
       this.add(this.playerFields[i], gbc);
     }
-
+    */
+    
     gbc.gridx = 1;
-    gbc.gridy = 4;
+    gbc.gridy = 3;
     this.add(btnPanel, gbc);
   }
 

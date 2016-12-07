@@ -284,7 +284,7 @@ public class Jeopardy extends JPanel implements ActionListener {
       gbc.gridy = 1 + (i % 3);
       playerBox.add(playerTags[i], gbc);
 
-      gbc.gridx = 3;
+      gbc.gridx = 1;
       gbc.gridy = 1 + (i % 3);
       playerBox.add(playerDollars[i], gbc);
 
@@ -294,9 +294,10 @@ public class Jeopardy extends JPanel implements ActionListener {
 
     // Add the scoreboard to the window
     gbc = new GridBagConstraints(); // Reset GridBagConstraints
+    scoreboard.setMinimumSize(new Dimension((int)(width*.2), (int)(height*.15)));
     gbc.gridx = 0;
     gbc.gridy = 1;
-    gbc.weightx = 0.15;
+    gbc.weightx = 0.25;
     gbc.weighty = 1;
     gbc.anchor = GridBagConstraints.FIRST_LINE_START;
     gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -323,6 +324,7 @@ public class Jeopardy extends JPanel implements ActionListener {
       // Centre the topic headers
       this.headers[i] = new JLabel("<html><div style='text-align: center;'>"+topics[i]+"</div></html>",SwingConstants.CENTER);
       this.headers[i].setFont(GameUtils.TOPIC_FONT);
+      this.headers[i].setForeground(Color.WHITE);
       this.headers[i].setPreferredSize(new Dimension(buttons[0][0].btnWidth, buttons[0][0].btnHeight));
       this.headers[i].setHorizontalTextPosition(JLabel.CENTER);
       this.headers[i].setIcon(GameUtils.resize(new ImageIcon(GameUtils.findImage("disabled.png")), buttons[0][0].btnWidth, buttons[0][0].btnHeight));
@@ -371,7 +373,8 @@ public class Jeopardy extends JPanel implements ActionListener {
     gbc.fill = GridBagConstraints.BOTH;
     gbc.gridx = 1;
     gbc.gridy = 1;
-    gbc.weightx = 0.85;
+    gbc.weightx = 0.75;
+    gbc.insets = new Insets(0,0,5,0);
     this.add(questionArea, gbc);
   }
 
