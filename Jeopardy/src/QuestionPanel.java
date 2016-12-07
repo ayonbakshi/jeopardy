@@ -100,7 +100,10 @@ public class QuestionPanel extends JPanel implements ActionListener {
     qText.setOpaque(false);
     */
     JLabel qText = new JLabel("<html><div style='text-align: center;'>"+qObj.getQuestion()+"</div></html>",SwingConstants.CENTER);
-    qText.setFont(GameUtils.QUESTION_FONT);
+    float size = 2800/qObj.getQuestion().length();
+    if (size > 110)
+    	size = 110;
+    qText.setFont(GameUtils.QUESTION_FONT.deriveFont(size));
     
     
     gbc = new GridBagConstraints(); // Reset the constraints
@@ -137,7 +140,7 @@ public class QuestionPanel extends JPanel implements ActionListener {
   
   public void paintComponent(Graphics g){
 	  super.paintComponent(g);
-	  g.drawImage(GameUtils.questionBackground.getImage(), 0, 0, this);
+	  //g.drawImage(GameUtils.questionBackground.getImage(), 0, 0, this);
   }
 
   /**
