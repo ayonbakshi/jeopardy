@@ -5,6 +5,8 @@ import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.swing.ImageIcon;
+import java.awt.FontFormatException;
+import java.io.IOException;
 
 /**
  * Miscellaneous utilities related to running a game of Jeopardy.
@@ -20,15 +22,31 @@ public class GameUtils {
    * The default font for game text should be 16pt plain sans
    */
   public static final Font GAME_FONT = new Font("SansSerif", Font.PLAIN, 16);
-  
-  public static final Font QUESTION_FONT = new Font("Korinna", Font.PLAIN, 35);
-  
-  public static final Font TOPIC_FONT = new  Font("Swiss911 XCm BT", Font.PLAIN, 32);
+
+  /**
+   * The font the text of the questions is displayed in.
+   */
+  public static final Font QUESTION_FONT = loadFont("Korinna Bold.ttf", 35);
+
+  /**
+   * The font the topic headers are displayed in.
+   */
+  public static final Font TOPIC_FONT = loadFont("Swiss911 XCm BT.ttf", 32);
 
   /**
    * The default font for game titles should be 20pt bold sans
    */
   public static final Font TITLE_FONT = new Font("SansSerif", Font.BOLD, 20);
+
+  /**
+   * The icon that's displayed by a questions that has already been asked
+   */
+  public static final ImageIcon disabled = new ImageIcon(findImage("200.png"));
+
+  /**
+   * The background of the question panel
+   */
+  public static final ImageIcon questionBackground = new ImageIcon(findImage("background.png"));
 
   /**
    * Change the size of an icon.
@@ -38,11 +56,6 @@ public class GameUtils {
    * @param h the new height
    * @return the resized icon
    */
-  
-  public static final ImageIcon disabled = new ImageIcon(findImage("200.png"));
-  
-  public static final ImageIcon questionBackground = new ImageIcon(findImage("background.png"));
-  
   public static ImageIcon resize(ImageIcon srcImg, int w, int h){
     BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
     Graphics2D g2 = resizedImg.createGraphics();
@@ -83,7 +96,7 @@ public class GameUtils {
   public static String findImage(String name) {
     return GameUtils.findFile("images" + File.separator + name);
   }
-  
+
   public static String findFont(String name) {
 	    return GameUtils.findFile("fonts" + File.separator + name);
 	  }
@@ -117,5 +130,25 @@ public class GameUtils {
     }
 
     return null; // If the loop exited then the file wasn't found, so return null
+  }
+
+  /**
+   * Load a font from a file in the {@code data} directory. Font files
+   * should be TTFs and placed in {@code data/fonts}. If the font
+   * isn't found or something goes wrong, the default font ({@link
+   * #GAME_FONT}) resized to the correct size is returned.
+   *
+   * @param fName the name of the font file in the fonts directory
+   * @param size the size of the font, in pt
+   * @return the font from the file, or {@link #GAME_FONT} if
+   * something went wrong. In both cases, the font is returned at the
+   * correct size.
+   */
+  public static Font loadFont(String fName, float size) {
+    try {
+      return Font.createFont(Font.TRUETYPE_FONT, new File(findFile("fonts" + File.separator + fName))).deriveFont(size);
+    } catch (FontFormatException | IOException e) {
+      return GAME_FONT.deriveFont(size);
+    }
   }
 }
