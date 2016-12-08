@@ -1,29 +1,18 @@
 import java.awt.CardLayout;
-import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.BoxLayout;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.JTextPane;
-import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.text.DefaultStyledDocument;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyleContext;
-import javax.swing.text.StyledDocument;
 
 /**
  * The panel that displays a single question and its answers.
@@ -122,25 +111,30 @@ public class QuestionPanel extends JPanel implements ActionListener {
     for (int i = 0; i < 4; i++) {
       answers[i] = new JButton(question.getAnswers()[i]);
       answers[i].addActionListener(this);
+      //answers[i].setM
     }
 
     // The answer buttons
     JPanel answersPnl = new JPanel(new GridLayout(2, 2));
     answersPnl.setOpaque(false);
     for (int i = 0; i < 4; i++) {
-      answers[i].setPreferredSize(new Dimension(400, 70));
+      //answers[i].setSize(new Dimension(100, 70));
       answersPnl.add(answers[i]);
     }
     gbc.gridx = 0;
     gbc.gridy = 2;
-    gbc.fill = GridBagConstraints.BOTH;
+    //gbc.fill = GridBagConstraints.BOTH;
     gbc.weighty = 0.3;
+    gbc.insets = new Insets(10, 10, 10, 10);
+    answersPnl.setMaximumSize(new Dimension(100, 100));
     this.add(answersPnl, gbc);
   }
   
   public void paintComponent(Graphics g){
 	  super.paintComponent(g);
-	  //g.drawImage(GameUtils.questionBackground.getImage(), 0, 0, this);
+	  int imageW = (int)(Jeopardy.width/1.22);
+	  int imageH = (int)(Jeopardy.height/1.22);
+	  g.drawImage(GameUtils.resize(GameUtils.questionBackground,imageW, imageH).getImage(), 0, 0, this);
   }
 
   /**

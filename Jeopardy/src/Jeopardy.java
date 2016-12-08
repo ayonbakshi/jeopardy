@@ -376,6 +376,9 @@ public class Jeopardy extends JPanel implements ActionListener {
     gbc.weightx = 0.75;
     gbc.insets = new Insets(0,0,5,0);
     this.add(questionArea, gbc);
+    
+    System.out.println(questionGrid.getPreferredSize().getWidth() + " " + questionGrid.getPreferredSize().getHeight());
+    System.out.println(width + " " + height);
   }
 
   /**
@@ -501,7 +504,10 @@ public class Jeopardy extends JPanel implements ActionListener {
     try {
       Jeopardy game = new Jeopardy(sp.getNames()); // Create the game object
       Jeopardy.gameFrame.setContentPane(game); // Switch the content pane to the game
-
+      game.setVisible(true);
+      game.validate();
+      System.out.println(game.questionArea.getLocation().getX() + " " + game.questionArea.getLocation().getY());
+      
       // Repaint the frame
       Jeopardy.gameFrame.repaint();
       Jeopardy.gameFrame.revalidate();
