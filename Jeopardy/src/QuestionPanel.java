@@ -1,4 +1,5 @@
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
@@ -7,7 +8,6 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -53,7 +53,7 @@ public class QuestionPanel extends JPanel implements ActionListener {
    * @param game the Jeopardy game that this came from
    */
   public QuestionPanel(Question question, Jeopardy game) {
-	this.setOpaque(false);  
+    this.setOpaque(false);
     this.game = game;
     this.guesses = 0;
 
@@ -66,6 +66,7 @@ public class QuestionPanel extends JPanel implements ActionListener {
     // The topic and value of the question
     JLabel qInfo = new JLabel(qObj.getTopic() + " - $" + qObj.getValue());
     qInfo.setFont(GameUtils.TOPIC_FONT);
+    qInfo.setForeground(Color.WHITE);
 
     GridBagConstraints gbc = new GridBagConstraints();
     gbc.gridx = 0;
@@ -75,26 +76,12 @@ public class QuestionPanel extends JPanel implements ActionListener {
     this.add(qInfo, gbc);
 
     // The text of the question
-    /*JTextPane qText = new JTextPane();
-    qText.setText(qObj.getQuestion());
-    qText.setFont(GameUtils.QUESTION_FONT);
-
-    // Centre the question
-    StyledDocument doc = qText.getStyledDocument();
-    SimpleAttributeSet center = new SimpleAttributeSet();
-    StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
-    doc.setParagraphAttributes(0, doc.getLength(), center, false);
-
-    qText.setEditable(false);
-    qText.setOpaque(false);
-    */
     JLabel qText = new JLabel("<html><div style='text-align: center;'>"+qObj.getQuestion()+"</div></html>",SwingConstants.CENTER);
-    float size = 2800/qObj.getQuestion().length();
-    if (size > 110)
-    	size = 110;
+    float size = Math.min(2800/qObj.getQuestion().length(), 110);
     qText.setFont(GameUtils.QUESTION_FONT.deriveFont(size));
-    
-    
+    qText.setForeground(Color.WHITE);
+
+
     gbc = new GridBagConstraints(); // Reset the constraints
     gbc.gridx = 0;
     gbc.gridy = 1;
@@ -111,25 +98,22 @@ public class QuestionPanel extends JPanel implements ActionListener {
     for (int i = 0; i < 4; i++) {
       answers[i] = new JButton(question.getAnswers()[i]);
       answers[i].addActionListener(this);
-      //answers[i].setM
     }
 
     // The answer buttons
     JPanel answersPnl = new JPanel(new GridLayout(2, 2));
     answersPnl.setOpaque(false);
     for (int i = 0; i < 4; i++) {
-      //answers[i].setSize(new Dimension(100, 70));
       answersPnl.add(answers[i]);
     }
     gbc.gridx = 0;
     gbc.gridy = 2;
-    //gbc.fill = GridBagConstraints.BOTH;
     gbc.weighty = 0.3;
     gbc.insets = new Insets(10, 10, 10, 10);
     answersPnl.setMaximumSize(new Dimension(100, 100));
     this.add(answersPnl, gbc);
   }
-  
+
   public void paintComponent(Graphics g){
 	  super.paintComponent(g);
 	  int imageW = (int)(Jeopardy.width/1.22);

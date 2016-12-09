@@ -365,7 +365,7 @@ public class Jeopardy extends JPanel implements ActionListener {
         questionGrid.add(buttons[x][y], gbc);
       }
     }
-    
+
     this.questionArea.add(questionGrid);
 
     // Add the question area to the main window
@@ -376,7 +376,7 @@ public class Jeopardy extends JPanel implements ActionListener {
     gbc.weightx = 0.75;
     gbc.insets = new Insets(0,0,5,0);
     this.add(questionArea, gbc);
-    
+
     System.out.println(questionGrid.getPreferredSize().getWidth() + " " + questionGrid.getPreferredSize().getHeight());
     System.out.println(width + " " + height);
   }
@@ -507,7 +507,7 @@ public class Jeopardy extends JPanel implements ActionListener {
       game.setVisible(true);
       game.validate();
       System.out.println(game.questionArea.getLocation().getX() + " " + game.questionArea.getLocation().getY());
-      
+
       // Repaint the frame
       Jeopardy.gameFrame.repaint();
       Jeopardy.gameFrame.revalidate();
@@ -523,9 +523,9 @@ public class Jeopardy extends JPanel implements ActionListener {
     UIManager.put("Label.font", GameUtils.GAME_FONT);
     UIManager.put("TextField.font", GameUtils.GAME_FONT);
     UIManager.put("OptionPane.font", GameUtils.GAME_FONT);
-    
+
     try {
-        GraphicsEnvironment ge = 
+        GraphicsEnvironment ge =
             GraphicsEnvironment.getLocalGraphicsEnvironment();
         ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(GameUtils.findFont("Korinna Bold.ttf"))));
         ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(GameUtils.findFont("Swiss911 XCm BT.ttf"))));
